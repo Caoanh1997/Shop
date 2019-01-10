@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StoreActivity"
+    android:orientation="vertical">
+    <CheckBox
+        android:layout_gravity="center"
+        android:id="@+id/cbaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="enable/disable search address"/>
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:visibility="gone"
+            android:layout_margin="2dp"
+            android:id="@+id/sptinh"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Spinner
+            android:visibility="gone"
+            android:layout_margin="2dp"
+            android:id="@+id/sphuyen"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Spinner
+            android:visibility="gone"
+            android:layout_margin="2dp"
+            android:id="@+id/spxa"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvstore"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+</LinearLayout>
