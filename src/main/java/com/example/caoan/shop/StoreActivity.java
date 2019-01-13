@@ -14,6 +14,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.caoan.shop.Adapter.StoreAdapter;
+import com.example.caoan.shop.Model.Store;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoreActivity extends AppCompatActivity {
@@ -31,6 +35,8 @@ public class StoreActivity extends AppCompatActivity {
     private String[] xaQN2 = {"All","DD","EE","FF"};
     private String[] xaQN3 = {"All","GG","HH","II"};
     private String[] xa,huyen;
+    private List<Store> storeList;
+    private StoreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +155,9 @@ public class StoreActivity extends AppCompatActivity {
 
             }
         });
+        fillStore();
+        adapter = new StoreAdapter(this,storeList);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -162,4 +171,16 @@ public class StoreActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
+    public void fillStore(){
+        storeList = new ArrayList<>();
+
+        Store store = new Store("Store A","Dien Bien Phu","Hoa Khe","Thanh Khe","Da Nang"
+                ,"wnyMYkzqWxgGwf5D7AsJ7TV6b1v2","https://www.kob.com/kobtvimages/repository/2018-05/sears.jpg"
+                ,"0123456789");
+        for (int i=0;i<10;i++){
+            storeList.add(store);
+        }
+    }
+
+
 }

@@ -9,8 +9,9 @@ public class Store {
     private String tinh;
     private String userkey;
     private String urlImage;
+    private String phone;
 
-    public Store(String key, String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage) {
+    public Store(String key, String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage,String phone) {
         this.key = key;
         this.name = name;
         this.duong = duong;
@@ -19,6 +20,18 @@ public class Store {
         this.tinh = tinh;
         this.userkey = userkey;
         this.urlImage = urlImage;
+        this.phone = phone;
+    }
+
+    public Store(String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage, String phone) {
+        this.name = name;
+        this.duong = duong;
+        this.xa = xa;
+        this.huyen = huyen;
+        this.tinh = tinh;
+        this.userkey = userkey;
+        this.urlImage = urlImage;
+        this.phone = phone;
     }
 
     public String getKey() {
@@ -85,6 +98,14 @@ public class Store {
         this.urlImage = urlImage;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "Store{" +
@@ -96,6 +117,7 @@ public class Store {
                 ", tinh='" + tinh + '\'' +
                 ", userkey='" + userkey + '\'' +
                 ", urlImage='" + urlImage + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }
