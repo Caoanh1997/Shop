@@ -120,4 +120,7 @@ public class Store {
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
+    public Store() {
+    }
 }

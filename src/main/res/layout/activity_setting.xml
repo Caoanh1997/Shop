@@ -16,4 +16,11 @@
         android:textSize="25sp"
         android:text="Setting"/>
 
+    <Button
+        android:id="@+id/btchangestore"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Store"/>
+
 </LinearLayout>

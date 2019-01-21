@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.caoan.shop.Model.Cart;
+import com.example.caoan.shop.Model.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,13 @@ import java.util.List;
 public class DataCart extends SQLiteOpenHelper {
 
     private List<Cart> cartList;
+    private List<Store> storeList;
     private SQLiteDatabase sqLiteDatabase;
 
     public static String DATABASE_NAME = "Shop.db";
     public static String TABLE_CART = "CART";
     public static String TABLE_HISTORY = "HISTORY";
+    public static String TABLE_STORE = "STORE";
     public static String ID_CART = "ID_CART";
     public static String NAME = "NAME";
     public static String PRICE = "PRICE";
@@ -30,6 +33,15 @@ public class DataCart extends SQLiteOpenHelper {
     public static String USER_ID = "USER_ID";
     public static String PRODUCT = "PRODUCT";
     public static String TOTAL = "TOTAL";
+    public static String KEY_STORE = "KEY_STORE";
+    public static String NAME_STORE = "NAME_STORE";
+    public static String DUONG = "DUONG";
+    public static String XA = "XA";
+    public static String HUYEN = "HUYEN";
+    public static String TINH = "TINH";
+    public static String USER_KEY = "USER_KEY";
+    public static String URL_STORE = "URL_STORE";
+    public static String PHONE = "PHONE";
 
     public DataCart(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -54,11 +66,88 @@ public class DataCart extends SQLiteOpenHelper {
                 + PRICE + " float, "
                 + NUMBER + "integer)";
         sqLiteDatabase.execSQL(table2);
+        String sql3 = "create table " + TABLE_STORE + " ( "
+                + KEY_STORE + " nvarchar(100), "
+                + NAME_STORE + " nvarchar(100), "
+                + DUONG + " nvarchar(200), "
+                + XA + " nvarchar(100), "
+                + HUYEN + " nvarchar(100), "
+                + TINH + " nvarchar(100), "
+                + USER_KEY + " nvarchar(100), "
+                + URL_STORE + " nvarchar(200), "
+                + PHONE + " nvarchar(100))";
+        sqLiteDatabase.execSQL(sql3);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        String sql = "Drop table if exists " + TABLE_CART;
+        String sql2 = "Drop table if exists " + TABLE_STORE;
+        String sql3 = "Drop table if exists " + TABLE_HISTORY;
 
+        sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.execSQL(sql2);
+        sqLiteDatabase.execSQL(sql3);
+    }
+
+    public List<Store> getStoreList() {
+        storeList = new ArrayList<Store>();
+        sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        String sql = "select * from "+TABLE_STORE;
+        cursor = sqLiteDatabase.rawQuery(sql,null);
+
+        while (cursor.moveToNext()){
+            Store store = new Store();
+            store.setKey(cursor.getString(0));
+            store.setName(cursor.getString(1));
+            store.setDuong(cursor.getString(2));
+            store.setXa(cursor.getString(3));
+            store.setHuyen(cursor.getString(4));
+            store.setTinh(cursor.getString(5));
+            store.setUserkey(cursor.getString(6));
+            store.setUrlImage(cursor.getString(7));
+            store.setPhone(cursor.getString(8));
+
+            storeList.add(store);
+        }
+
+        return storeList;
+    }
+
+    public void DeleteStore(String key){
+        sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.delete(TABLE_STORE,KEY_STORE +"=?",new String[]{String.valueOf(key)});
+        sqLiteDatabase.close();
+    }
+
+    public void InsertStore(Store store){
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_STORE,store.getKey());
+        values.put(NAME_STORE,store.getName());
+        values.put(DUONG,store.getDuong());
+        values.put(XA,store.getXa());
+        values.put(HUYEN,store.getHuyen());
+        values.put(TINH, store.getTinh());
+        values.put(USER_KEY,store.getUserkey());
+        values.put(URL_STORE,store.getUrlImage());
+        values.put(PHONE,store.getPhone());
+        sqLiteDatabase.insert(TABLE_STORE,null,values);
+
+        sqLiteDatabase.close();
+    }
+
+    public void DeleteAllStore(){
+
+        sqLiteDatabase = this.getWritableDatabase();
+        String sql = "delete from " + TABLE_STORE;
+        sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.close();
     }
 
     public List<Cart> getCartList() {
@@ -107,6 +196,9 @@ public class DataCart extends SQLiteOpenHelper {
         cursor = sqLiteDatabase.rawQuery(sql,null);
         while (cursor.moveToNext()){
             str = cursor.getString(0);
+        }
+        if(str == null){
+            str="0";
         }
         return str;
     }

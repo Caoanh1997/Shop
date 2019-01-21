@@ -3,6 +3,7 @@ package com.example.caoan.shop.FragmentComponent;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -129,6 +130,7 @@ public class FoodFragment extends Fragment {
         gridView.setVisibility(View.INVISIBLE);
 
         String str = getArguments().getString("text");
+
         textView.setText(str);
 
         foodList = new ArrayList<>();
@@ -147,7 +149,7 @@ public class FoodFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Food food = snapshot.getValue(Food.class);
-                    System.out.println(food.getName());
+                    //System.out.println(food.getName());
                     foodList.add(food);
                 }
             }

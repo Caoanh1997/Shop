@@ -2,6 +2,7 @@ package com.example.caoan.shop;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
@@ -73,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillFragment() {
         fragmentList = new ArrayList<Fragment>();
-
-        FoodFragment foodFragment = new FoodFragment().newInstance("Food haha");
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance("Drink haha");
-        //PhoneFragment phoneFragment = new PhoneFragment().newInstance("Phone haha");
+        SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
+        String key = sharedPreferences.getString("key","null");
+        FoodFragment foodFragment = new FoodFragment().newInstance(key);
+        DrinkFragment drinkFragment = new DrinkFragment().newInstance("Drink");
+        //PhoneFragment phoneFragment = new PhoneFragment().newInstance("Phone");
         //DrinkFragment drinkFragment1 = new DrinkFragment().newInstance("Drink haha");
 
         fragmentList.add(foodFragment);

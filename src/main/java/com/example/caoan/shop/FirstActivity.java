@@ -11,11 +11,14 @@ import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.example.caoan.shop.FragmentComponent.FoodFragment;
+
 public class FirstActivity extends TabActivity {
 
     private TabHost tabHost;
     private TabHost.TabSpec tabSpec;
     private View view;
+    private FoodFragment foodFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class FirstActivity extends TabActivity {
         view = getLayoutInflater().inflate(R.layout.setting_tabhost_layout,null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(view)
         .setContent(new Intent(FirstActivity.this,SettingActivity.class)));
+
     }
 
 }
