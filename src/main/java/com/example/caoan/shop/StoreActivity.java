@@ -3,6 +3,8 @@ package com.example.caoan.shop;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -234,8 +236,19 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
         super.onStart();
+        if(!isOnline()){
+            Toast.makeText(getApplicationContext(),"Bạn cần kết nối internet",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    private Boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if(ni != null && ni.isConnected()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -346,4 +359,5 @@ public class StoreActivity extends AppCompatActivity {
             return "Done";
         }
     }
+
 }
