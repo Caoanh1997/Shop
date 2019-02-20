@@ -39,7 +39,7 @@ public class FirstActivity extends TabActivity {
                 .setContent(new Intent(FirstActivity.this,CartActivity.class)));
         view = getLayoutInflater().inflate(R.layout.account_tabhost_layout,null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(view)
-                .setContent(new Intent(FirstActivity.this,AccountActivity.class)));
+                .setContent(new Intent(FirstActivity.this,LoginActivity.class)));
         view = getLayoutInflater().inflate(R.layout.setting_tabhost_layout,null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(view)
         .setContent(new Intent(FirstActivity.this,SettingActivity.class)));

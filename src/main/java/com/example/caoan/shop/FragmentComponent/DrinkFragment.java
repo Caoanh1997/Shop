@@ -65,7 +65,7 @@ public class DrinkFragment extends Fragment {
         textView.setText(str);
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Drink");
+        DatabaseReference reference = database.getReference("Product").child(str).child("Drink");
 
         /*for (int i=0;i<5;i++){
             String drinkID = reference.push().getKey();

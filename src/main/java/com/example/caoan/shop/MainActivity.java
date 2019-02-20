@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
         String key = sharedPreferences.getString("key","null");
         FoodFragment foodFragment = new FoodFragment().newInstance(key);
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance("Drink");
+        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key);
         //PhoneFragment phoneFragment = new PhoneFragment().newInstance("Phone");
         //DrinkFragment drinkFragment1 = new DrinkFragment().newInstance("Drink haha");
 

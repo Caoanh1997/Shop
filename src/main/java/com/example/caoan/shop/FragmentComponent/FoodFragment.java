@@ -34,6 +34,7 @@ import com.example.caoan.shop.Adapter.FoodAdapter;
 import com.example.caoan.shop.CartActivity;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.FirstActivity;
+import com.example.caoan.shop.LoginActivity;
 import com.example.caoan.shop.MainActivity;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.Model.Food;
@@ -136,7 +137,7 @@ public class FoodFragment extends Fragment {
         foodList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Food");
+        DatabaseReference reference = database.getReference("Product").child(str).child("Food");
 
         /*for (int i = 0; i < 5; i++) {
             String foodID = reference.push().getKey();
@@ -235,7 +236,7 @@ public class FoodFragment extends Fragment {
                             Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
                         }else {
                             //Toast.makeText(getContext(),"Login in failed",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getActivity(), AccountActivity.class));
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
                         }
                     }
                 });
@@ -305,7 +306,7 @@ public class FoodFragment extends Fragment {
             for (int i =0;i<100;i++){
                 publishProgress(i);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
