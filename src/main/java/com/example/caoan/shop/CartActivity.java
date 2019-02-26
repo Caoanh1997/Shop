@@ -1,6 +1,8 @@
 package com.example.caoan.shop;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.Model.ListCart;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView textView;
     //private float total;
     private String str="";
+    private String key_store;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,10 @@ public class CartActivity extends AppCompatActivity {
         listView = findViewById(R.id.lvcart);
         textView = findViewById(R.id.tvsum);
         progressBar = findViewById(R.id.progress);
-        listView.setVisibility(View.INVISIBLE);
+        //listView.setVisibility(View.INVISIBLE);
+
+        button.setEnabled(false);
+        button2.setEnabled(false);
 
         new ProgressBarProcess().execute();
         registerForContextMenu(listView);
@@ -59,19 +66,21 @@ public class CartActivity extends AppCompatActivity {
         dataCart = new DataCart(this);
 
         cartList = new ArrayList<Cart>();
-        cartList = dataCart.getCartList();
+
         //cartList.add(new Cart("Banana",18000
          //       ,10,"https://cdn1.woolworths.media/content/wowproductimages/medium/306510.jpg"));
-        cartAdapter = new CartAdapter(this,cartList);
-        listView.setAdapter(cartAdapter);
-
-        str = dataCart.Total();
+        SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
+        key_store = sharedPreferences.getString("key","");
+        str = dataCart.Total(key_store);
         float total = Float.valueOf(str);
         textView.setText(String.valueOf(total)+"d");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CartActivity.this, PayActivity.class);
+                intent.putExtra("listcart", (Serializable) cartList);
+                startActivity(intent);
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +120,7 @@ public class CartActivity extends AppCompatActivity {
                 dataCart.Delete(id);
                 cartList.remove(num);
                 listView.invalidateViews();
-                str = dataCart.Total();
+                str = dataCart.Total(key_store);
                 float total = Float.valueOf(str);
                 textView.setText(String.valueOf(total)+"d");
                 return true;
@@ -145,9 +154,9 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for(int i=0;i<100;i++){
+            for(int i=1;i<=100;i++){
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -159,7 +168,14 @@ public class CartActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             //super.onPostExecute(aVoid);
             progressBar.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            //listView.setVisibility(View.VISIBLE);
+            SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
+            String key_store = sharedPreferences.getString("key","");
+            cartList = dataCart.getCartList(key_store);
+            cartAdapter = new CartAdapter(CartActivity.this,cartList);
+            listView.setAdapter(cartAdapter);
+            button.setEnabled(true);
+            button2.setEnabled(true);
         }
     }
 }

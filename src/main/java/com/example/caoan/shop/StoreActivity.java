@@ -221,6 +221,7 @@ public class StoreActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("key",store.getKey());
+                editor.putString("key_master",store.getUserkey());
                 editor.commit();
                 startActivity(new Intent(StoreActivity.this, FirstActivity.class));
             }

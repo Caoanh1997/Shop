@@ -9,23 +9,29 @@ public class Cart implements Serializable {
     private float price;
     private int number;
     private String urlImage;
+    private String userKey;
+    private String keyStore;
 
     public Cart() {
     }
 
-    public Cart(String name, float price, int number, String urlImage) {
+    public Cart(String name, float price, int number, String urlImage, String userKey, String keyStore) {
         this.name = name;
         this.price = price;
         this.number = number;
         this.urlImage = urlImage;
+        this.userKey = userKey;
+        this.keyStore = keyStore;
     }
 
-    public Cart(int id, String name, float price, int number, String urlImage) {
+    public Cart(int id, String name, float price, int number, String urlImage, String userKey, String keyStore) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.number = number;
         this.urlImage = urlImage;
+        this.userKey = userKey;
+        this.keyStore = keyStore;
     }
 
     public int getId() {
@@ -68,6 +74,22 @@ public class Cart implements Serializable {
         this.urlImage = urlImage;
     }
 
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    public String getKeyStore() {
+        return keyStore;
+    }
+
+    public void setKeyStore(String keyStore) {
+        this.keyStore = keyStore;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -76,6 +98,8 @@ public class Cart implements Serializable {
                 ", price=" + price +
                 ", number=" + number +
                 ", urlImage='" + urlImage + '\'' +
+                ", userKey='" + userKey + '\'' +
+                ", keyStore='" + keyStore + '\'' +
                 '}';
     }
 }

@@ -54,7 +54,9 @@ public class DataCart extends SQLiteOpenHelper {
                 + NAME + " nvarchar(100), "
                 + PRICE + " float, "
                 + NUMBER + " integer, "
-                + URL_IMAGE + " nvarchar(200))";
+                + URL_IMAGE + " nvarchar(200), "
+                + KEY_STORE + " nvarchar(100), "
+                + USER_KEY + " nvarchar(100))";
 
         sqLiteDatabase.execSQL(table1);
         String table2 = "create table "+ TABLE_HISTORY + " ( "
@@ -150,12 +152,12 @@ public class DataCart extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public List<Cart> getCartList() {
+    public List<Cart> getCartList(String key_store) {
         cartList = new ArrayList<Cart>();
         sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor =null;
 
-        String sql = "select * from "+TABLE_CART;
+        String sql = "select * from "+TABLE_CART + " where " + KEY_STORE + " == '" + key_store + "'";
 
         cursor  = sqLiteDatabase.rawQuery(sql,null);
         while (cursor.moveToNext()){
@@ -165,6 +167,8 @@ public class DataCart extends SQLiteOpenHelper {
             cart.setPrice(cursor.getFloat(2));
             cart.setNumber(cursor.getInt(3));
             cart.setUrlImage(cursor.getString(4));
+            cart.setKeyStore(cursor.getString(5));
+            cart.setUserKey(cursor.getString(6));
 
             cartList.add(cart);
         }
@@ -176,6 +180,11 @@ public class DataCart extends SQLiteOpenHelper {
         sqLiteDatabase.delete(TABLE_CART,ID_CART+"=?",new String[]{String.valueOf(id_cart)});
         sqLiteDatabase.close();
     }
+    public void DeleteCart(String key_store){
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_CART,KEY_STORE+"=?",new String[]{key_store});
+        sqLiteDatabase.close();
+    }
 
     public void InsertCart(Cart cart){
         sqLiteDatabase = this.getWritableDatabase();
@@ -184,13 +193,15 @@ public class DataCart extends SQLiteOpenHelper {
         values.put(PRICE,cart.getPrice());
         values.put(NUMBER,cart.getNumber());
         values.put(URL_IMAGE,cart.getUrlImage());
+        values.put(KEY_STORE, cart.getKeyStore());
+        values.put(USER_KEY, cart.getUserKey());
         sqLiteDatabase.insert(TABLE_CART,null,values);
         sqLiteDatabase.close();
     }
-    public String Total(){
+    public String Total(String key_store){
         String str="";
         sqLiteDatabase = this.getReadableDatabase();
-        String sql = "select sum("+PRICE+"*"+NUMBER+") as Total from "+TABLE_CART;
+        String sql = "select sum("+PRICE+"*"+NUMBER+") as Total from "+TABLE_CART + " where " + KEY_STORE + " == '" + key_store + "'";
 
         Cursor cursor = null;
         cursor = sqLiteDatabase.rawQuery(sql,null);

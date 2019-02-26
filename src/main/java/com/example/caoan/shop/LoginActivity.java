@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -20,11 +21,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.caoan.shop.Model.Account;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvuserid, tvsignup, tvsignin;
     private FirebaseAuth firebaseAuth;
     private Animation animation;
+    private FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         tvsignup = findViewById(R.id.tvsignup);
         tvsignin = findViewById(R.id.tvsignin);
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
 
         animation = new AnimationUtils().loadAnimation(getApplicationContext(), R.anim.fade_out);
 
@@ -167,7 +174,20 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    tvuserid.setText(user.getUid());
+                                    //tvuserid.setText(user.getUid());
+                                    String name = String.valueOf(etname.getText());
+                                    String address = String.valueOf(etaddress.getText());
+                                    String phone = String.valueOf(etphone.getText());
+                                    //if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone)){
+                                        Account account = new Account(name,address,phone);
+                                        databaseReference.child(user.getUid()).setValue(account);
+                                        updateUI(user);
+                                        SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("userID",user.getUid());
+                                        editor.commit();
+                                        new ProcessLogin(tvuserid).execute();
+                                    //}
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
                                 }
@@ -183,6 +203,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
+                SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("userID");
+                editor.commit();
                 //FirebaseUser user = firebaseAuth.getCurrentUser();
                 //updateUI(user);
                 finish();

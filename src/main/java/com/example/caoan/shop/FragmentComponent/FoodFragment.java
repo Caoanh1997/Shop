@@ -83,6 +83,8 @@ public class FoodFragment extends Fragment {
     private MainActivity mainActivity;
     private DataCart dataCart;
     private List<Food> foodList;
+    private String keyStore;
+    private String userKey;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -97,12 +99,13 @@ public class FoodFragment extends Fragment {
      * @return A new instance of fragment FoodFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FoodFragment newInstance(String s) {
+    public static FoodFragment newInstance(String s, String s1) {
         FoodFragment fragment = new FoodFragment();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);
-        args.putString("text",s);
+        args.putString("keyStore",s);
+        args.putString("userKey",s1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,14 +133,15 @@ public class FoodFragment extends Fragment {
         progressBar.setProgress(0);
         gridView.setVisibility(View.INVISIBLE);
 
-        String str = getArguments().getString("text");
+        keyStore = getArguments().getString("keyStore");
+        userKey = getArguments().getString("userKey");
 
-        textView.setText(str);
+        textView.setText(keyStore);
 
         foodList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Product").child(str).child("Food");
+        DatabaseReference reference = database.getReference("Product").child(keyStore).child("Food");
 
         /*for (int i = 0; i < 5; i++) {
             String foodID = reference.push().getKey();
@@ -227,7 +231,10 @@ public class FoodFragment extends Fragment {
                         firebaseUser = firebaseAuth.getCurrentUser();
                         if(firebaseUser != null){
                             //Toast.makeText(getContext(),"Ok",Toast.LENGTH_SHORT).show();
-                            Cart cart = new Cart(food.getName(),food.getPrice(),Integer.valueOf(number),food.getUrlimage());
+                            //SharedPreferences sharedPreferences = getActivity().getSharedPreferences("key_store", Context.MODE_PRIVATE);
+                            //String userKey = sharedPreferences.getString("key_master","");
+                            //String keyStore = sharedPreferences.getString("key","");
+                            Cart cart = new Cart(food.getName(),food.getPrice(),Integer.valueOf(number),food.getUrlimage(),userKey,keyStore);
                             dataCart = new DataCart(getContext());
                             dataCart.InsertCart(cart);
                             Intent intent = new Intent(getActivity(), CartActivity.class);
