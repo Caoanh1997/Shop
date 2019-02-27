@@ -18,13 +18,20 @@ import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.OrderAdapter;
 import com.example.caoan.shop.Database.DataCart;
+import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class PayActivity extends AppCompatActivity {
@@ -42,7 +49,8 @@ public class PayActivity extends AppCompatActivity {
     private ArrayList<Cart> cartList;
     private String key;
     private String key_master;
-    private DataCart dataCart;
+    private Calendar calendar;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +67,25 @@ public class PayActivity extends AppCompatActivity {
         lvcart = findViewById(R.id.lvcart);
         btput = findViewById(R.id.btput);
 
-        dataCart = new DataCart(this);
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Order");
+
+        DatabaseReference reference = firebaseDatabase.getReference("Account");
+        String key_user = getSharedPreferences("Account",Context.MODE_PRIVATE).getString("userID","");
+        reference.child(key_user).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                account = dataSnapshot.getValue(Account.class);
+                etname.setText(account.getName());
+                etaddress.setText(account.getAddress());
+                etphone.setText(account.getPhone());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         spinnerhuyen.setVisibility(View.INVISIBLE);
         spinnerxa.setVisibility(View.INVISIBLE);
@@ -157,13 +180,14 @@ public class PayActivity extends AppCompatActivity {
 
             }
         });
+
         btput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
                     firebaseDatabase = FirebaseDatabase.getInstance();
 
-                    databaseReference = firebaseDatabase.getReference("Order");
+                    databaseReference = firebaseDatabase.getReference("NewOrder");
                     Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
                     String key_cart = databaseReference.push().getKey();
                     String product="";
@@ -171,9 +195,18 @@ public class PayActivity extends AppCompatActivity {
                         product += cart.getName() + " ("+cart.getPrice()+" x"+cart.getNumber()+"),";
                     }
                     String total_price = dataCart.Total(key);
+                    calendar = Calendar.getInstance();
+                    SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
+//        int h = calendar.get(Calendar.HOUR_OF_DAY);
+//        int m = calendar.get(Calendar.MINUTE);
+//        int s = calendar.get(Calendar.SECOND);
+                    String date_time = "";
+                    date_time += format_date.format(calendar.getTime());
+                    date_time += " "+format_time.format(calendar.getTime());
                     Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),String.valueOf(etaddress.getText()),
-                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận");
-                    databaseReference.child(key_master).child(key).child(key_cart).setValue(bill);
+                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time);
+                    databaseReference.child(key_master).child(key_cart).setValue(bill);
                     dataCart.DeleteCart(key);
                 }
             }

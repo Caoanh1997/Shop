@@ -69,7 +69,8 @@
             android:id="@+id/lvstore"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="300dp"
+            android:layoutMode="clipBounds">
         </ListView>
     </RelativeLayout>
 

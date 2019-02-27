@@ -147,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                            btsignout.setVisibility(View.VISIBLE);
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
                                             updateUI(user);
+                                            SaveAccountToSharedPreference(user);
                                             new ProcessLogin(tvuserid).execute();
                                         } else {
                                             Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
@@ -182,10 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Account account = new Account(name,address,phone);
                                         databaseReference.child(user.getUid()).setValue(account);
                                         updateUI(user);
-                                        SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("userID",user.getUid());
-                                        editor.commit();
+                                        SaveAccountToSharedPreference(user);
                                         new ProcessLogin(tvuserid).execute();
                                     //}
                                 } else {
@@ -347,6 +345,13 @@ public class LoginActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public void SaveAccountToSharedPreference(FirebaseUser user){
+        SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userID",user.getUid());
+        editor.commit();
     }
 
 }
