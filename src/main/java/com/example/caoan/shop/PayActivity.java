@@ -198,14 +198,14 @@ public class PayActivity extends AppCompatActivity {
                     calendar = Calendar.getInstance();
                     SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
                     SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
-//        int h = calendar.get(Calendar.HOUR_OF_DAY);
-//        int m = calendar.get(Calendar.MINUTE);
-//        int s = calendar.get(Calendar.SECOND);
+
                     String date_time = "";
                     date_time += format_date.format(calendar.getTime());
                     date_time += " "+format_time.format(calendar.getTime());
-                    Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),String.valueOf(etaddress.getText()),
-                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time);
+                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
+                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
+                    Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),address,
+                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time,"");
                     databaseReference.child(key_master).child(key_cart).setValue(bill);
                     dataCart.DeleteCart(key);
                 }
