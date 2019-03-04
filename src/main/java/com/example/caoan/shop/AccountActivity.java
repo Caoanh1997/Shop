@@ -184,4 +184,21 @@ public class AccountActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("Account pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("Account resume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("Account stop");
+    }
 }

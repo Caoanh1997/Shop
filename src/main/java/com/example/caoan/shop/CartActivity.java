@@ -72,15 +72,19 @@ public class CartActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
         key_store = sharedPreferences.getString("key","");
         str = dataCart.Total(key_store);
-        float total = Float.valueOf(str);
+        final float total = Float.valueOf(str);
         textView.setText(String.valueOf(total)+"d");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CartActivity.this, PayActivity.class);
-                intent.putExtra("listcart", (Serializable) cartList);
-                startActivity(intent);
+                if(String.valueOf(total).equals("0.0")){
+                    return;
+                }else {
+                    Intent intent = new Intent(CartActivity.this, PayActivity.class);
+                    intent.putExtra("listcart", (Serializable) cartList);
+                    startActivity(intent);
+                }
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
@@ -177,5 +181,23 @@ public class CartActivity extends AppCompatActivity {
             button.setEnabled(true);
             button2.setEnabled(true);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("Cart pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("Cart resume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("Cart stop");
     }
 }

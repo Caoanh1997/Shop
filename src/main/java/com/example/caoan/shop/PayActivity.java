@@ -118,6 +118,7 @@ public class PayActivity extends AppCompatActivity {
                         spinnertinh.setTag(tinh);
                         huyen = getResources().getStringArray(R.array.huyenDN);
                     }else {
+                        spinnertinh.setTag("Quảng Nam");
                         huyen = getResources().getStringArray(R.array.huyenQN);
                     }
                     spinnerhuyen.setAdapter(new ArrayAdapter(PayActivity.this,android.R.layout.simple_spinner_item,huyen));
