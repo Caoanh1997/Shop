@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,7 +131,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         }
         Store store = getItem(position);
         if(store != null){
-            new ProcessingImage(viewHolder.imageView).execute(store.getUrlImage());
+            Picasso.get().load(store.getUrlImage()).into(viewHolder.imageView);
             viewHolder.tvname.setText(store.getName());
             viewHolder.tvaddress.setText(store.getDuong()+", "+ store.getXa()+"-"+store.getHuyen()+"-"+store.getTinh());
             viewHolder.tvphone.setText("Phone: "+store.getPhone());
@@ -144,7 +145,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         private TextView tvname, tvaddress, tvphone;
     }
 
-    class ProcessingImage extends AsyncTask<String,Void,Bitmap>{
+    /*class ProcessingImage extends AsyncTask<String,Void,Bitmap>{
 
         private ImageView imageView;
 
@@ -175,6 +176,6 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
-    }
+    }*/
 
 }

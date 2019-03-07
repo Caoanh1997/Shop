@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -54,7 +55,7 @@ public class FoodAdapter extends ArrayAdapter<Food> {
         if(food != null){
             viewHolder.tvname.setText(food.getName());
             viewHolder.tvprice.setText(String.valueOf(food.getPrice())+" d");
-            new Processing(viewHolder.imageView).execute(food.getUrlimage());
+            Picasso.get().load(food.getUrlimage()).into(viewHolder.imageView);
         }
 
         return convertView;

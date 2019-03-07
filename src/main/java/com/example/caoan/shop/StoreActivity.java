@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.caoan.shop.Adapter.StoreAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Store;
+import com.example.caoan.shop.Model.StoreList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +35,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -75,6 +82,8 @@ public class StoreActivity extends AppCompatActivity {
 
         progressBar.setMax(100);
         progressBar.setProgress(0);
+        progressBar.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
 
         data = new DataCart(this);
         checkBox.setChecked(false);
@@ -192,19 +201,13 @@ public class StoreActivity extends AppCompatActivity {
         });
 
         storeList = new ArrayList<>();
-        storeList = data.getStoreList();
-        if (storeList == null || storeList.size() == 0) {
-            System.out.println("Load");
-            fillStore();
-        }
-        listView.setVisibility(View.GONE);
-
-        new ProgressBarProcess().execute();
+        Load();
 
         btsize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), String.valueOf(storeList.size()), Toast.LENGTH_SHORT).show();
+                listView.invalidateViews();
             }
         });
         btdata.setOnClickListener(new View.OnClickListener() {
@@ -277,10 +280,8 @@ public class StoreActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
-                data.DeleteAllStore();
-                fillStore();
-                finish();
-                startActivity(getIntent());
+                storeList.clear();
+                Load();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -296,9 +297,13 @@ public class StoreActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Store store = snapshot.getValue(Store.class);
-                    //storeList.add(store);
-                    data.InsertStore(store);
+                    storeList.add(store);
+                    //data.InsertStore(store);
                 }
+                progressBar.setVisibility(View.GONE);
+                adapter = new StoreAdapter(getApplicationContext(),storeList);
+                listView.setAdapter(adapter);
+                listView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -333,7 +338,7 @@ public class StoreActivity extends AppCompatActivity {
     class ProgressBarProcess extends AsyncTask<Void, Integer, String> {
         @Override
         protected void onPostExecute(String s) {
-            storeList = data.getStoreList();
+            //storeList = data.getStoreList();
             adapter = new StoreAdapter(StoreActivity.this, storeList);
             listView.setAdapter(adapter);
             progressBar.setVisibility(View.INVISIBLE);
@@ -360,5 +365,34 @@ public class StoreActivity extends AppCompatActivity {
             return "Done";
         }
     }
+    public void Load(){
+        listView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
+        fillStore();
+        //new ProgressBarProcess().execute();
+    }
+
+    /*public void API(){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://shop-aa1b6.firebaseio.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FirebaseAPI firebaseAPI = retrofit.create(FirebaseAPI.class);
+        Call<Store> listCall = firebaseAPI.listStore();
+        listCall.enqueue(new Callback<Store>() {
+            @Override
+            public void onResponse(Call<Store> call, Response<Store> response) {
+                storeList.add(response.body());
+                System.out.println(response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Store> call, Throwable t) {
+                System.out.println("Error:" + t.getMessage());
+            }
+        });
+        adapter = new StoreAdapter(this,storeList);
+        listView.setAdapter(adapter);
+        listView.invalidateViews();
+    }*/
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -48,7 +49,7 @@ public class CartAdapter extends ArrayAdapter<Cart> {
 
         Cart cart = getItem(position);
         if(cart != null){
-            new Processing(viewHolder.imageView).execute(cart.getUrlImage());
+            Picasso.get().load(cart.getUrlImage()).into(viewHolder.imageView);
             viewHolder.tvname.setText(cart.getName());
             viewHolder.tvprice.setText(String.valueOf(cart.getPrice())+"d");
             viewHolder.tvnumber.setText("x "+String.valueOf(cart.getNumber()));
@@ -61,37 +62,5 @@ public class CartAdapter extends ArrayAdapter<Cart> {
     class ViewHolder{
         private ImageView imageView;
         private TextView tvname,tvprice,tvnumber,tvtotal;
-    }
-    private class Processing extends AsyncTask<String,Void,Bitmap> {
-        ImageView imageView;
-
-        public Processing(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bitmap = null;
-            String urlString = strings[0];
-            try {
-                URL url = new URL(urlString);
-                InputStream inputStream = url.openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-//            super.onPostExecute(bitmap);
-            imageView.setImageBitmap(bitmap);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
     }
 }

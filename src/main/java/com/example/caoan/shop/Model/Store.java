@@ -1,14 +1,27 @@
 package com.example.caoan.shop.Model;
 
-public class Store {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Store implements Serializable {
+    @SerializedName("key")
     private String key;
+    @SerializedName("name")
     private String name;
+    @SerializedName("duong")
     private String duong;
+    @SerializedName("xa")
     private String xa;
+    @SerializedName("huyen")
     private String huyen;
+    @SerializedName("tinh")
     private String tinh;
+    @SerializedName("userkey")
     private String userkey;
+    @SerializedName("urlImage")
     private String urlImage;
+    @SerializedName("phone")
     private String phone;
 
     public Store(String key, String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage,String phone) {

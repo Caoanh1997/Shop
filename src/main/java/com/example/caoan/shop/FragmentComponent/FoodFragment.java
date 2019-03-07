@@ -46,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -129,8 +130,6 @@ public class FoodFragment extends Fragment {
         button = view.findViewById(R.id.btsize);
         progressBar = view.findViewById(R.id.progress);
 
-        progressBar.setMax(100);
-        progressBar.setProgress(0);
         gridView.setVisibility(View.INVISIBLE);
 
         keyStore = getArguments().getString("keyStore");
@@ -143,20 +142,18 @@ public class FoodFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Product").child(keyStore).child("Food");
 
-        /*for (int i = 0; i < 5; i++) {
-            String foodID = reference.push().getKey();
-            Food food = new Food("Chuoi", "This is banana", "https://cdn1.woolworths.media/content/wowproductimages/medium/306510.jpg", 10000);
-            reference.child(foodID).setValue(food);
-        }*/
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Food food = snapshot.getValue(Food.class);
-                    //System.out.println(food.getName());
                     foodList.add(food);
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+                adapter = new FoodAdapter(getContext(), foodList);
+                gridView.setAdapter(adapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -176,21 +173,10 @@ public class FoodFragment extends Fragment {
                 }
             }
         });
-        /*try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        new ProgressBarProcess().execute();
-
-        adapter = new FoodAdapter(getContext(), foodList);
-        gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                //Toast.makeText(getContext(), ((Food) (adapterView.getItemAtPosition(i))).toString(),
-                //        Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View dialogview = getLayoutInflater().inflate(R.layout.food_detail_layout,null);
                 builder.setTitle("Detail");
@@ -206,7 +192,7 @@ public class FoodFragment extends Fragment {
                 btback = dialogview.findViewById(R.id.btback);
 
                 final Food food = (Food) adapterView.getItemAtPosition(i);
-                new DownloadImageProcess(imageView).execute(food.getUrlimage());
+                Picasso.get().load(food.getUrlimage()).into(imageView);
                 tvname.setText(food.getName());
                 tvdetail.setText(food.getDescription());
                 tvprice.setText(String.valueOf(food.getPrice())+"d");
@@ -230,10 +216,6 @@ public class FoodFragment extends Fragment {
                         firebaseAuth = FirebaseAuth.getInstance();
                         firebaseUser = firebaseAuth.getCurrentUser();
                         if(firebaseUser != null){
-                            //Toast.makeText(getContext(),"Ok",Toast.LENGTH_SHORT).show();
-                            //SharedPreferences sharedPreferences = getActivity().getSharedPreferences("key_store", Context.MODE_PRIVATE);
-                            //String userKey = sharedPreferences.getString("key_master","");
-                            //String keyStore = sharedPreferences.getString("key","");
                             Cart cart = new Cart(food.getName(),food.getPrice(),Integer.valueOf(number),food.getUrlimage(),userKey,keyStore);
                             dataCart = new DataCart(getContext());
                             dataCart.InsertCart(cart);
@@ -242,7 +224,6 @@ public class FoodFragment extends Fragment {
                             startActivity(intent);
                             Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
                         }else {
-                            //Toast.makeText(getContext(),"Login in failed",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         }
                     }
@@ -292,68 +273,5 @@ public class FoodFragment extends Fragment {
             return true;
         }
         return false;
-    }
-    class ProgressBarProcess extends AsyncTask<Void,Integer,String>{
-        @Override
-        protected void onPostExecute(String s) {
-            //super.onPostExecute(s);
-            progressBar.setVisibility(View.INVISIBLE);
-            gridView.setVisibility(View.VISIBLE);
-            //Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //super.onProgressUpdate(values);
-            progressBar.setProgress(values[0]);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            for (int i =0;i<100;i++){
-                publishProgress(i);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return "Done";
-        }
-    }
-    class DownloadImageProcess extends AsyncTask<String,Void,Bitmap>{
-
-        private ImageView imageView;
-
-        public DownloadImageProcess(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            //super.onPostExecute(bitmap);
-            imageView.setImageBitmap(bitmap);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bitmap = null;
-            String urlimage=strings[0];
-            try {
-                URL url = new URL(urlimage);
-                InputStream inputStream = url.openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
     }
 }

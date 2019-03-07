@@ -79,13 +79,9 @@ public class MainActivity extends AppCompatActivity {
         String userKey = sharedPreferences.getString("key_master","null");
         FoodFragment foodFragment = new FoodFragment().newInstance(key,userKey);
         DrinkFragment drinkFragment = new DrinkFragment().newInstance(key);
-        //PhoneFragment phoneFragment = new PhoneFragment().newInstance("Phone");
-        //DrinkFragment drinkFragment1 = new DrinkFragment().newInstance("Drink haha");
 
         fragmentList.add(foodFragment);
         fragmentList.add(drinkFragment);
-        //fragmentList.add(phoneFragment);
-        //fragmentList.add(drinkFragment1);
     }
 
 

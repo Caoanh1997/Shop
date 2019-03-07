@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class DrinkFragment extends Fragment {
     private Button button;
     private FirebaseDatabase database;
     private DrinkAdapter drinkAdapter;
+    private ProgressBar progressBar;
 
     public DrinkFragment() {
         // Required empty public constructor
@@ -60,6 +62,9 @@ public class DrinkFragment extends Fragment {
         textView = view.findViewById(R.id.tv);
         gridView = view.findViewById(R.id.gv);
         button = view.findViewById(R.id.btsize);
+        progressBar = view.findViewById(R.id.progress);
+
+        gridView.setVisibility(View.INVISIBLE);
 
         String str = getArguments().getString("text");
         textView.setText(str);
@@ -67,12 +72,6 @@ public class DrinkFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Product").child(str).child("Drink");
 
-        /*for (int i=0;i<5;i++){
-            String drinkID = reference.push().getKey();
-            Drink drink = new Drink("Cafe","This is cafe"
-                    ,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk8nzJW-1ke89Cghd0d-zF9p8KvQwx7Q9RNPubC4Zp9XGxADS3RQ",15000);
-            reference.child(drinkID).setValue(drink);
-        }*/
         final List<Drink> drinkList = new ArrayList<Drink>();
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -82,6 +81,10 @@ public class DrinkFragment extends Fragment {
                     Drink drink = snapshot.getValue(Drink.class);
                     drinkList.add(drink);
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+                drinkAdapter = new DrinkAdapter(getContext(),drinkList);
+                gridView.setAdapter(drinkAdapter);
             }
 
             @Override
@@ -97,8 +100,6 @@ public class DrinkFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //System.out.println(foodList.size());
-                //Toast.makeText(getApplicationContext(),foodList.size(),Toast.LENGTH_SHORT).show();
                 if(isOnline()){
                     Toast.makeText(getContext(),"Online "+drinkList.size(),Toast.LENGTH_SHORT).show();
                 }else {
