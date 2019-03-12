@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,9 +22,13 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.StoreAdapter;
+import com.example.caoan.shop.Adapter.StoreRecycleViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.Model.StoreList;
@@ -45,17 +51,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class StoreActivity extends AppCompatActivity {
 
     private CheckBox checkBox;
-    private Spinner spinner1, spinner2, spinner3;
-    private ListView listView;
-    private String[] tinh = {"Tinh/thanh pho", "Đà Nẵng", "Quảng Nam"};
-    private String[] huyenDN = {"Quan/huyen", "Thanh Khê", "Liên Chiểu", "Hải Châu"};
-    private String[] huyenQN = {"Quan/huyen", "Điện Bàn", "Đại Lộc", "Duy Xuyên"};
-    private String[] xaDN1 = {"Xa/phuong", "Hòa Khê", "An Khê", "Vĩnh Trung"};
-    private String[] xaDN2 = {"Xa/phuong", "Hòa Khánh Nam", "Hòa Khánh Nam", "Hòa Minh"};
-    private String[] xaDN3 = {"Xa/phuong", "Hải Châu 1", "Hải Châu 2", "Hòa Cường Bắc","Hòa Cường Nam","Thuận Phước"};
-    private String[] xaQN1 = {"Xa/phuong", "Điện Phước", "Điện Hồng", "Điện Thọ"};
-    private String[] xaQN2 = {"Xa/phuong", "DD", "EE", "FF"};
-    private String[] xaQN3 = {"Xa/phuong", "GG", "HH", "II"};
+    private Spinner spxa, sphuyen, sptinh;
+   //private ListView listView;
+    private String[] tinh;
     private String[] xa, huyen;
     private List<Store> storeList;
     private List<Store> stores;
@@ -65,25 +63,33 @@ public class StoreActivity extends AppCompatActivity {
     private Button btsize, btdata;
     private ProgressBar progressBar;
     private DataCart data;
+    private TextView tvstore;
+    private RecyclerView rcvstore;
+    private StoreRecycleViewAdapter storeRecycleViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
 
-        spinner1 = findViewById(R.id.spxa);
-        spinner2 = findViewById(R.id.sphuyen);
-        spinner3 = findViewById(R.id.sptinh);
+        spxa = findViewById(R.id.spxa);
+        sphuyen = findViewById(R.id.sphuyen);
+        sptinh = findViewById(R.id.sptinh);
         checkBox = findViewById(R.id.cbaddress);
-        listView = findViewById(R.id.lvstore);
+        //listView = findViewById(R.id.lvstore);
         btsize = findViewById(R.id.btsize);
         btdata = findViewById(R.id.btdata);
         progressBar = findViewById(R.id.progressstore);
+        tvstore = findViewById(R.id.tvstore);
+        rcvstore = findViewById(R.id.rcvstore);
+
+        YoYo.with(Techniques.RollIn).duration(2000).playOn(tvstore);
 
         progressBar.setMax(100);
         progressBar.setProgress(0);
-        progressBar.setVisibility(View.INVISIBLE);
-        listView.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.INVISIBLE);
+        //listView.setVisibility(View.VISIBLE);
+        //rcvstore.setVisibility(View.VISIBLE);
 
         data = new DataCart(this);
         checkBox.setChecked(false);
@@ -91,41 +97,39 @@ public class StoreActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (checkBox.isChecked()) {
-                    spinner3.setVisibility(View.VISIBLE);
-                    ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, tinh);
-                    spinner3.setAdapter(adapter);
+                    sptinh.setVisibility(View.VISIBLE);
+                    sptinh.setAdapter(new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item,
+                            getResources().getStringArray(R.array.tinh)));
                 } else {
                     adapter.getFilter().filter(null);
-                    spinner3.setVisibility(View.GONE);
-                    spinner2.setVisibility(View.GONE);
-                    spinner1.setVisibility(View.GONE);
+                    sptinh.setVisibility(View.GONE);
+                    sphuyen.setVisibility(View.GONE);
+                    spxa.setVisibility(View.GONE);
                 }
             }
         });
 
-        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sptinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = (String) adapterView.getItemAtPosition(i);
-                if (!s.equals("Tinh/thanh pho")) {
-                    String t;
-                    spinner2.setVisibility(View.VISIBLE);
-                    if (s.equals("Đà Nẵng")) {
-                        t = "Da Nang";
-                        huyen = huyenDN;
+                String tinh = (String) adapterView.getItemAtPosition(i);
+                if (!tinh.equals("Tỉnh/thành phố")) {
+                    sphuyen.setVisibility(View.VISIBLE);
+                    if (tinh.equals("Đà Nẵng")) {
+                        huyen = getResources().getStringArray(R.array.huyenDN);
                     } else {
-                        t = "Quang Nam";
-                        huyen = huyenQN;
+                        huyen = getResources().getStringArray(R.array.huyenQN);
                     }
-                    spinner3.setTag(t);
-//                    Toast.makeText(getApplicationContext(), t, Toast.LENGTH_SHORT).show();
-                    adapter.getFilter().filter(t);
-                    listView.invalidateViews();
+                    sptinh.setTag(tinh);
+//                    Toast.makeText(getApplicationContext(), tinh, Toast.LENGTH_SHORT).show();
+                    adapter.getFilter().filter(tinh);
+                    //listView.invalidateViews();
+                    rcvstore.invalidate();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, huyen);
-                    spinner2.setAdapter(adapter);
+                    sphuyen.setAdapter(adapter);
                 } else {
-                    spinner2.setVisibility(View.GONE);
-                    spinner1.setVisibility(View.GONE);
+                    sphuyen.setVisibility(View.GONE);
+                    spxa.setVisibility(View.GONE);
                 }
             }
 
@@ -134,45 +138,39 @@ public class StoreActivity extends AppCompatActivity {
 
             }
         });
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sphuyen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = (String) adapterView.getItemAtPosition(i);
-                if (!s.equals("Quan/huyen")) {
-                    String h = null;
-                    spinner1.setVisibility(View.VISIBLE);
-                    if (s.equals("Thanh Khê")) {
-                        h = "Thanh Khe";
-                        xa = xaDN1;
+                String huyen = (String) adapterView.getItemAtPosition(i);
+                if (!huyen.equals("Quận/huyện")) {
+                    spxa.setVisibility(View.VISIBLE);
+                    if (huyen.equals("Thanh Khê")) {
+                        xa = getResources().getStringArray(R.array.xaDN1);
                     }
-                    if (s.equals("Liên Chiểu")) {
-                        h = "Lien Chieu";
-                        xa = xaDN2;
+                    if (huyen.equals("Liên Chiểu")) {
+                        xa = getResources().getStringArray(R.array.xaDN3);
                     }
-                    if (s.equals("Hải Châu")) {
-                        h = "Hai Chau";
-                        xa = xaDN3;
+                    if (huyen.equals("Hải Châu")) {
+                        xa = getResources().getStringArray(R.array.xaDN2);
                     }
-                    if (s.equals("Điện Bàn")) {
-                        h = "Dien Ban";
-                        xa = xaQN1;
+                    if (huyen.equals("Điện Bàn")) {
+                        xa = getResources().getStringArray(R.array.xaQN1);
                     }
-                    if (s.equals("Đại Lộc")) {
-                        h = "Dai Loc";
-                        xa = xaQN2;
+                    if (huyen.equals("Đại Lộc")) {
+                        xa = getResources().getStringArray(R.array.xaQN2);
                     }
-                    if (s.equals("Duy Xuyên")) {
-                        h = "Duy Xuyen";
-                        xa = xaQN3;
+                    if (huyen.equals("Duy Xuyên")) {
+                        xa = getResources().getStringArray(R.array.xaQN3);
                     }
-                    spinner2.setTag(h);
-//                    Toast.makeText(getApplicationContext(), h, Toast.LENGTH_SHORT).show();
-                    adapter.getFilter().filter(h);
-                    listView.invalidateViews();
+                    sphuyen.setTag(huyen);
+//                    Toast.makeText(getApplicationContext(), huyen, Toast.LENGTH_SHORT).show();
+                    adapter.getFilter().filter(huyen);
+                    //listView.invalidateViews();
+                    rcvstore.invalidate();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, xa);
-                    spinner1.setAdapter(adapter);
+                    spxa.setAdapter(adapter);
                 } else {
-                    spinner1.setVisibility(View.GONE);
+                    spxa.setVisibility(View.GONE);
                 }
             }
 
@@ -181,16 +179,17 @@ public class StoreActivity extends AppCompatActivity {
 
             }
         });
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spxa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = (String) adapterView.getItemAtPosition(i);
-                if (!s.equals("Xa/phuong")) {
-                    String t = (String) spinner3.getTag();
-                    String h = (String) spinner2.getTag();
-//                    Toast.makeText(getApplicationContext(), t + h + s, Toast.LENGTH_SHORT).show();
-                    adapter.getFilter().filter(s);
-                    listView.invalidateViews();
+                String xa = (String) adapterView.getItemAtPosition(i);
+                if (!xa.equals("Xã/phường")) {
+                    String tinh = (String) sptinh.getTag();
+                    String huyen = (String) sphuyen.getTag();
+//                    Toast.makeText(getApplicationContext(), tinh + huyen + xa, Toast.LENGTH_SHORT).show();
+                    adapter.getFilter().filter(xa);
+                    //listView.invalidateViews();
+                    rcvstore.invalidate();
                 }
             }
 
@@ -207,7 +206,8 @@ public class StoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), String.valueOf(storeList.size()), Toast.LENGTH_SHORT).show();
-                listView.invalidateViews();
+                //listView.invalidateViews();
+                rcvstore.invalidate();
             }
         });
         btdata.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +217,7 @@ public class StoreActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), String.valueOf(stores.size()), Toast.LENGTH_SHORT).show();
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Store store = (Store) adapterView.getItemAtPosition(i);
@@ -228,14 +228,14 @@ public class StoreActivity extends AppCompatActivity {
                 editor.commit();
                 startActivity(new Intent(StoreActivity.this, FirstActivity.class));
             }
-        });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        });*/
+        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 return false;
             }
-        });
+        });*/
     }
 
     @Override
@@ -269,7 +269,8 @@ public class StoreActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                listView.invalidateViews();
+                //listView.invalidateViews();
+                rcvstore.invalidate();
                 return false;
             }
         });
@@ -301,9 +302,14 @@ public class StoreActivity extends AppCompatActivity {
                     //data.InsertStore(store);
                 }
                 progressBar.setVisibility(View.GONE);
-                adapter = new StoreAdapter(getApplicationContext(),storeList);
+                /*adapter = new StoreAdapter(getApplicationContext(),storeList);
                 listView.setAdapter(adapter);
-                listView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.VISIBLE);*/
+                rcvstore.setVisibility(View.VISIBLE);
+                storeRecycleViewAdapter = new StoreRecycleViewAdapter(getApplicationContext(),storeList);
+                rcvstore.setAdapter(storeRecycleViewAdapter);
+                rcvstore.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                YoYo.with(Techniques.BounceInRight).duration(3000).playOn(rcvstore);
             }
 
             @Override
@@ -335,40 +341,10 @@ public class StoreActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-    class ProgressBarProcess extends AsyncTask<Void, Integer, String> {
-        @Override
-        protected void onPostExecute(String s) {
-            //storeList = data.getStoreList();
-            adapter = new StoreAdapter(StoreActivity.this, storeList);
-            listView.setAdapter(adapter);
-            progressBar.setVisibility(View.INVISIBLE);
-            listView.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //super.onProgressUpdate(values);
-            progressBar.setProgress(values[0]);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            for (int i = 0; i < 100; i++) {
-                publishProgress(i);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return "Done";
-        }
-    }
     public void Load(){
-        listView.setVisibility(View.GONE);
+//        listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-
+        rcvstore.setVisibility(View.INVISIBLE);
         fillStore();
         //new ProgressBarProcess().execute();
     }
@@ -385,7 +361,6 @@ public class StoreActivity extends AppCompatActivity {
                 storeList.add(response.body());
                 System.out.println(response.body().toString());
             }
-
             @Override
             public void onFailure(Call<Store> call, Throwable t) {
                 System.out.println("Error:" + t.getMessage());

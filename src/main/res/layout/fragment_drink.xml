@@ -3,45 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.DrinkFragment"
+    android:background="@color/green"
     android:orientation="vertical"
-    android:background="@color/green">
+    tools:context=".FragmentComponent.DrinkFragment">
 
     <ProgressBar
+        android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/progress"/>
+        android:layout_centerInParent="true" />
 
     <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Drink"
-        android:id="@+id/tv"/>
+        android:textSize="25sp"
+        android:visibility="gone" />
 
     <GridView
-        android:layout_below="@+id/tv"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
         android:id="@+id/gv"
-        android:numColumns="3"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
-    </GridView>
+        android:layout_height="250dp"
+        android:layout_below="@+id/tv"
+        android:layout_margin="10dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="3"
+        android:verticalSpacing="2dp"></GridView>
+
     <Button
-        android:visibility="visible"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:text="Size list"
+        android:id="@+id/btsize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btsize"
-        android:layout_below="@+id/gv"/>
-
+        android:layout_below="@+id/gv"
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:text="Size list"
+        android:textSize="25sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

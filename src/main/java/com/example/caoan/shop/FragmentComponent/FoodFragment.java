@@ -29,6 +29,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.AccountActivity;
 import com.example.caoan.shop.Adapter.FoodAdapter;
 import com.example.caoan.shop.CartActivity;
@@ -154,6 +156,7 @@ public class FoodFragment extends Fragment {
                 gridView.setVisibility(View.VISIBLE);
                 adapter = new FoodAdapter(getContext(), foodList);
                 gridView.setAdapter(adapter);
+                YoYo.with(Techniques.BounceInUp).duration(1000).playOn(gridView);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -222,7 +225,7 @@ public class FoodFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), CartActivity.class);
                             //intent.putExtra("cart", cart);
                             startActivity(intent);
-                            Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
                         }else {
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         }

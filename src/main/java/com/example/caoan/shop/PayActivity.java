@@ -21,6 +21,7 @@ import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +37,7 @@ import java.util.UUID;
 
 public class PayActivity extends AppCompatActivity {
 
-    private EditText etname, etaddress, etphone;
+    private EditText etname, etemail, etaddress, etphone;
     private Spinner spinnertinh, spinnerhuyen, spinnerxa;
     private ListView lvcart;
     private TextView tvsum;
@@ -58,6 +59,7 @@ public class PayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pay);
 
         etname = findViewById(R.id.etname);
+        etemail = findViewById(R.id.etemail);
         etaddress = findViewById(R.id.etaddress);
         etphone = findViewById(R.id.etphone);
         tvsum = findViewById(R.id.tvsum);
@@ -77,6 +79,7 @@ public class PayActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 account = dataSnapshot.getValue(Account.class);
                 etname.setText(account.getName());
+                etemail.setText(account.getEmail());
                 etaddress.setText(account.getAddress());
                 etphone.setText(account.getPhone());
             }
@@ -89,7 +92,6 @@ public class PayActivity extends AppCompatActivity {
 
         spinnerhuyen.setVisibility(View.INVISIBLE);
         spinnerxa.setVisibility(View.INVISIBLE);
-        tinh  = getResources().getStringArray(R.array.tinh);
 
         Intent intent = getIntent();
         cartList = new ArrayList<>();
@@ -106,6 +108,66 @@ public class PayActivity extends AppCompatActivity {
         float total = Float.valueOf(str);
         tvsum.setText(String.valueOf(total)+"d");
 
+        initSpinner();
+
+        btput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
+                    firebaseDatabase = FirebaseDatabase.getInstance();
+
+                    databaseReference = firebaseDatabase.getReference("NewOrder");
+                    //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
+                    String key_cart = databaseReference.push().getKey();
+                    String product="";
+                    for (Cart cart : cartList){
+                        product += cart.getName() + " ("+cart.getPrice()+" x"+cart.getNumber()+"),";
+                    }
+                    String total_price = dataCart.Total(key);
+                    calendar = Calendar.getInstance();
+                    SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
+
+                    String date_time = "";
+                    date_time += format_date.format(calendar.getTime());
+                    date_time += " "+format_time.format(calendar.getTime());
+                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
+                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
+                    Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),address,
+                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time,"");
+                    databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(PayActivity.this, FirstActivity.class));
+                        }
+                    });
+                    dataCart.DeleteCart(key);
+                }
+            }
+        });
+    }
+    public boolean CheckInput(EditText editText) {
+        String text = String.valueOf(editText.getText());
+        if (text.isEmpty() || text == null || text.equals("")) {
+            editText.setError("Bạn phải điền thông tin này");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public boolean checkSpinner(){
+        if(spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
+                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")){
+            Snackbar.make(spinnerxa,"Điền đầy đủ thông tin địa chỉ",Snackbar.LENGTH_LONG).setAction("Action",null)
+                    .show();
+            return false;
+        }else {
+            return true;
+        }
+    }
+    public void initSpinner(){
+        tinh  = getResources().getStringArray(R.array.tinh);
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, tinh);
         spinnertinh.setAdapter(adapter);
         spinnertinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -181,55 +243,5 @@ public class PayActivity extends AppCompatActivity {
 
             }
         });
-
-        btput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
-                    firebaseDatabase = FirebaseDatabase.getInstance();
-
-                    databaseReference = firebaseDatabase.getReference("NewOrder");
-                    Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
-                    String key_cart = databaseReference.push().getKey();
-                    String product="";
-                    for (Cart cart : cartList){
-                        product += cart.getName() + " ("+cart.getPrice()+" x"+cart.getNumber()+"),";
-                    }
-                    String total_price = dataCart.Total(key);
-                    calendar = Calendar.getInstance();
-                    SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
-                    SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
-
-                    String date_time = "";
-                    date_time += format_date.format(calendar.getTime());
-                    date_time += " "+format_time.format(calendar.getTime());
-                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
-                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
-                    Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),address,
-                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time,"");
-                    databaseReference.child(key_master).child(key_cart).setValue(bill);
-                    dataCart.DeleteCart(key);
-                }
-            }
-        });
-    }
-    public boolean CheckInput(EditText editText) {
-        String text = String.valueOf(editText.getText());
-        if (text.isEmpty() || text == null || text.equals("")) {
-            editText.setError("Bạn phải điền thông tin này");
-            return false;
-        } else {
-            return true;
-        }
-    }
-    public boolean checkSpinner(){
-        if(spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
-                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")){
-            Snackbar.make(spinnerxa,"Điền đầy đủ thông tin địa chỉ",Snackbar.LENGTH_LONG).setAction("Action",null)
-                    .show();
-            return false;
-        }else {
-            return true;
-        }
     }
 }

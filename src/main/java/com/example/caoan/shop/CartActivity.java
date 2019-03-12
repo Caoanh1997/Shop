@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
-    private Button button,button2;
+    private Button btthanhtoan,bthome;
     private ActionBar actionBar;
     private ProgressBar progressBar;
     private CartAdapter cartAdapter;
@@ -47,39 +48,39 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        button = findViewById(R.id.btthanhtoan);
-        button2 = findViewById(R.id.bthome);
+        btthanhtoan = findViewById(R.id.btthanhtoan);
+        bthome = findViewById(R.id.bthome);
         listView = findViewById(R.id.lvcart);
         textView = findViewById(R.id.tvsum);
         progressBar = findViewById(R.id.progress);
         //listView.setVisibility(View.INVISIBLE);
 
-        button.setEnabled(false);
-        button2.setEnabled(false);
+        SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
+        key_store = sharedPreferences.getString("key","");
+        dataCart = new DataCart(this);
+        str = dataCart.Total(key_store);
+        float total = Float.valueOf(str);
+        if (String.valueOf(total).equals("0.0")){
+            btthanhtoan.setEnabled(false);
+        }else {
+            btthanhtoan.setEnabled(true);
+        }
 
         new ProgressBarProcess().execute();
         registerForContextMenu(listView);
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-
-        dataCart = new DataCart(this);
-
         cartList = new ArrayList<Cart>();
 
-        //cartList.add(new Cart("Banana",18000
-         //       ,10,"https://cdn1.woolworths.media/content/wowproductimages/medium/306510.jpg"));
-        SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
-        key_store = sharedPreferences.getString("key","");
-        str = dataCart.Total(key_store);
-        final float total = Float.valueOf(str);
         textView.setText(String.valueOf(total)+"d");
-        button.setOnClickListener(new View.OnClickListener() {
+        btthanhtoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
-                if(String.valueOf(total).equals("0.0")){
-                    return;
+//                Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
+                String userID = getSharedPreferences("Account",Context.MODE_PRIVATE).getString("userID","");
+                if(userID.equals("")){
+                    startActivity(new Intent(CartActivity.this,LoginActivity.class));
                 }else {
                     Intent intent = new Intent(CartActivity.this, PayActivity.class);
                     intent.putExtra("listcart", (Serializable) cartList);
@@ -87,7 +88,7 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        bthome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CartActivity.this,FirstActivity.class);
@@ -178,8 +179,8 @@ public class CartActivity extends AppCompatActivity {
             cartList = dataCart.getCartList(key_store);
             cartAdapter = new CartAdapter(CartActivity.this,cartList);
             listView.setAdapter(cartAdapter);
-            button.setEnabled(true);
-            button2.setEnabled(true);
+            btthanhtoan.setEnabled(true);
+            bthome.setEnabled(true);
         }
     }
 

@@ -6,133 +6,155 @@
     android:layout_height="match_parent"
     tools:context=".PayActivity"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pay"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:visibility="visible"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/state_edittext"
-        android:hint="Nhập tên khách hàng"
-        android:layout_margin="5dp"
-        android:paddingLeft="5dp"
-        android:id="@+id/etname"
-        android:inputType="text"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <Spinner
-            android:id="@+id/sptinh"
-            android:spinnerMode="dropdown"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
-
-        </Spinner>
-        <Spinner
-            android:id="@+id/sphuyen"
-            android:spinnerMode="dropdown"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
-
-        </Spinner>
-        <Spinner
-            android:id="@+id/spxa"
-            android:spinnerMode="dropdown"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
-
-        </Spinner>
-    </LinearLayout>
-    <EditText
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/state_edittext"
-        android:hint="Nhập số nhà, tên đường(tổ, thôn)"
-        android:layout_margin="5dp"
-        android:paddingLeft="5dp"
-        android:id="@+id/etaddress"
-        />
-    <EditText
-        android:inputType="phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/state_edittext"
-        android:hint="Nhập số điện thoại khách hàng"
-        android:layout_margin="5dp"
-        android:paddingLeft="5dp"
-        android:id="@+id/etphone"
-        />
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Tên SP"
-            android:gravity="left"/>
-        <TextView
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Số lượng"
-            android:gravity="right"/>
-        <TextView
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Giá"
-            android:gravity="right"/>
-    </LinearLayout>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/lvcart">
-    </ListView>
-    <LinearLayout
-        android:orientation="horizontal"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="Total: "
-            android:textColor="@color/black"
-            android:textSize="25sp"/>
-        <TextView
-            android:textSize="25sp"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:gravity="right"
-            android:id="@+id/tvsum"/>
-    </LinearLayout>
-    <Button
-        android:id="@+id/btput"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Đặt hàng"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pay"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:visibility="visible"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/state_edittext"
+                android:hint="Nhập tên khách hàng"
+                android:layout_margin="5dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/etname"
+                android:inputType="text"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/state_edittext"
+                android:hint="Nhập email khách hàng"
+                android:layout_margin="5dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/etemail"
+                android:inputType="textEmailAddress"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <Spinner
+                    android:id="@+id/sptinh"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                </Spinner>
+                <Spinner
+                    android:id="@+id/sphuyen"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                </Spinner>
+                <Spinner
+                    android:id="@+id/spxa"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                </Spinner>
+            </LinearLayout>
+            <EditText
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/state_edittext"
+                android:hint="Nhập số nhà, tên đường(tổ, thôn)"
+                android:layout_margin="5dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/etaddress"
+                />
+            <EditText
+                android:inputType="phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/state_edittext"
+                android:hint="Nhập số điện thoại khách hàng"
+                android:layout_margin="5dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/etphone"
+                />
+            <!--<LinearLayout-->
+                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:weightSum="3">-->
+
+                <!--<TextView-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Tên SP"-->
+                    <!--android:gravity="left"/>-->
+                <!--<TextView-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Số lượng"-->
+                    <!--android:gravity="right"/>-->
+                <!--<TextView-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Giá"-->
+                    <!--android:gravity="right"/>-->
+            <!--</LinearLayout>-->
+            <ListView
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lvcart">
+            </ListView>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="Total: "
+                    android:textColor="@color/black"
+                    android:textSize="25sp"/>
+                <TextView
+                    android:textSize="25sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="right"
+                    android:id="@+id/tvsum"/>
+            </LinearLayout>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btput"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="Đặt hàng"/>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

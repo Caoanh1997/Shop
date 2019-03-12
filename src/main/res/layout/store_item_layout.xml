@@ -5,10 +5,11 @@
     android:orientation="horizontal"
     android:layout_margin="5dp">
     <ImageView
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="fill_parent"
         android:src="@drawable/state_home"
-        android:id="@+id/ivstore"/>
+        android:id="@+id/ivstore"
+        android:scaleType="fitXY"/>
 
     <LinearLayout
         android:weightSum="3"

@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
 import com.squareup.picasso.Picasso;
@@ -132,6 +133,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         Store store = getItem(position);
         if(store != null){
             Picasso.get().load(store.getUrlImage()).into(viewHolder.imageView);
+            //Glide.with(getContext()).load(store.getUrlImage()).into(viewHolder.imageView);
             viewHolder.tvname.setText(store.getName());
             viewHolder.tvaddress.setText(store.getDuong()+", "+ store.getXa()+"-"+store.getHuyen()+"-"+store.getTinh());
             viewHolder.tvphone.setText("Phone: "+store.getPhone());

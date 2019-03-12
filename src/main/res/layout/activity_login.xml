@@ -45,12 +45,42 @@
         android:inputType="text"
         android:background="@drawable/state_edittext"
         android:paddingLeft="5dp"/>
+
+    <LinearLayout
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Spinner
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/spinnertinh">
+        </Spinner>
+        <Spinner
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/spinnerhuyen">
+        </Spinner>
+        <Spinner
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/spinnerxa">
+        </Spinner>
+    </LinearLayout>
     <EditText
         android:id="@+id/etaddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="nhập địa chỉ"
+        android:hint="số nhà, tên đường"
         android:inputType="text"
         android:background="@drawable/state_edittext"
         android:paddingLeft="5dp"/>

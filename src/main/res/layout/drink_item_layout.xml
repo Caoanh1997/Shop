@@ -11,7 +11,8 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:id="@+id/imagedrink"/>
+            android:id="@+id/imagedrink"
+            android:scaleType="fitXY"/>
         <TextView
             android:gravity="center"
             android:textColor="@color/red"

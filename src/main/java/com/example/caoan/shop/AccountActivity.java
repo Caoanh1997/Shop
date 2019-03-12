@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private Button bt,bt1,bt2,bt3;
+    private Button btsignup,btsignin,btlogout,btverify;
     private TextView textView;
     private FirebaseAuth mAuth;
     private EditText etemail,etpassword;
@@ -33,16 +33,16 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        bt = findViewById(R.id.btsignup);
-        bt1 = findViewById(R.id.btsignin);
-        bt2 = findViewById(R.id.btlogout);
-        bt3 = findViewById(R.id.btverify);
+        btsignup = findViewById(R.id.btsignup);
+        btsignin = findViewById(R.id.btsignin);
+        btlogout = findViewById(R.id.btlogout);
+        btverify = findViewById(R.id.btverify);
         etemail = findViewById(R.id.etemail);
         etpassword = findViewById(R.id.etpassword);
         textView = findViewById(R.id.tvuserid);
         back = findViewById(R.id.home);
 
-        bt2.setVisibility(View.INVISIBLE);
+        btlogout.setVisibility(View.INVISIBLE);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -50,7 +50,7 @@ public class AccountActivity extends AppCompatActivity {
 
         firebaseUser = mAuth.getCurrentUser();
 
-        bt.setOnClickListener(new View.OnClickListener() {
+        btsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = etemail.getText().toString();
@@ -84,7 +84,7 @@ public class AccountActivity extends AppCompatActivity {
                         firebaseUser.sendEmailVerification().addOnCompleteListener(AccountActivity.this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                bt3.setEnabled(true);
+                                btverify.setEnabled(true);
                                 if (task.isSuccessful()){
                                     Toast.makeText(getApplicationContext(), "Verification email sent to " + firebaseUser.getEmail(),
                                             Toast.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-        bt1.setOnClickListener(new View.OnClickListener() {
+        btsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = etemail.getText().toString();
@@ -126,7 +126,7 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-        bt2.setOnClickListener(new View.OnClickListener() {
+        btlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
@@ -134,7 +134,7 @@ public class AccountActivity extends AppCompatActivity {
                 updateUI(firebaseUser);
             }
         });
-        bt3.setOnClickListener(new View.OnClickListener() {
+        btverify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 firebaseUser = mAuth.getCurrentUser();
@@ -155,21 +155,21 @@ public class AccountActivity extends AppCompatActivity {
             etpassword.setVisibility(View.GONE);
             etemail.setVisibility(View.GONE);
 
-            bt.setVisibility(View.GONE);
-            bt1.setVisibility(View.GONE);
-            bt2.setVisibility(View.VISIBLE);
-            bt3.setVisibility(View.VISIBLE);
+            btsignup.setVisibility(View.GONE);
+            btsignin.setVisibility(View.GONE);
+            btlogout.setVisibility(View.VISIBLE);
+            btverify.setVisibility(View.VISIBLE);
 
             textView.setText("Email: "+user.getEmail()+"(Verify: "+user.isEmailVerified()+")"+"\nUserID: "+user.getUid());
         }else {
             etpassword.setVisibility(View.VISIBLE);
             etemail.setVisibility(View.VISIBLE);
 
-            bt.setVisibility(View.VISIBLE);
-            bt1.setVisibility(View.VISIBLE);
-            bt2.setVisibility(View.INVISIBLE);
-            bt3.setVisibility(View.INVISIBLE);
-            bt3.setEnabled(false);
+            btsignup.setVisibility(View.VISIBLE);
+            btsignin.setVisibility(View.VISIBLE);
+            btlogout.setVisibility(View.INVISIBLE);
+            btverify.setVisibility(View.INVISIBLE);
+            btverify.setEnabled(false);
             textView.setText("");
         }
     }

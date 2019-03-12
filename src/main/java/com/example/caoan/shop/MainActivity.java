@@ -18,6 +18,7 @@ import com.example.caoan.shop.FragmentComponent.DrinkFragment;
 import com.example.caoan.shop.FragmentComponent.FoodFragment;
 import com.example.caoan.shop.FragmentComponent.PhoneFragment;
 import com.example.caoan.shop.Model.Food;
+import com.example.caoan.shop.ViewPageTransformer.DepthPageTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new FragmentAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer(true,new DepthPageTransformer());
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         String key = sharedPreferences.getString("key","null");
         String userKey = sharedPreferences.getString("key_master","null");
         FoodFragment foodFragment = new FoodFragment().newInstance(key,userKey);
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key);
+        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key,userKey);
 
         fragmentList.add(foodFragment);
         fragmentList.add(drinkFragment);
@@ -123,35 +125,6 @@ public class MainActivity extends AppCompatActivity {
 //                }));
     }
 
-    /*private class ProgressBarAsync extends AsyncTask<Void,Integer,String>{
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            for(int i=0;i<=100;i++){
-                publishProgress(i);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return "Done";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            //super.onPostExecute(s);
-            Toast.makeText(getApplicationContext(),"Load completed",Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.INVISIBLE);
-            gridView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //super.onProgressUpdate(values);
-            progressBar.setProgress(values[0]);
-        }
-    }*/
     private Boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
