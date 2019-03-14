@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,20 +18,22 @@ import com.example.caoan.shop.FirstActivity;
 import com.example.caoan.shop.ItemClickListener;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
-import com.example.caoan.shop.StoreActivity;
 import com.squareup.picasso.Picasso;
 
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-
-public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleViewAdapter.ViewHolder> {
+public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleViewAdapter.ViewHolder> implements Filterable{
 
     private Context context;
-    private List<Store> storeList;
+    private List<Store> storeList, filterList;
 
-    public StoreRecycleViewAdapter(Context context, List<Store> stores) {
+    public StoreRecycleViewAdapter(Context context,List<Store> stores) {
         this.context = context;
         storeList = stores;
+        filterList = stores;
     }
 
     @NonNull
@@ -43,7 +47,7 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Store store = storeList.get(position);
+        final Store store = storeList.get(position);
         Picasso.get().load(store.getUrlImage()).into(holder.imageView);
         holder.tvname.setText(store.getName());
         holder.tvaddress.setText(store.getDuong()+", "+ store.getXa()+"-"+store.getHuyen()+"-"+store.getTinh());
@@ -71,6 +75,59 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
     @Override
     public int getItemCount() {
         return storeList.size();
+    }
+    public static String convertString(String str) {
+        try {
+            String temp = Normalizer.normalize(str, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            return pattern.matcher(temp).replaceAll("").toLowerCase().replaceAll(" ", "").replaceAll("đ", "d");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults results = new FilterResults();
+                ArrayList<Store> suggestions = new ArrayList<>();
+                if(charSequence == null || charSequence.length()==0){
+                    suggestions.addAll(filterList);
+                }else {
+                    String str = convertString(charSequence.toString().toLowerCase().trim());
+                    System.out.println(str);
+                    for(Store store : filterList){
+                        if(convertString(store.getName().toLowerCase().trim()).contains(str)){
+                            suggestions.add(store);
+                        }
+                        if(convertString(store.getDuong().toLowerCase().trim()).contains(str)){
+                            suggestions.add(store);
+                        }
+                        if(convertString(store.getTinh().toLowerCase().trim()).equals(str)){
+                            suggestions.add(store);
+                        }
+                        if(convertString(store.getHuyen().toLowerCase().trim()).equals(str)){
+                            suggestions.add(store);
+                        }
+                        if(convertString(store.getXa().toLowerCase().trim()).equals(str)){
+                            suggestions.add(store);
+                        }
+                    }
+                }
+                results.values = suggestions;
+                results.count = suggestions.size();
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                storeList = (List<Store>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{

@@ -18,6 +18,7 @@ import com.example.caoan.shop.FragmentComponent.DrinkFragment;
 import com.example.caoan.shop.FragmentComponent.FoodFragment;
 import com.example.caoan.shop.FragmentComponent.PhoneFragment;
 import com.example.caoan.shop.Model.Food;
+import com.example.caoan.shop.ViewPageTransformer.CubeInScalingTransformation;
 import com.example.caoan.shop.ViewPageTransformer.DepthPageTransformer;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new FragmentAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
-        viewPager.setPageTransformer(true,new DepthPageTransformer());
+        viewPager.setPageTransformer(true,new CubeInScalingTransformation());
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

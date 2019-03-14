@@ -33,9 +33,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private Button btsignin, btsignup, btsignout;
+    private CircularProgressButton btsignin, btsignup, btsignout;
     private EditText etemail, etpassword, etname, etaddress, etphone;
     private TextView tvuserid, tvsignup, tvsignin;
     private FirebaseAuth firebaseAuth;
@@ -152,7 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (CheckOnline()) {
                     progressDialog.setMessage("Đang đăng nhập...");
                     if (CheckInput(etemail) && CheckInput(etpassword)) {
-                        progressDialog.show();
+                        //progressDialog.show();
+                        btsignin.startAnimation();
                         firebaseAuth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -161,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
                                             updateUI(user);
                                             SaveAccountToSharedPreferences(user);
+                                            btsignin.dispose();
                                             progressDialog.dismiss();
                                             tvuserid.setText(user.getUid());
                                             startActivity(new Intent(LoginActivity.this,FirstActivity.class));
@@ -171,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                                 });
                     }
                 } else {
+                    btsignin.dispose();
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
                 }
@@ -185,7 +190,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (CheckOnline()) {
                     progressDialog.setMessage("Đang đăng ký...");
                     if (CheckInput(etemail) && CheckInput(etpassword) && CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()) {
-                        progressDialog.show();
+                        btsignup.startAnimation();
+                        //progressDialog.show();
                         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -204,6 +210,7 @@ public class LoginActivity extends AppCompatActivity {
                                     databaseReference.child(user.getUid()).setValue(account);
                                     updateUI(user);
                                     SaveAccountToSharedPreferences(user);
+                                    btsignup.dispose();
                                     progressDialog.dismiss();
                                     startActivity(new Intent(LoginActivity.this,FirstActivity.class));
                                 } else {
@@ -213,7 +220,9 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
                 } else {
-
+                    btsignup.dispose();
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
                 }
             }
         });

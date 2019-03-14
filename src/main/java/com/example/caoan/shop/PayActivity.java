@@ -3,6 +3,7 @@ package com.example.caoan.shop;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.example.caoan.shop.Adapter.OrderAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,12 +31,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -41,7 +45,7 @@ public class PayActivity extends AppCompatActivity {
     private Spinner spinnertinh, spinnerhuyen, spinnerxa;
     private ListView lvcart;
     private TextView tvsum;
-    private Button btput;
+    //private Button btput;
     private String[] tinh;
     private String[] huyen;
     private String[] xa;
@@ -52,6 +56,7 @@ public class PayActivity extends AppCompatActivity {
     private String key_master;
     private Calendar calendar;
     private Account account;
+    private CircularProgressButton loadingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,14 @@ public class PayActivity extends AppCompatActivity {
         spinnerhuyen = findViewById(R.id.sphuyen);
         spinnerxa = findViewById(R.id.spxa);
         lvcart = findViewById(R.id.lvcart);
-        btput = findViewById(R.id.btput);
+        loadingButton = findViewById(R.id.btput);
+
+        /*loadingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadingButton.startLoading();
+            }
+        });*/
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Order");
@@ -110,10 +122,11 @@ public class PayActivity extends AppCompatActivity {
 
         initSpinner();
 
-        btput.setOnClickListener(new View.OnClickListener() {
+        loadingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
+                    loadingButton.startAnimation();
                     firebaseDatabase = FirebaseDatabase.getInstance();
 
                     databaseReference = firebaseDatabase.getReference("NewOrder");
@@ -138,8 +151,15 @@ public class PayActivity extends AppCompatActivity {
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            loadingButton.revertAnimation();
                             Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(PayActivity.this, FirstActivity.class));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            loadingButton.revertAnimation();
+                            Toast.makeText(getApplicationContext(),"Đặt hàng thất bại",Toast.LENGTH_SHORT).show();
                         }
                     });
                     dataCart.DeleteCart(key);

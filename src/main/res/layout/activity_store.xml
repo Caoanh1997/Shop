@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".StoreActivity"
     android:orientation="vertical"
-    android:background="@color/tomato">
+    android:background="@color/xam">
     <CheckBox
         android:layout_gravity="center"
         android:id="@+id/cbaddress"
@@ -61,11 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:id="@+id/progressstore"/>
+        <!--<ProgressBar-->
+            <!--android:visibility="invisible"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:id="@+id/progressstore"/>-->
 
         <!--<ListView-->
             <!--android:id="@+id/lvstore"-->
@@ -74,6 +75,19 @@
             <!--android:layout_height="match_parent"-->
             <!--android:layoutMode="clipBounds">-->
         <!--</ListView>-->
+
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/shimmer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_demo_child_count="10"
+            app:shimmer_demo_grid_child_count="1"
+            app:shimmer_demo_layout="@layout/layout_demo_grid"
+            app:shimmer_demo_layout_manager_type="grid"
+            app:shimmer_demo_angle="20"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcvstore"
             android:scrollbars="vertical"

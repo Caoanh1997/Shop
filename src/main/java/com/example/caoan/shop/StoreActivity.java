@@ -2,10 +2,8 @@ package com.example.caoan.shop;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,19 +17,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.caoan.shop.Adapter.StoreAdapter;
 import com.example.caoan.shop.Adapter.StoreRecycleViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Store;
-import com.example.caoan.shop.Model.StoreList;
+import com.example.caoan.shop.Service.CheckNetwork;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,30 +38,25 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class StoreActivity extends AppCompatActivity {
 
     private CheckBox checkBox;
     private Spinner spxa, sphuyen, sptinh;
-   //private ListView listView;
+    //private ListView listView;
     private String[] tinh;
     private String[] xa, huyen;
     private List<Store> storeList;
     private List<Store> stores;
-    private StoreAdapter adapter;
+    //private StoreAdapter adapter;
+    private StoreRecycleViewAdapter adapter;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private Button btsize, btdata;
-    private ProgressBar progressBar;
+    //private ProgressBar progressBar;
     private DataCart data;
     private TextView tvstore;
     private RecyclerView rcvstore;
-    private StoreRecycleViewAdapter storeRecycleViewAdapter;
+    private ShimmerRecyclerView shimmerRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +70,15 @@ public class StoreActivity extends AppCompatActivity {
         //listView = findViewById(R.id.lvstore);
         btsize = findViewById(R.id.btsize);
         btdata = findViewById(R.id.btdata);
-        progressBar = findViewById(R.id.progressstore);
+        //progressBar = findViewById(R.id.progressstore);
         tvstore = findViewById(R.id.tvstore);
         rcvstore = findViewById(R.id.rcvstore);
+        shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
+
+        Intent intent = new Intent(this, CheckNetwork.class);
+        startService(intent);
 
         YoYo.with(Techniques.RollIn).duration(2000).playOn(tvstore);
-
-        progressBar.setMax(100);
-        progressBar.setProgress(0);
-        //progressBar.setVisibility(View.INVISIBLE);
-        //listView.setVisibility(View.VISIBLE);
-        //rcvstore.setVisibility(View.VISIBLE);
 
         data = new DataCart(this);
         checkBox.setChecked(false);
@@ -124,10 +113,10 @@ public class StoreActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), tinh, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(tinh);
                     //listView.invalidateViews();
-                    rcvstore.invalidate();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, huyen);
                     sphuyen.setAdapter(adapter);
                 } else {
+                    adapter.getFilter().filter(null);
                     sphuyen.setVisibility(View.GONE);
                     spxa.setVisibility(View.GONE);
                 }
@@ -166,11 +155,11 @@ public class StoreActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), huyen, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(huyen);
                     //listView.invalidateViews();
-                    rcvstore.invalidate();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, xa);
                     spxa.setAdapter(adapter);
                 } else {
                     spxa.setVisibility(View.GONE);
+                    adapter.getFilter().filter(String.valueOf(sptinh.getTag()));
                 }
             }
 
@@ -189,7 +178,8 @@ public class StoreActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), tinh + huyen + xa, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(xa);
                     //listView.invalidateViews();
-                    rcvstore.invalidate();
+                } else {
+                    adapter.getFilter().filter(String.valueOf(sphuyen.getTag()));
                 }
             }
 
@@ -207,7 +197,6 @@ public class StoreActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), String.valueOf(storeList.size()), Toast.LENGTH_SHORT).show();
                 //listView.invalidateViews();
-                rcvstore.invalidate();
             }
         });
         btdata.setOnClickListener(new View.OnClickListener() {
@@ -241,15 +230,16 @@ public class StoreActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(!isOnline()){
-            Toast.makeText(getApplicationContext(),"Bạn cần kết nối internet",Toast.LENGTH_SHORT).show();
+        if (!isOnline()) {
+            Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
         }
 
     }
+
     private Boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected()) {
+        if (ni != null && ni.isConnected()) {
             return true;
         }
         return false;
@@ -269,8 +259,6 @@ public class StoreActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                //listView.invalidateViews();
-                rcvstore.invalidate();
                 return false;
             }
         });
@@ -301,13 +289,14 @@ public class StoreActivity extends AppCompatActivity {
                     storeList.add(store);
                     //data.InsertStore(store);
                 }
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
                 /*adapter = new StoreAdapter(getApplicationContext(),storeList);
                 listView.setAdapter(adapter);
                 listView.setVisibility(View.VISIBLE);*/
                 rcvstore.setVisibility(View.VISIBLE);
-                storeRecycleViewAdapter = new StoreRecycleViewAdapter(getApplicationContext(),storeList);
-                rcvstore.setAdapter(storeRecycleViewAdapter);
+                shimmerRecyclerView.hideShimmerAdapter();
+                adapter = new StoreRecycleViewAdapter(getApplicationContext(), storeList);
+                rcvstore.setAdapter(adapter);
                 rcvstore.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 YoYo.with(Techniques.BounceInRight).duration(3000).playOn(rcvstore);
             }
@@ -341,10 +330,11 @@ public class StoreActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-    public void Load(){
+    public void Load() {
 //        listView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
         rcvstore.setVisibility(View.INVISIBLE);
+        shimmerRecyclerView.showShimmerAdapter();
         fillStore();
         //new ProgressBarProcess().execute();
     }
