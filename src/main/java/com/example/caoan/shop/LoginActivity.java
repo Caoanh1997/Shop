@@ -30,8 +30,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
@@ -214,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     startActivity(new Intent(LoginActivity.this,FirstActivity.class));
                                 } else {
+                                    btsignup.dispose();
                                     Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -251,7 +255,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(final FirebaseUser user) {
         if(user == null){
             final ObjectAnimator objectAnimator7 = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.move_down_animator);
             final ObjectAnimator objectAnimator8 = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.move_down_animator);
@@ -276,6 +280,21 @@ public class LoginActivity extends AppCompatActivity {
 
             tvsignup.setClickable(true);
         }else {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
+
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Account account = dataSnapshot.child(user.getUid()).getValue(Account.class);
+                    tvuserid.setText("Tên khách hàng: "+account.getName());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             etemail.setVisibility(View.GONE);
             etpassword.setVisibility(View.GONE);
             etname.setVisibility(View.GONE);
@@ -298,7 +317,6 @@ public class LoginActivity extends AppCompatActivity {
             etphone.setClickable(false);
 
             tvuserid.setVisibility(View.VISIBLE);
-            tvuserid.setText(user.getUid());
             btsignout.setVisibility(View.VISIBLE);
         }
     }

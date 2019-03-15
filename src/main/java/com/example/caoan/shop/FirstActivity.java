@@ -18,7 +18,6 @@ public class FirstActivity extends TabActivity {
     private TabHost tabHost;
     private TabHost.TabSpec tabSpec;
     private View view;
-    private FoodFragment foodFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class FirstActivity extends TabActivity {
         view = getLayoutInflater().inflate(R.layout.shop_tabhost_layout,null);
         tabSpec.setIndicator(view);
         //tabSpec.setIndicator("Shop",getDrawable(R.drawable.ic_home));
-        tabSpec.setContent(new Intent(FirstActivity.this,MainActivity.class));
+        tabSpec.setContent(new Intent(FirstActivity.this,TabLayoutActivity.class));
         tabHost.addTab(tabSpec);
 
         view = getLayoutInflater().inflate(R.layout.cart_tabhost_layout,null);

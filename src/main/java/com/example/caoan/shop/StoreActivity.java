@@ -231,7 +231,7 @@ public class StoreActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (!isOnline()) {
-            Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -278,6 +278,7 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     public void fillStore() {
+        checkBox.setEnabled(false);
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference reference = firebaseDatabase.getReference("Store");
         reference.addValueEventListener(new ValueEventListener() {
@@ -294,6 +295,7 @@ public class StoreActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
                 listView.setVisibility(View.VISIBLE);*/
                 rcvstore.setVisibility(View.VISIBLE);
+                checkBox.setEnabled(true);
                 shimmerRecyclerView.hideShimmerAdapter();
                 adapter = new StoreRecycleViewAdapter(getApplicationContext(), storeList);
                 rcvstore.setAdapter(adapter);

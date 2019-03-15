@@ -6,46 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!--<Button-->
-        <!--android:id="@+id/btn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="DownLoad And Set Image"-->
-        <!--/>-->
-    <!--<ImageView-->
-        <!--android:id="@+id/iv"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:padding="5dp"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:layout_below="@id/btn"-->
-        <!--/>-->
-    <!--<ProgressBar-->
-        <!--android:visibility="invisible"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/progressbar"/>-->
-    <!--<GridView-->
-        <!--android:verticalSpacing="2dp"-->
-        <!--android:horizontalSpacing="2dp"-->
-        <!--android:id="@+id/gv"-->
-        <!--android:numColumns="3"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="350dp">-->
-
-    <!--</GridView>-->
-    <!--<Button-->
-        <!--android:textSize="25sp"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:text="Size list"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/btsize"-->
-        <!--android:layout_below="@+id/gv"/>-->
-
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"

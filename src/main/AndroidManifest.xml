@@ -30,12 +30,6 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".Main2Activity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".StoreActivity">
             <intent-filter>
@@ -54,7 +48,11 @@
         <service
             android:name=".Service.CheckNetwork"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".TabLayoutActivity">
+
+        </activity>
     </application>
 
 </manifest>
