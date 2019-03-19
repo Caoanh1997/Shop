@@ -1,11 +1,15 @@
 package com.example.caoan.shop.Model;
 
+import java.util.List;
+
 public class Bill {
     private String key_cart;
-    private String name_user;
-    private String address;
-    private String phone;
-    private String product;
+    //private String name_user;
+    //private String address;
+    //private String phone;
+    private String userID;
+    //private String product;
+    private List<Cart> cartList;
     private String total_price;
     private String state;
     private String key_store;
@@ -15,12 +19,14 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(String key_cart, String name_user, String address, String phone, String product, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
+    public Bill(String key_cart, String userID, List<Cart> cartList, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
         this.key_cart = key_cart;
-        this.name_user = name_user;
-        this.address = address;
-        this.phone = phone;
-        this.product = product;
+        this.userID = userID;
+//        this.name_user = name_user;
+//        this.address = address;
+//        this.phone = phone;
+//        this.product = product;
+        this.cartList = cartList;
         this.total_price = total_price;
         this.state = state;
         this.key_store = key_store;
@@ -28,11 +34,13 @@ public class Bill {
         this.datetime_delivered = datetime_delivered;
     }
 
-    public Bill(String name_user, String address, String phone, String product, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
-        this.name_user = name_user;
-        this.address = address;
-        this.phone = phone;
-        this.product = product;
+    public Bill(String userID, List<Cart> cartList, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
+//        this.name_user = name_user;
+//        this.address = address;
+//        this.phone = phone;
+        this.userID = userID;
+        //this.product = product;
+        this.cartList = cartList;
         this.total_price = total_price;
         this.state = state;
         this.key_store = key_store;
@@ -64,36 +72,45 @@ public class Bill {
         this.key_cart = key_cart;
     }
 
-    public String getName_user() {
-        return name_user;
+//    public String getName_user() {
+//        return name_user;
+//    }
+//
+//    public void setName_user(String name_user) {
+//        this.name_user = name_user;
+//    }
+//
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+
+//    public String getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(String product) {
+//        this.product = product;
+//    }
+
+
+    public List<Cart> getCartList() {
+        return cartList;
     }
 
-    public void setName_user(String name_user) {
-        this.name_user = name_user;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
+    public void setCartList(List<Cart> cartList) {
+        this.cartList = cartList;
     }
 
     public String getTotal_price() {
@@ -120,14 +137,20 @@ public class Bill {
         this.datetime_delivered = datetime_delivered;
     }
 
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
                 "key_cart='" + key_cart + '\'' +
-                ", name_user='" + name_user + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", product='" + product + '\'' +
+                ", userID='" + userID + '\'' +
+                ", cartList=" + cartList +
                 ", total_price='" + total_price + '\'' +
                 ", state='" + state + '\'' +
                 ", key_store='" + key_store + '\'' +

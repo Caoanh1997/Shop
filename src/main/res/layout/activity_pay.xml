@@ -1,47 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PayActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".PayActivity">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
-            <TextView
+        <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Pay"-->
+        <!--android:textSize="30sp"-->
+        <!--android:gravity="center"-->
+        <!--android:visibility="visible"/>-->
+
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/state_edittext"-->
+        <!--android:hint="Nhập tên khách hàng"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:id="@+id/etname"-->
+        <!--android:inputType="text"-->
+        <!--/>-->
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/state_edittext"-->
+        <!--android:hint="Nhập email khách hàng"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:id="@+id/etemail"-->
+        <!--android:inputType="textEmailAddress"-->
+        <!--/>-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="3">-->
+
+        <!--<Spinner-->
+        <!--android:id="@+id/sptinh"-->
+        <!--android:spinnerMode="dropdown"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="1">-->
+
+        <!--</Spinner>-->
+        <!--<Spinner-->
+        <!--android:id="@+id/sphuyen"-->
+        <!--android:spinnerMode="dropdown"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="1">-->
+
+        <!--</Spinner>-->
+        <!--<Spinner-->
+        <!--android:id="@+id/spxa"-->
+        <!--android:spinnerMode="dropdown"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="1">-->
+
+        <!--</Spinner>-->
+        <!--</LinearLayout>-->
+        <!--<EditText-->
+        <!--android:inputType="text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/state_edittext"-->
+        <!--android:hint="Nhập số nhà, tên đường(tổ, thôn)"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:id="@+id/etaddress"-->
+        <!--/>-->
+        <!--<EditText-->
+        <!--android:inputType="phone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/state_edittext"-->
+        <!--android:hint="Nhập số điện thoại khách hàng"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:id="@+id/etphone"-->
+        <!--/>-->
+        <!--<ListView-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/lvcart">-->
+        <!--</ListView>-->
+        <!--<LinearLayout-->
+        <!--android:visibility="gone"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:text="Total: "-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="25sp"/>-->
+        <!--<TextView-->
+        <!--android:textSize="25sp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:gravity="right"-->
+        <!--android:id="@+id/tvsum"/>-->
+        <!--</LinearLayout>-->
+        <!--<br.com.simplepass.loading_button_lib.customViews.CircularProgressButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:text="Đặt hàng"-->
+        <!--android:background="@drawable/state_button"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/btput"/>-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="gone"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/btput"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="25sp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="Đặt hàng"/>&ndash;&gt;-->
+        <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pay"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:visibility="visible"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="Products"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_cart_active" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lvcart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+            <RelativeLayout
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="Shipping"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_location" />
+            </RelativeLayout>
 
             <EditText
+                android:id="@+id/etname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/state_edittext"
                 android:hint="Nhập tên khách hàng"
-                android:layout_margin="5dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/etname"
                 android:inputType="text"
-                />
+                android:paddingLeft="5dp" />
+
             <EditText
+                android:id="@+id/etemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/state_edittext"
                 android:hint="Nhập email khách hàng"
-                android:layout_margin="5dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/etemail"
                 android:inputType="textEmailAddress"
-                />
+                android:paddingLeft="5dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -50,119 +214,83 @@
 
                 <Spinner
                     android:id="@+id/sptinh"
-                    android:spinnerMode="dropdown"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown">
 
                 </Spinner>
+
                 <Spinner
                     android:id="@+id/sphuyen"
-                    android:spinnerMode="dropdown"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown">
 
                 </Spinner>
+
                 <Spinner
                     android:id="@+id/spxa"
-                    android:spinnerMode="dropdown"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
-
-                </Spinner>
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown"></Spinner>
             </LinearLayout>
+
             <EditText
-                android:inputType="text"
+                android:id="@+id/etaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/state_edittext"
                 android:hint="Nhập số nhà, tên đường(tổ, thôn)"
-                android:layout_margin="5dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/etaddress"
-                />
+                android:inputType="text"
+                android:paddingLeft="5dp" />
+
             <EditText
-                android:inputType="phone"
+                android:id="@+id/etphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/state_edittext"
                 android:hint="Nhập số điện thoại khách hàng"
+                android:inputType="phone"
+                android:paddingLeft="5dp" />
+            <RelativeLayout
                 android:layout_margin="5dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/etphone"
-                />
-            <!--<LinearLayout-->
-                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:weightSum="3">-->
-
-                <!--<TextView-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="20sp"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Tên SP"-->
-                    <!--android:gravity="left"/>-->
-                <!--<TextView-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="20sp"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Số lượng"-->
-                    <!--android:gravity="right"/>-->
-                <!--<TextView-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:textSize="20sp"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Giá"-->
-                    <!--android:gravity="right"/>-->
-            <!--</LinearLayout>-->
-            <ListView
-                android:layout_margin="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/lvcart">
-            </ListView>
-            <LinearLayout
-                android:visibility="gone"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Total: "
+                    android:text="Payment"
                     android:textColor="@color/black"
-                    android:textSize="25sp"/>
-                <TextView
-                    android:textSize="25sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="right"
-                    android:id="@+id/tvsum"/>
-            </LinearLayout>
-            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:layout_width="wrap_content"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_pay" />
+            </RelativeLayout>
+            <Spinner
+                android:spinnerMode="dropdown"
+                android:id="@+id/sppay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+            <Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Đặt hàng"
-                android:background="@drawable/state_button"
-                android:layout_gravity="center"
-                android:id="@+id/btput"/>
-            <!--<Button-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/btput"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="25sp"-->
-                <!--android:text="Đặt hàng"/>-->
+                android:background="@drawable/state_button_checkout"
+                android:id="@+id/btput"
+                android:text="Submit Order"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

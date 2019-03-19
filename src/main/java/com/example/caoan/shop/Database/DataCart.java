@@ -198,6 +198,24 @@ public class DataCart extends SQLiteOpenHelper {
         sqLiteDatabase.insert(TABLE_CART,null,values);
         sqLiteDatabase.close();
     }
+    public void UpdateNumber(int number, Cart cart){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NUMBER,number);
+        sqLiteDatabase.update(TABLE_CART,values,ID_CART+"=?",new String[]{String.valueOf(cart.getId())});
+        sqLiteDatabase.close();
+    }
+    public int GetNumber(Cart cart){
+        sqLiteDatabase = this.getWritableDatabase();
+        String sql = "select " + NUMBER + " from " + TABLE_CART + " where " + ID_CART + " == " + cart.getId();
+        Cursor cursor;
+        cursor = sqLiteDatabase.rawQuery(sql,null);
+        int number=1;
+        while (cursor.moveToNext()){
+            number = cursor.getInt(0);
+        }
+        return number;
+    }
     public String Total(String key_store){
         String str="";
         sqLiteDatabase = this.getReadableDatabase();

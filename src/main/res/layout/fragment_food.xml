@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical"
     tools:context=".FragmentComponent.FoodFragment">
 
@@ -27,12 +27,14 @@
     <GridView
         android:id="@+id/gv"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/tv"
         android:layout_margin="10dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp"></GridView>
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:verticalSpacing="10dp">
+
+    </GridView>
 
     <Button
         android:id="@+id/btsize"

@@ -18,75 +18,133 @@
             android:layout_height="100dp"
             />
         <LinearLayout
-            android:weightSum="3"
+            android:weightSum="100"
             android:layout_marginLeft="5dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="fill_parent">
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
+            <!--<LinearLayout-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp">-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/tvname"-->
+                    <!--android:text="Name: "/>-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/name" />-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp">-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/tvprice"-->
+                    <!--android:text="Price: "/>-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/price" />-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp">-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/tvnumber"-->
+                    <!--android:text="Number: "/>-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/number" />-->
+            <!--</LinearLayout>-->
+            <RelativeLayout
+                android:layout_weight="90"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent">
+
                 <TextView
-                    android:textColor="@color/black"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|left"
+                    android:text="Name"
                     android:textSize="15sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tvname"
-                    android:text="Name: "/>
+                    android:textColor="@color/black" />
+
                 <TextView
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/name" />
-            </LinearLayout>
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/price"
+                    android:textColor="@color/green"
+                    android:text="Price"/>
+            </RelativeLayout>
             <LinearLayout
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
+                android:weightSum="3"
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent">
+
+                <ImageView
+                    android:layout_margin="2dp"
+                    android:id="@+id/add"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_add"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tvprice"
-                    android:text="Price: "/>
+                    android:layout_height="0dp" />
                 <TextView
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/price" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:id="@+id/number"
+                    android:layout_weight="1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:text="1"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:layout_margin="2dp"
+                    android:id="@+id/remove"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_remove"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tvnumber"
-                    android:text="Number: "/>
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/number" />
+                    android:layout_height="0dp" />
+
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

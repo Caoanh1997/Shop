@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.FirstActivity;
 import com.example.caoan.shop.ItemClickListener;
 import com.example.caoan.shop.Model.Store;
@@ -29,6 +32,7 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
 
     private Context context;
     private List<Store> storeList, filterList;
+    private int lastPosition = -1;
 
     public StoreRecycleViewAdapter(Context context,List<Store> stores) {
         this.context = context;
@@ -44,6 +48,13 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
 
         return viewHolder;
     }
+
+    /*public void setAnimation(View view, int positoin){
+        if(positoin > lastPosition){
+            YoYo.with(Techniques.SlideInUp).duration(3000).playOn(view);
+            lastPosition=positoin;
+        }
+    }*/
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -62,7 +73,7 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
                     editor.putString("key",storeList.get(position).getKey());
                     editor.putString("key_master",storeList.get(position).getUserkey());
                     editor.commit();
-                    Intent intent = new Intent(context, FirstActivity.class);
+                    Intent intent = new Intent(context, BottomNavigationBarActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else {

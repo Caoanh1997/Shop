@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +39,9 @@ public class CartActivity extends AppCompatActivity {
     private List<Cart> cartList;
     private DataCart dataCart;
     private int num;
-    private TextView textView;
+    private static TextView textView;
     //private float total;
-    private String str="";
+    //private String str="";
     private String key_store;
 
     @Override
@@ -58,22 +59,14 @@ public class CartActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
         key_store = sharedPreferences.getString("key","");
         dataCart = new DataCart(this);
-        str = dataCart.Total(key_store);
-        float total = Float.valueOf(str);
-        if (String.valueOf(total).equals("0.0")){
-            btthanhtoan.setEnabled(false);
-        }else {
-            btthanhtoan.setEnabled(true);
-        }
+        textView.setText(dataCart.Total(key_store)+"đ");
 
         new ProgressBarProcess().execute();
         registerForContextMenu(listView);
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-        cartList = new ArrayList<Cart>();
 
-        textView.setText(String.valueOf(total)+"d");
         btthanhtoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,9 +118,12 @@ public class CartActivity extends AppCompatActivity {
                 dataCart.Delete(id);
                 cartList.remove(num);
                 listView.invalidateViews();
-                str = dataCart.Total(key_store);
-                float total = Float.valueOf(str);
-                textView.setText(String.valueOf(total)+"d");
+                textView.setText(dataCart.Total(key_store)+"đ");
+                if (dataCart.Total(key_store).equals("0")){
+                    btthanhtoan.setEnabled(false);
+                }else {
+                    btthanhtoan.setEnabled(true);
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -155,7 +151,22 @@ public class CartActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public static void setTextviewSum(String sum) {
+        textView.setText(sum);
+    }
+
     class ProgressBarProcess extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            cartList = new ArrayList<Cart>();
+            SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
+            String key_store = sharedPreferences.getString("key","");
+            cartList = dataCart.getCartList(key_store);
+
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -174,13 +185,21 @@ public class CartActivity extends AppCompatActivity {
             //super.onPostExecute(aVoid);
             progressBar.setVisibility(View.GONE);
             //listView.setVisibility(View.VISIBLE);
-            SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
-            String key_store = sharedPreferences.getString("key","");
-            cartList = dataCart.getCartList(key_store);
+
             cartAdapter = new CartAdapter(CartActivity.this,cartList);
             listView.setAdapter(cartAdapter);
-            btthanhtoan.setEnabled(true);
+
+//            str = dataCart.Total(key_store);
+//            float total = Float.valueOf(str);
+            //textView.setText(cartAdapter.getSum()+"đ");
+            String str = (String) textView.getText();
+            if (dataCart.Total(key_store).equals("0") || str.equals("0đ")){
+                btthanhtoan.setEnabled(false);
+            }else {
+                btthanhtoan.setEnabled(true);
+            }
             bthome.setEnabled(true);
+
         }
     }
 

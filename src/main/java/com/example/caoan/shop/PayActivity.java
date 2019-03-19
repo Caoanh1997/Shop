@@ -8,11 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,10 +45,10 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 public class PayActivity extends AppCompatActivity {
 
     private EditText etname, etemail, etaddress, etphone;
-    private Spinner spinnertinh, spinnerhuyen, spinnerxa;
+    private Spinner spinnertinh, spinnerhuyen, spinnerxa, sppay;
     private ListView lvcart;
     private TextView tvsum;
-    //private Button btput;
+    private Button btput;
     private String[] tinh;
     private String[] huyen;
     private String[] xa;
@@ -57,7 +59,8 @@ public class PayActivity extends AppCompatActivity {
     private String key_master;
     private Calendar calendar;
     private Account account;
-    private CircularProgressButton loadingButton;
+    private DataCart dataCart;
+    //private CircularProgressButton loadingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,11 @@ public class PayActivity extends AppCompatActivity {
         spinnerhuyen = findViewById(R.id.sphuyen);
         spinnerxa = findViewById(R.id.spxa);
         lvcart = findViewById(R.id.lvcart);
-        loadingButton = findViewById(R.id.btput);
+        sppay = findViewById(R.id.sppay);
+        //loadingButton = findViewById(R.id.btput);
+        btput = findViewById(R.id.btput);
+
+        dataCart = new DataCart(this);
 
         /*loadingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,37 +109,42 @@ public class PayActivity extends AppCompatActivity {
 
             }
         });
+        String[] pay = getResources().getStringArray(R.array.pay);
+        sppay.setAdapter(new ArrayAdapter(this,android.R.layout.simple_spinner_item,pay));
+
 
         spinnerhuyen.setVisibility(View.INVISIBLE);
         spinnerxa.setVisibility(View.INVISIBLE);
 
-        Intent intent = getIntent();
-        cartList = new ArrayList<>();
-        cartList = (ArrayList<Cart>) intent.getSerializableExtra("listcart");
-
-        OrderAdapter orderAdapter = new OrderAdapter(this,cartList);
-        lvcart.setAdapter(orderAdapter);
-
-        final DataCart dataCart = new DataCart(this);
         SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
         key_master = sharedPreferences.getString("key_master","");
         key = sharedPreferences.getString("key","");
-        String str = dataCart.Total(key);
-        float total = Float.valueOf(str);
-        tvsum.setText(String.valueOf(total)+"d");
+        cartList = new ArrayList<>();
+        //cartList = (ArrayList<Cart>) intent.getSerializableExtra("listcart");
+        cartList = (ArrayList<Cart>) dataCart.getCartList(key);
+        OrderAdapter orderAdapter = new OrderAdapter(this,cartList);
+        lvcart.setAdapter(orderAdapter);
+        setListViewHeightBasedOnItems(lvcart);
+
+        //final DataCart dataCart = new DataCart(this);
+
+        //String str = dataCart.Total(key);
+        //float total = Float.valueOf(str);
+        //tvsum.setText(String.valueOf(total)+"d");
 
         initSpinner();
 
-        loadingButton.setOnClickListener(new View.OnClickListener() {
+        btput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
-                    loadingButton.startAnimation();
+                    //loadingButton.startAnimation();
                     firebaseDatabase = FirebaseDatabase.getInstance();
 
                     databaseReference = firebaseDatabase.getReference("NewOrder");
+                    final DatabaseReference reference1 = firebaseDatabase.getReference("Order");
                     //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
-                    String key_cart = databaseReference.push().getKey();
+                    final String key_cart = databaseReference.push().getKey();
                     String product="";
                     for (Cart cart : cartList){
                         product += cart.getName() + " ("+cart.getPrice()+" x"+cart.getNumber()+"),";
@@ -147,19 +159,29 @@ public class PayActivity extends AppCompatActivity {
                     date_time += " "+format_time.format(calendar.getTime());
                     String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
                             +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
-                    Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),address,
-                            String.valueOf(etphone.getText()),product,total_price,"Đang đợi xác nhận",key,date_time,"");
+                    final Bill bill = new Bill(key_cart,getUserID(),cartList,total_price,"Đang đợi xác nhận",key,date_time,"");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            loadingButton.revertAnimation();
-                            Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(PayActivity.this, FirstActivity.class));
+                            //loadingButton.revertAnimation();
+                            reference1.child(getSharedPreferences("Account",Context.MODE_PRIVATE).getString("userID",""))
+                                    .child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(),"Đặt hàng thất bại",Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            loadingButton.revertAnimation();
+                            //loadingButton.revertAnimation();
                             Toast.makeText(getApplicationContext(),"Đặt hàng thất bại",Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -168,6 +190,43 @@ public class PayActivity extends AppCompatActivity {
             }
         });
     }
+    public String getUserID(){
+        String id = getSharedPreferences("Account",Context.MODE_PRIVATE)
+                .getString("userID","");
+        return id;
+    }
+
+    public static void setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+
+        int numberOfItems = listAdapter.getCount();
+
+        // Get total height of all items.
+        int totalItemsHeight = 0;
+        for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+            View item = listAdapter.getView(itemPos, null, listView);
+            float px = 500 * (listView.getResources().getDisplayMetrics().density);
+            item.measure(View.MeasureSpec.makeMeasureSpec((int) px, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalItemsHeight += item.getMeasuredHeight();
+        }
+
+        // Get total height of all item dividers.
+        int totalDividersHeight = listView.getDividerHeight() *
+                (numberOfItems - 1);
+        // Get padding
+        int totalPadding = listView.getPaddingTop() + listView.getPaddingBottom();
+
+        // Set list height.
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalItemsHeight + totalDividersHeight + totalPadding;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+        //setDynamicHeight(listView);
+
+    }
+
+
     public boolean CheckInput(EditText editText) {
         String text = String.valueOf(editText.getText());
         if (text.isEmpty() || text == null || text.equals("")) {

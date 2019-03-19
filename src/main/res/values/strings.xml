@@ -59,4 +59,8 @@
         <item>Duy Hòa</item>
     </string-array>
     <string name="title_activity_snack">SnackActivity</string>
+    <string-array name="pay">
+        <item>Thanh toán khi giao hàng</item>
+        <item>Thẻ ATM</item>
+    </string-array>
 </resources>

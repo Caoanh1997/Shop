@@ -7,12 +7,15 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.R;
@@ -46,6 +49,7 @@ public class FoodAdapter extends ArrayAdapter<Food> {
             viewHolder.imageView = convertView.findViewById(R.id.imagefood);
             viewHolder.tvname = convertView.findViewById(R.id.tvname);
             viewHolder.tvprice = convertView.findViewById(R.id.tvprice);
+            viewHolder.ivmenu = convertView.findViewById(R.id.ivmenu);
 
             convertView.setTag(viewHolder);
         }else {
@@ -54,15 +58,41 @@ public class FoodAdapter extends ArrayAdapter<Food> {
         Food food = getItem(position);
         if(food != null){
             viewHolder.tvname.setText(food.getName());
-            viewHolder.tvprice.setText(String.valueOf(food.getPrice())+" d");
+            viewHolder.tvprice.setText(String.valueOf(food.getPrice())+"đ");
             Picasso.get().load(food.getUrlimage()).into(viewHolder.imageView);
+            viewHolder.ivmenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(getContext(),view);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
+                    popupMenu.show();
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()){
+                                case R.id.detail:
+                                    Toast.makeText(getContext(),"Detail",Toast.LENGTH_SHORT).show();
+                                    return true;
+                                case R.id.addcart:
+                                    Toast.makeText(getContext(),"Add to cart",Toast.LENGTH_SHORT).show();
+
+                                    return true;
+                                case R.id.vote:
+                                    Toast.makeText(getContext(),"Vote",Toast.LENGTH_SHORT).show();
+                                    return true;
+                            }
+                            return false;
+                        }
+                    });
+                }
+            });
         }
 
         return convertView;
     }
 
     class ViewHolder{
-        ImageView imageView;
+        ImageView imageView, ivmenu;
         TextView tvname,tvprice;
     }
     private class Processing extends AsyncTask<String,Void,Bitmap>{

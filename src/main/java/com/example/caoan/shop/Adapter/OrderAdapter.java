@@ -29,7 +29,12 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
         cartList = objects;
     }
 
-//    @NonNull
+    @Override
+    public int getCount() {
+        return cartList.size();
+    }
+
+    //    @NonNull
 //    @Override
 //    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        ViewHolder viewHolder;
@@ -69,9 +74,9 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.order_item_layout,parent,false);
             viewHolder.avatar = convertView.findViewById(R.id.avatar);
             viewHolder.tvnameproduct = convertView.findViewById(R.id.tvnameproduct);
-            viewHolder.tvprice = convertView.findViewById(R.id.tvprice);
+            //viewHolder.tvprice = convertView.findViewById(R.id.tvprice);
             viewHolder.tvnumber = convertView.findViewById(R.id.tvnumber);
-            viewHolder.tvstate = convertView.findViewById(R.id.tvstate);
+            //viewHolder.tvstate = convertView.findViewById(R.id.tvstate);
             viewHolder.tvsumprice = convertView.findViewById(R.id.tvsumprice);
 
             convertView.setTag(viewHolder);
@@ -83,16 +88,16 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
             fullscreen(viewHolder.avatar);
             Picasso.get().load(cart.getUrlImage()).into(viewHolder.avatar);
             viewHolder.tvnameproduct.setText(cart.getName());
-            viewHolder.tvprice.setText(String.valueOf(cart.getPrice()));
-            viewHolder.tvnumber.setText(String.valueOf(cart.getNumber()));
-            viewHolder.tvstate.setText("Chưa xác nhận");
+            //viewHolder.tvprice.setText(String.valueOf(cart.getPrice()));
+            viewHolder.tvnumber.setText("Number:"+String.valueOf(cart.getNumber()));
+            //viewHolder.tvstate.setText("Chưa xác nhận");
             viewHolder.tvsumprice.setText(String.valueOf(cart.getPrice()*cart.getNumber())+"đ");
         }
         return convertView;
     }
     class ViewHolder{
         private ImageView avatar;
-        private TextView tvnameproduct,tvprice,tvnumber,tvstate,tvsumprice;
+        private TextView tvnameproduct,tvnumber,tvsumprice;//,tvprice,tvstate;
     }
 
     public void fullscreen(ImageView imageView){
