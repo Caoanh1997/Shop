@@ -27,18 +27,18 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("Setting pause");
+//        System.out.println("Setting pause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("Setting resume");
+//        System.out.println("Setting resume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("Setting stop");
+//        System.out.println("Setting stop");
     }
 }

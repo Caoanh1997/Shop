@@ -1,42 +1,37 @@
 package com.example.caoan.shop.FragmentComponent;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.caoan.shop.Adapter.FragmentAdapter;
-import com.example.caoan.shop.BottomNavigationBarActivity;
+import com.example.caoan.shop.OrderManagerActivity;
 import com.example.caoan.shop.R;
-import com.example.caoan.shop.ViewPageTransformer.CubeInScalingTransformation;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class HomeFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link AllOrderFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link AllOrderFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class AllOrderFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private BottomNavigationBarActivity bottomNavigationBarActivity;
-    private View view;
-    private FragmentAdapter fragmentAdapter;
-    private List<Fragment> fragmentList;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    private OrderManagerActivity orderManagerActivity;
+
+    public AllOrderFragment() {
         // Required empty public constructor
     }
 
@@ -46,11 +41,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment AllOrderFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static AllOrderFragment newInstance(String param1, String param2) {
+        AllOrderFragment fragment = new AllOrderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,46 +61,24 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void fillFragment(String key, String userkey) {
-        fragmentList = new ArrayList<Fragment>();
-        FoodFragment foodFragment = new FoodFragment().newInstance(key,userkey);
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key,userkey);
-
-        fragmentList.add(foodFragment);
-        fragmentList.add(drinkFragment);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //System.out.println("Create View Fragment");
-        super.onCreate(savedInstanceState);
-        view =  inflater.inflate(R.layout.fragment_home, container, false);
-
-        tabLayout = view.findViewById(R.id.tablayout);
-        viewPager = view.findViewById(R.id.viewpager);
-        Bundle bundle = getArguments();
-        String key = bundle.getString(ARG_PARAM1);
-        String userkey = bundle.getString(ARG_PARAM2);
-//        System.out.println("key: "+key+"\nuserkey: "+userkey);
-        fillFragment(key,userkey);
-        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),fragmentList);
-        viewPager.setPageTransformer(true,new CubeInScalingTransformation());
-        viewPager.setAdapter(fragmentAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_all_order, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof BottomNavigationBarActivity) {
-            this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
+        if (context instanceof OrderManagerActivity) {
+            this.orderManagerActivity = (OrderManagerActivity) context;
         }
     }
 

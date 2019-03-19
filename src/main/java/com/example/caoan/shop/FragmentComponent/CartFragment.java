@@ -95,7 +95,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Create Cart Fragment");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -278,7 +277,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        System.out.println("Attach Cart Fragment");
         if (context instanceof BottomNavigationBarActivity) {
             this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
         }
@@ -287,7 +285,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        System.out.println("Detach Cart Fragment");
     }
 
     /**

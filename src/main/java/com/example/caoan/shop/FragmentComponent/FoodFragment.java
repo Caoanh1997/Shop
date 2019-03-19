@@ -33,6 +33,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.AccountActivity;
 import com.example.caoan.shop.Adapter.FoodAdapter;
+import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.CartActivity;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.FirstActivity;
@@ -227,7 +228,9 @@ public class FoodFragment extends Fragment {
                             startActivity(intent);
 //                            Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
                         }else {
-                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            Intent intent = new Intent(getActivity(), BottomNavigationBarActivity.class);
+                            intent.putExtra("login",true);
+                            startActivity(intent);
                         }
                     }
                 });

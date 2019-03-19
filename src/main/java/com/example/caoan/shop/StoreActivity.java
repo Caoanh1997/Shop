@@ -312,13 +312,13 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        System.out.println("Call stop");
+//        System.out.println("Call stop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        System.out.println("Call destroy");
+//        System.out.println("Call destroy");
         super.onDestroy();
     }
 
@@ -328,7 +328,7 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        System.out.println("Call restart");
+//        System.out.println("Call restart");
         super.onRestart();
     }
 

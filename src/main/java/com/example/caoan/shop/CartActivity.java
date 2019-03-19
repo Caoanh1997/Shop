@@ -206,18 +206,18 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("Cart pause");
+//        System.out.println("Cart pause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("Cart resume");
+//        System.out.println("Cart resume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("Cart stop");
+//        System.out.println("Cart stop");
     }
 }

@@ -51,17 +51,17 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         userKey = sharedPreferences.getString("key_master","null");
 
         final Fragment fragment1 = new HomeFragment().newInstance(key,userKey);
-        final Fragment fragment2 = new CartFragment().newInstance(key,userKey);
-        final Fragment fragment3 = new OrderManagerFragment();
-        final Fragment fragment4 = new AccountFragment();
-        final Fragment fragment5 = new SettingFragment();
+//        final Fragment fragment2 = new CartFragment().newInstance(key,userKey);
+//        final Fragment fragment3 = new OrderManagerFragment();
+//        final Fragment fragment4 = new AccountFragment();
+//        final Fragment fragment5 = new SettingFragment();
         navigationView = findViewById(R.id.navigation);
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().add(R.id.frame_container,fragment5,"setting").commit();
-        fragmentManager.beginTransaction().add(R.id.frame_container,fragment4,"account").commit();
-        fragmentManager.beginTransaction().add(R.id.frame_container,fragment3,"order").commit();
-        fragmentManager.beginTransaction().add(R.id.frame_container,fragment2,"cart").commit();
+//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment5,"setting").commit();
+//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment4,"account").commit();
+//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment3,"order").commit();
+//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment2,"cart").commit();
         fragmentManager.beginTransaction().add(R.id.frame_container,fragment1,"home").commit();
         listhide = new ArrayList<Fragment>();
         active = fragment1;
@@ -79,20 +79,22 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                         //return true;*/
                 if (item.getItemId() == R.id.home) {
                     if (active != fragment1) {
+                        System.out.println("active != home");
                         fragmentManager.beginTransaction().hide(active).show(fragment1).commit();
-                        listhide.clear();
-                        listhide.add(fragment2);
-                        listhide.add(fragment3);
-                        listhide.add(fragment4);
-                        listhide.add(fragment5);
-                        hideFragment(listhide, fragmentManager);
+                        //listhide.clear();
+//                        listhide.add(fragment2);
+//                        listhide.add(fragment3);
+//                        listhide.add(fragment4);
+//                        listhide.add(fragment5);
+                        //hideFragment(listhide, fragmentManager);
                     } else {
+                        System.out.println("active == home");
                         fragmentManager.beginTransaction().show(fragment1).commit();
                     }
                     active = fragment1;
                     actionBar.setTitle("Home");
                 }
-                if(item.getItemId()==R.id.cart) {
+                /*if(item.getItemId()==R.id.cart) {
                     if (active != fragment2) {
                         fragmentManager.beginTransaction().hide(active).show(fragment2).commit();
                         listhide.clear();
@@ -151,6 +153,46 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                     }
                     active = fragment5;
                     actionBar.setTitle("Setting");
+                }*/
+                Fragment fragment = null;
+                switch (item.getItemId()){
+                    case R.id.cart:
+                        fragmentManager.beginTransaction().hide(fragment1).commit();
+                        if(active != fragment1){
+                            fragmentManager.beginTransaction().remove(active).commit();
+                        }
+                        fragment = new CartFragment().newInstance(key,userKey);
+                        loadFragment(fragment,fragmentManager);
+                        actionBar.setTitle("Cart");
+                        active = fragment;
+                        System.out.println("active = cart");
+                        break;
+                    case R.id.account:
+                        fragmentManager.beginTransaction().hide(fragment1).commit();
+                        if(active != fragment1){
+                            fragmentManager.beginTransaction().remove(active).commit();
+                        }
+                        if(user != null){
+                            fragment = new OrderManagerFragment();
+                        }else {
+                            fragment = new AccountFragment();
+                        }
+                        loadFragment(fragment,fragmentManager);
+                        actionBar.setTitle("Account");
+                        active = fragment;
+                        System.out.println("active = account");
+                        break;
+                    case R.id.setting:
+                        fragmentManager.beginTransaction().hide(fragment1).commit();
+                        if(active != fragment1){
+                            fragmentManager.beginTransaction().remove(active).commit();
+                        }
+                        fragment = new SettingFragment();
+                        loadFragment(fragment,fragmentManager);
+                        actionBar.setTitle("Setting");
+                        active = fragment;
+                        System.out.println("active = setting");
+                        break;
                 }
                 return true;
             }
@@ -170,8 +212,8 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         //layoutParams.setBehavior(new BottomNavigationBehavior());
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    private void loadFragment(Fragment fragment, FragmentManager fragmentManager) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.frame_container,fragment);
         transaction.addToBackStack(null);
         transaction.commit();
