@@ -10,131 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<LinearLayout-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Pay"-->
-        <!--android:textSize="30sp"-->
-        <!--android:gravity="center"-->
-        <!--android:visibility="visible"/>-->
-
-        <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/state_edittext"-->
-        <!--android:hint="Nhập tên khách hàng"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:id="@+id/etname"-->
-        <!--android:inputType="text"-->
-        <!--/>-->
-        <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/state_edittext"-->
-        <!--android:hint="Nhập email khách hàng"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:id="@+id/etemail"-->
-        <!--android:inputType="textEmailAddress"-->
-        <!--/>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="35dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:weightSum="3">-->
-
-        <!--<Spinner-->
-        <!--android:id="@+id/sptinh"-->
-        <!--android:spinnerMode="dropdown"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_weight="1">-->
-
-        <!--</Spinner>-->
-        <!--<Spinner-->
-        <!--android:id="@+id/sphuyen"-->
-        <!--android:spinnerMode="dropdown"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_weight="1">-->
-
-        <!--</Spinner>-->
-        <!--<Spinner-->
-        <!--android:id="@+id/spxa"-->
-        <!--android:spinnerMode="dropdown"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_weight="1">-->
-
-        <!--</Spinner>-->
-        <!--</LinearLayout>-->
-        <!--<EditText-->
-        <!--android:inputType="text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/state_edittext"-->
-        <!--android:hint="Nhập số nhà, tên đường(tổ, thôn)"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:id="@+id/etaddress"-->
-        <!--/>-->
-        <!--<EditText-->
-        <!--android:inputType="phone"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/state_edittext"-->
-        <!--android:hint="Nhập số điện thoại khách hàng"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:id="@+id/etphone"-->
-        <!--/>-->
-        <!--<ListView-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/lvcart">-->
-        <!--</ListView>-->
-        <!--<LinearLayout-->
-        <!--android:visibility="gone"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:text="Total: "-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="25sp"/>-->
-        <!--<TextView-->
-        <!--android:textSize="25sp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:gravity="right"-->
-        <!--android:id="@+id/tvsum"/>-->
-        <!--</LinearLayout>-->
-        <!--<br.com.simplepass.loading_button_lib.customViews.CircularProgressButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:text="Đặt hàng"-->
-        <!--android:background="@drawable/state_button"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:id="@+id/btput"/>-->
-        <!--&lt;!&ndash;<Button&ndash;&gt;-->
-        <!--&lt;!&ndash;android:visibility="gone"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/btput"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:textSize="25sp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:text="Đặt hàng"/>&ndash;&gt;-->
-        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -161,9 +36,10 @@
             </RelativeLayout>
 
             <ListView
+                android:nestedScrollingEnabled="true"
                 android:id="@+id/lvcart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
             </ListView>
 

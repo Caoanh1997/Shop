@@ -22,8 +22,14 @@ import com.example.caoan.shop.FragmentComponent.FoodFragment;
 import com.example.caoan.shop.FragmentComponent.HomeFragment;
 import com.example.caoan.shop.FragmentComponent.OrderManagerFragment;
 import com.example.caoan.shop.FragmentComponent.SettingFragment;
+import com.example.caoan.shop.Model.Store;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +41,7 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
     private String key, userKey;
     private List<Fragment> listhide;
     private Fragment active;
+    private FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +57,13 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         key = sharedPreferences.getString("key","null");
         userKey = sharedPreferences.getString("key_master","null");
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Store");
+
         final Fragment fragment1 = new HomeFragment().newInstance(key,userKey);
-//        final Fragment fragment2 = new CartFragment().newInstance(key,userKey);
-//        final Fragment fragment3 = new OrderManagerFragment();
-//        final Fragment fragment4 = new AccountFragment();
-//        final Fragment fragment5 = new SettingFragment();
         navigationView = findViewById(R.id.navigation);
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment5,"setting").commit();
-//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment4,"account").commit();
-//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment3,"order").commit();
-//        fragmentManager.beginTransaction().add(R.id.frame_container,fragment2,"cart").commit();
         fragmentManager.beginTransaction().add(R.id.frame_container,fragment1,"home").commit();
         listhide = new ArrayList<Fragment>();
         active = fragment1;
@@ -69,92 +71,19 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                /*switch (item.getItemId()){
-                    case R.id.home:
-                        actionBar.setTitle("Home");
-                        fragment = fragment1;
-                        //fragment = new FoodFragment().newInstance(key,userKey);
-                        loadFragment(fragment,"home");
-                        break;
-                        //return true;*/
+
                 if (item.getItemId() == R.id.home) {
                     if (active != fragment1) {
-                        System.out.println("active != home");
+
                         fragmentManager.beginTransaction().hide(active).show(fragment1).commit();
-                        //listhide.clear();
-//                        listhide.add(fragment2);
-//                        listhide.add(fragment3);
-//                        listhide.add(fragment4);
-//                        listhide.add(fragment5);
-                        //hideFragment(listhide, fragmentManager);
                     } else {
-                        System.out.println("active == home");
+
                         fragmentManager.beginTransaction().show(fragment1).commit();
                     }
                     active = fragment1;
-                    actionBar.setTitle("Home");
+                    //actionBar.setTitle("Home");
                 }
-                /*if(item.getItemId()==R.id.cart) {
-                    if (active != fragment2) {
-                        fragmentManager.beginTransaction().hide(active).show(fragment2).commit();
-                        listhide.clear();
-                        listhide.add(fragment1);
-                        listhide.add(fragment3);
-                        listhide.add(fragment4);
-                        listhide.add(fragment5);
-                        hideFragment(listhide, fragmentManager);
-                    } else {
-                        fragmentManager.beginTransaction().show(fragment2).commit();
-                    }
-                    active = fragment2;
-                    actionBar.setTitle("Cart");
-                }
-                if(item.getItemId()==R.id.account) {
-                    if(user == null){
-                        if (active != fragment4) {
-                            fragmentManager.beginTransaction().hide(active).show(fragment4).commit();
-                            listhide.clear();
-                            listhide.add(fragment1);
-                            listhide.add(fragment2);
-                            listhide.add(fragment3);
-                            listhide.add(fragment5);
-                            hideFragment(listhide, fragmentManager);
-                        } else {
-                            fragmentManager.beginTransaction().show(fragment4).commit();
-                        }
-                        active = fragment4;
-                    }else {
-                        if (active != fragment3) {
-                            fragmentManager.beginTransaction().hide(active).show(fragment3).commit();
-                            listhide.clear();
-                            listhide.add(fragment1);
-                            listhide.add(fragment2);
-                            listhide.add(fragment4);
-                            listhide.add(fragment5);
-                            hideFragment(listhide, fragmentManager);
-                        } else {
-                            fragmentManager.beginTransaction().show(fragment3).commit();
-                        }
-                        active = fragment3;
-                    }
-                    actionBar.setTitle("Account");
-                }
-                if(item.getItemId()==R.id.setting) {
-                    if (active != fragment5) {
-                        fragmentManager.beginTransaction().hide(active).show(fragment5).commit();
-                        listhide.clear();
-                        listhide.add(fragment1);
-                        listhide.add(fragment2);
-                        listhide.add(fragment3);
-                        listhide.add(fragment4);
-                        hideFragment(listhide, fragmentManager);
-                    } else {
-                        fragmentManager.beginTransaction().show(fragment5).commit();
-                    }
-                    active = fragment5;
-                    actionBar.setTitle("Setting");
-                }*/
-                Fragment fragment = null;
+                Fragment fragment;
                 switch (item.getItemId()){
                     case R.id.cart:
                         fragmentManager.beginTransaction().hide(fragment1).commit();
@@ -163,9 +92,9 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                         }
                         fragment = new CartFragment().newInstance(key,userKey);
                         loadFragment(fragment,fragmentManager);
-                        actionBar.setTitle("Cart");
+                        //actionBar.setTitle("Cart");
                         active = fragment;
-                        System.out.println("active = cart");
+
                         break;
                     case R.id.account:
                         fragmentManager.beginTransaction().hide(fragment1).commit();
@@ -178,9 +107,9 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                             fragment = new AccountFragment();
                         }
                         loadFragment(fragment,fragmentManager);
-                        actionBar.setTitle("Account");
+                        //actionBar.setTitle("Account");
                         active = fragment;
-                        System.out.println("active = account");
+
                         break;
                     case R.id.setting:
                         fragmentManager.beginTransaction().hide(fragment1).commit();
@@ -189,17 +118,28 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                         }
                         fragment = new SettingFragment();
                         loadFragment(fragment,fragmentManager);
-                        actionBar.setTitle("Setting");
+                        //actionBar.setTitle("Setting");
                         active = fragment;
-                        System.out.println("active = setting");
+
                         break;
                 }
                 return true;
             }
         });
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Home");
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Store store = dataSnapshot.child(key).getValue(Store.class);
+                actionBar.setTitle(store.getName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         boolean b = intent.getBooleanExtra("login",false);
         if (b){

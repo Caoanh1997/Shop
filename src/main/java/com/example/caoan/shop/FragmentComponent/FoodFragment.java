@@ -11,6 +11,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -89,6 +93,10 @@ public class FoodFragment extends Fragment {
     private List<Food> foodList;
     private String keyStore;
     private String userKey;
+//    private BottomSheetBehavior bottomSheetBehavior;
+//    private LinearLayout bottomSheetLayout;
+//    private View viewbg;
+//    private Button btclose, btaddcart;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -132,6 +140,10 @@ public class FoodFragment extends Fragment {
         gridView = view.findViewById(R.id.gv);
         button = view.findViewById(R.id.btsize);
         progressBar = view.findViewById(R.id.progress);
+
+//        bottomSheetLayout = view.findViewById(R.id.bottom_sheet);
+//        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+//        viewbg = view.findViewById(R.id.viewbg);
 
         gridView.setVisibility(View.INVISIBLE);
 
@@ -181,7 +193,7 @@ public class FoodFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View dialogview = getLayoutInflater().inflate(R.layout.food_detail_layout,null);
                 builder.setTitle("Detail");
                 builder.setView(dialogview);
@@ -224,9 +236,7 @@ public class FoodFragment extends Fragment {
                             dataCart = new DataCart(getContext());
                             dataCart.InsertCart(cart);
                             Intent intent = new Intent(getActivity(), CartActivity.class);
-                            //intent.putExtra("cart", cart);
                             startActivity(intent);
-//                            Toast.makeText(getContext(),cart.toString(),Toast.LENGTH_SHORT).show();
                         }else {
                             Intent intent = new Intent(getActivity(), BottomNavigationBarActivity.class);
                             intent.putExtra("login",true);
@@ -239,9 +249,51 @@ public class FoodFragment extends Fragment {
                     public void onClick(View view) {
                         alertDialog.dismiss();
                     }
-                });
+                });*/
+                FoodAdapter.ShowDetail((Food)adapterView.getItemAtPosition(i),getContext());
+//                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                }
             }
         });
+//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                if(newState ==  BottomSheetBehavior.STATE_COLLAPSED){
+//                    viewbg.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//                viewbg.setVisibility(View.VISIBLE);
+//                viewbg.setAlpha(slideOffset);
+//            }
+//        });
+//        viewbg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                }
+//            }
+//        });
+//        btclose = view.findViewById(R.id.btclose);
+//        btaddcart = view.findViewById(R.id.btaddcart);
+//
+//        btclose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//            }
+//        });
+//        btaddcart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getContext(),"Add Cart",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         return view;
     }
 

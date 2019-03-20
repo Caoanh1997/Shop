@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,6 +62,7 @@ public class PayActivity extends AppCompatActivity {
     private Calendar calendar;
     private Account account;
     private DataCart dataCart;
+    private ActionBar actionBar;
     //private CircularProgressButton loadingButton;
 
     @Override
@@ -79,6 +82,9 @@ public class PayActivity extends AppCompatActivity {
         sppay = findViewById(R.id.sppay);
         //loadingButton = findViewById(R.id.btput);
         btput = findViewById(R.id.btput);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         dataCart = new DataCart(this);
 
@@ -157,8 +163,8 @@ public class PayActivity extends AppCompatActivity {
                     String date_time = "";
                     date_time += format_date.format(calendar.getTime());
                     date_time += " "+format_time.format(calendar.getTime());
-                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
-                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
+//                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
+//                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
                     final Bill bill = new Bill(key_cart,getUserID(),cartList,total_price,"Đang đợi xác nhận",key,date_time,"");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -190,13 +196,25 @@ public class PayActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public String getUserID(){
         String id = getSharedPreferences("Account",Context.MODE_PRIVATE)
                 .getString("userID","");
         return id;
     }
 
-    public static void setListViewHeightBasedOnItems(ListView listView) {
+    public void setListViewHeightBasedOnItems(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
 

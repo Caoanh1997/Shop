@@ -40,13 +40,22 @@ public class BillRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         Bill bill = billList.get(position);
         if(bill != null){
             //Picasso.get().load(bill.getCartList().get)
+            String url = bill.getCartList().get(0).getUrlImage();
+            Picasso.get().load(bill.getCartList().get(0).getUrlImage()).into(itemViewHolder.avatar);
+            itemViewHolder.tvkeycart.setText(bill.getKey_cart());
+            itemViewHolder.tvdateput.setText(bill.getDatetime());
+            itemViewHolder.tvnameproduct.setText(bill.getCartList().get(0).getName());
+            itemViewHolder.tvprice.setText(String.valueOf(bill.getCartList().get(0).getPrice()));
+            itemViewHolder.tvnumber.setText(String.valueOf(bill.getCartList().get(0).getNumber()));
+            itemViewHolder.tvstate.setText(bill.getState());
+            itemViewHolder.tvsumprice.setText(bill.getTotal_price());
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return billList.size();
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{

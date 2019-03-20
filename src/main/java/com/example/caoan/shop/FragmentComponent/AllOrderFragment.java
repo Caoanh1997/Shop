@@ -4,12 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
+import com.example.caoan.shop.Adapter.BillExpandListAdapter;
+import com.example.caoan.shop.Adapter.BillRecyclerViewAdapter;
+import com.example.caoan.shop.Model.Bill;
+import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
 import com.example.caoan.shop.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +44,17 @@ public class AllOrderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    //private RecyclerView rcvlistbill;
+    private View view;
+    //private BillRecyclerViewAdapter billRecyclerViewAdapter;
+    //private List<Bill> billList;
+    private FirebaseDatabase firebaseDatabase;
+    private ExpandableListView expandableListView;
 
     private OrderManagerActivity orderManagerActivity;
+    private HashMap<Bill,List<Cart>> ListBillDetail;
+    private List<Bill> billList;
+    private BillExpandListAdapter billExpandListAdapter;
 
     public AllOrderFragment() {
         // Required empty public constructor
@@ -66,7 +91,47 @@ public class AllOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_order, container, false);
+        view = inflater.inflate(R.layout.fragment_all_order, container, false);
+
+        expandableListView = view.findViewById(R.id.expandableListView);
+
+        loadBill();
+
+        return view;
+    }
+
+    private void loadBill() {
+        ListBillDetail = new HashMap<Bill, List<Cart>>();
+        billList = new ArrayList<Bill>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
+
+        databaseReference.child(getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE)
+                .getString("userID","")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Cart> cartList;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Bill bill = snapshot.getValue(Bill.class);
+                    cartList = bill.getCartList();
+                    Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
+                            bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
+
+                    billList.add(b);
+                    ListBillDetail.put(b,cartList);
+                }
+//                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
+//                rcvlistbill.setAdapter(billRecyclerViewAdapter);
+//                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
+                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail);
+                expandableListView.setAdapter(billExpandListAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

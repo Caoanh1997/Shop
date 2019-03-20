@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
-    android:orientation="vertical"
     tools:context=".FragmentComponent.FoodFragment">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:background="@android:color/darker_gray"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Food"
-        android:textSize="25sp"
-        android:visibility="gone" />
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
 
-    <GridView
-        android:id="@+id/gv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tv"
-        android:layout_margin="10dp"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:verticalSpacing="10dp">
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Food"
+            android:textSize="25sp"
+            android:visibility="gone" />
 
-    </GridView>
+        <GridView
+            android:id="@+id/gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:verticalSpacing="10dp">
+        </GridView>
 
-    <Button
-        android:id="@+id/btsize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gv"
-        android:layout_centerHorizontal="true"
-        android:clickable="false"
-        android:text="Size list"
-        android:textSize="25sp"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gv"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:text="Size list"
+            android:textSize="25sp"
+            android:visibility="gone" />
 
-
-</RelativeLayout>
+        <View
+            android:id="@+id/viewbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:visibility="gone" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

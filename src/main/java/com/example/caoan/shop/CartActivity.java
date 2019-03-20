@@ -65,7 +65,7 @@ public class CartActivity extends AppCompatActivity {
         registerForContextMenu(listView);
 
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         btthanhtoan.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,12 +14,22 @@
         android:layout_height="wrap_content"
         android:text="All order fragment" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/tv"
-        android:id="@+id/rcvlistbill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_below="@+id/tv"-->
+        <!--android:id="@+id/rcvlistbill"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-    </android.support.v7.widget.RecyclerView>
+    <!--</android.support.v7.widget.RecyclerView>-->
+    <ExpandableListView
+        android:layout_below="@+id/tv"
+        android:id="@+id/expandableListView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp">
+
+    </ExpandableListView>
 
 </RelativeLayout>

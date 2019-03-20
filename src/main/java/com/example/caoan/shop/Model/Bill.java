@@ -19,6 +19,16 @@ public class Bill {
     public Bill() {
     }
 
+    public Bill(String key_cart, String userID, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
+        this.key_cart = key_cart;
+        this.userID = userID;
+        this.total_price = total_price;
+        this.state = state;
+        this.key_store = key_store;
+        this.datetime = datetime;
+        this.datetime_delivered = datetime_delivered;
+    }
+
     public Bill(String key_cart, String userID, List<Cart> cartList, String total_price, String state, String key_store, String datetime, String datetime_delivered) {
         this.key_cart = key_cart;
         this.userID = userID;
