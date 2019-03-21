@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.AllOrderFragment">
+    tools:context=".FragmentComponent.AllOrderFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -22,14 +23,17 @@
 
     <!--</android.support.v7.widget.RecyclerView>-->
     <ExpandableListView
-        android:layout_below="@+id/tv"
+        android:pointerIcon="zoom_in"
+        android:padding="10dp"
         android:id="@+id/expandableListView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp">
+        android:divider="@android:color/holo_red_light"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/holo_green_dark"
+        android:childDivider="@android:color/holo_blue_bright">
 
     </ExpandableListView>
 
-</RelativeLayout>
+</LinearLayout>

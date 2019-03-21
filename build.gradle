@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
     //implementation 'com.github.Pradyuman7:ChocoBar:V1.0'
 }
 

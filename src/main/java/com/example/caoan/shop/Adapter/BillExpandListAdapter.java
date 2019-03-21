@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
@@ -76,12 +78,26 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
         TextView tvdatepay = view.findViewById(R.id.tvdatepay);
         TextView tvsumprice = view.findViewById(R.id.tvsumprice);
         TextView tvstate = view.findViewById(R.id.tvstate);
+        TextView tvdeleteorder = view.findViewById(R.id.tvdeleteorder);
 
-        tvkeycart.setText(bill.getKey_cart());
-        tvdateput.setText(bill.getDatetime());
-        tvdatepay.setText(bill.getDatetime_delivered());
-        tvsumprice.setText(bill.getTotal_price());
+        tvkeycart.setText("Mã đơn hàng: "+bill.getKey_cart());
+        tvdateput.setText("Ngày đặt: "+bill.getDatetime());
+        tvdatepay.setText("Ngày thanh toán: "+bill.getDatetime_delivered());
+        tvsumprice.setText("Tổng tiền: "+bill.getTotal_price() + "đ");
         tvstate.setText(bill.getState());
+        if(String.valueOf(tvstate.getText()).equals("Đang đợi xác nhận")){
+            tvdeleteorder.setVisibility(View.VISIBLE);
+            tvdeleteorder.setClickable(true);
+            tvdeleteorder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Hủy đơn hàng",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            tvdeleteorder.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
@@ -98,9 +114,9 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
         TextView tvnumber = view.findViewById(R.id.tvnumber);
 
         Picasso.get().load(cart.getUrlImage()).into(avatar);
-        tvnameproduct.setText(cart.getName());
-        tvprice.setText(String.valueOf(cart.getPrice()));
-        tvnumber.setText(String.valueOf(cart.getNumber()));
+        tvnameproduct.setText("Tên sản phẩm: "+cart.getName());
+        tvprice.setText("Giá: "+String.valueOf(cart.getPrice())+"đ");
+        tvnumber.setText("Số lượng: "+String.valueOf(cart.getNumber()));
 
         return view;
     }
