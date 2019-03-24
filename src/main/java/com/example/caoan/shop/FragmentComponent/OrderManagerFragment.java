@@ -83,7 +83,7 @@ public class OrderManagerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_order_manager, container, false);
@@ -127,25 +127,34 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(getActivity(),BottomNavigationBarActivity.class));
+                startActivity(new Intent(getActivity(),BottomNavigationBarActivity.class).putExtra("login",true));
             }
         });
         lnconfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(),"Chưa xác nhận",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
+                intent.putExtra("tab",1);
+                startActivity(intent);
             }
         });
         lntransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(),"Đang giao",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
+                intent.putExtra("tab",2);
+                startActivity(intent);
             }
         });
         lndelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(),"Đã giao",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
+                intent.putExtra("tab",3);
+                startActivity(intent);
             }
         });
 

@@ -91,48 +91,6 @@ public class FoodAdapter extends ArrayAdapter<Food> {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()){
                                 case R.id.detail:
-                                    /*AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    View view1 = LayoutInflater.from(getContext()).inflate(R.layout.product_detail_layout,null,false);
-                                    builder.setView(view1);
-
-                                    ImageView avatar = view1.findViewById(R.id.avatar);
-                                    TextView tvnameproduct = view1.findViewById(R.id.tvnameproduct);
-                                    TextView tvdetail = view1.findViewById(R.id.tvdetail);
-                                    Button btclose = view1.findViewById(R.id.btclose);
-                                    Button btaddcart = view1.findViewById(R.id.btaddcart);
-
-                                    Picasso.get().load(food.getUrlimage()).into(avatar);
-                                    tvnameproduct.setText(food.getName());
-                                    tvdetail.setText(food.getDescription());
-                                    builder.setCancelable(true);
-                                    final AlertDialog alertDialog = builder.create();
-                                    alertDialog.show();
-                                    btclose.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            alertDialog.dismiss();
-                                        }
-                                    });
-                                    btaddcart.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            firebaseAuth = FirebaseAuth.getInstance();
-                                            firebaseUser = firebaseAuth.getCurrentUser();
-                                            if(firebaseUser != null){
-                                                Cart cart = new Cart(food.getName(),food.getPrice(),1,food.getUrlimage(),userKey,keyStore);
-                                                dataCart = new DataCart(getContext());
-                                                dataCart.InsertCart(cart);
-                                                Intent intent = new Intent(getContext(), CartActivity.class);
-                                                //intent.putExtra("cart", cart);
-                                                //getContext().startActivity(intent);
-                                            }else {
-                                                Intent intent = new Intent(getContext(), BottomNavigationBarActivity.class);
-                                                intent.putExtra("login",true);
-                                                getContext().startActivity(intent);
-                                            }
-                                            alertDialog.dismiss();
-                                        }
-                                    });*/
                                     ShowDetail(food,getContext());
                                     return true;
                                 case R.id.addcart:

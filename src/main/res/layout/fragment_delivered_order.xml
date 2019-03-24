@@ -6,10 +6,16 @@
     tools:context=".FragmentComponent.DeliveredOrderFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delivered Order Fragment" />
+    <ExpandableListView
+        android:pointerIcon="zoom_in"
+        android:padding="10dp"
+        android:id="@+id/expandableListView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/holo_red_light"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/holo_green_dark"
+        android:childDivider="@android:color/holo_blue_bright"/>
 
 </RelativeLayout>

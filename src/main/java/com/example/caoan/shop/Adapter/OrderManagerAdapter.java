@@ -25,7 +25,7 @@ public class OrderManagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Nullable
@@ -40,6 +40,8 @@ public class OrderManagerAdapter extends FragmentPagerAdapter {
                 return "Đang giao";
             case 3:
                 return "Đã giao";
+            case 4:
+                return "Đơn hàng hủy";
         }
         return super.getPageTitle(position);
     }

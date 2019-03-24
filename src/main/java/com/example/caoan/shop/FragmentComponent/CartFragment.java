@@ -8,6 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,14 +27,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.CartAdapter;
+import com.example.caoan.shop.Adapter.CartRecyclerViewAdapter;
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.CartActivity;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.FirstActivity;
+import com.example.caoan.shop.ItemTouchListener;
 import com.example.caoan.shop.LoginActivity;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.PayActivity;
 import com.example.caoan.shop.R;
+import com.example.caoan.shop.SimpleItemTouchHelperCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,6 +68,7 @@ public class CartFragment extends Fragment {
     private ProgressBar progressBar;
     private CartAdapter cartAdapter;
     private ListView listView;
+    private RecyclerView recyclerView;
     private List<Cart> cartList;
     private DataCart dataCart;
     private int num;
@@ -68,6 +76,7 @@ public class CartFragment extends Fragment {
     //private float total;
     //private String str="";
     private String key_store;
+    private CartRecyclerViewAdapter cartRecyclerViewAdapter;
 
 
     public CartFragment() {
@@ -105,28 +114,34 @@ public class CartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //System.out.println("Create View Cart Fragment");
         view = inflater.inflate(R.layout.fragment_cart, container, false);
-
-        //TextView tvfragment = view.findViewById(R.id.tvfragment);
-
-        //Bundle bundle = getArguments();
-        //String key = bundle.getString(ARG_PARAM1);
-        //tvfragment.setText(key);
 
         btthanhtoan = view.findViewById(R.id.btthanhtoan);
         bthome = view.findViewById(R.id.bthome);
         listView = view.findViewById(R.id.lvcart);
+        recyclerView = view.findViewById(R.id.rcvcart);
         textView = view.findViewById(R.id.tvsum);
         progressBar = view.findViewById(R.id.progress);
-        //listView.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("key_store",Context.MODE_PRIVATE);
         key_store = sharedPreferences.getString("key","");
         dataCart = new DataCart(getContext());
 
         new ProgressBarProcess().execute();
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
+            @Override
+            public void onSwipe(int vitri, int huong) {
+                cartRecyclerViewAdapter.swipe(vitri,huong);
+                new ProgressBarProcess().execute();
+            }
+
+            @Override
+            public void onMove(int oldPostion, int newPosition) {
+                cartRecyclerViewAdapter.move(oldPostion,newPosition);
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         registerForContextMenu(listView);
 
         //actionBar = getSupportActionBar();
@@ -203,6 +218,20 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.menu_cart,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                cartRecyclerViewAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -257,7 +286,9 @@ public class CartFragment extends Fragment {
 
             cartAdapter = new CartAdapter(getContext(),cartList);
             listView.setAdapter(cartAdapter);
-
+            cartRecyclerViewAdapter = new CartRecyclerViewAdapter(getContext(),cartList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(cartRecyclerViewAdapter);
 //            str = dataCart.Total(key_store);
 //            float total = Float.valueOf(str);
             //textView.setText(cartAdapter.getSum()+"đ");

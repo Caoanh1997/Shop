@@ -8,6 +8,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.CartAdapter;
+import com.example.caoan.shop.Adapter.CartRecyclerViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.Model.Food;
@@ -35,7 +40,9 @@ public class CartActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ProgressBar progressBar;
     private CartAdapter cartAdapter;
+    private CartRecyclerViewAdapter cartRecyclerViewAdapter;
     private ListView listView;
+    private RecyclerView recyclerView;
     private List<Cart> cartList;
     private DataCart dataCart;
     private int num;
@@ -52,6 +59,7 @@ public class CartActivity extends AppCompatActivity {
         btthanhtoan = findViewById(R.id.btthanhtoan);
         bthome = findViewById(R.id.bthome);
         listView = findViewById(R.id.lvcart);
+        recyclerView = findViewById(R.id.rcvcart);
         textView = findViewById(R.id.tvsum);
         progressBar = findViewById(R.id.progress);
         //listView.setVisibility(View.INVISIBLE);
@@ -63,6 +71,20 @@ public class CartActivity extends AppCompatActivity {
 
         new ProgressBarProcess().execute();
         registerForContextMenu(listView);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
+            @Override
+            public void onSwipe(int vitri, int huong) {
+                cartRecyclerViewAdapter.swipe(vitri,huong);
+                new ProgressBarProcess().execute();
+            }
+
+            @Override
+            public void onMove(int oldPostion, int newPosition) {
+                cartRecyclerViewAdapter.move(oldPostion,newPosition);
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -134,6 +156,20 @@ public class CartActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_cart,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                cartRecyclerViewAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -188,6 +224,9 @@ public class CartActivity extends AppCompatActivity {
 
             cartAdapter = new CartAdapter(CartActivity.this,cartList);
             listView.setAdapter(cartAdapter);
+            cartRecyclerViewAdapter = new CartRecyclerViewAdapter(CartActivity.this,cartList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            recyclerView.setAdapter(cartRecyclerViewAdapter);
 
 //            str = dataCart.Total(key_store);
 //            float total = Float.valueOf(str);

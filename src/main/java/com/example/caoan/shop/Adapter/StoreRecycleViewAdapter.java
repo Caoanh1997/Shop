@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -109,7 +110,6 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
                     suggestions.addAll(filterList);
                 }else {
                     String str = convertString(charSequence.toString().toLowerCase().trim());
-                    System.out.println(str);
                     for(Store store : filterList){
                         if(convertString(store.getName().toLowerCase().trim()).contains(str)){
                             suggestions.add(store);
@@ -171,5 +171,21 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
             itemClickListener.onClick(view,getAdapterPosition(),true);
             return true;
         }
+    }
+    public void Swipe(int position,int direction){
+        storeList.remove(position);
+        notifyItemRemoved(position);
+    }
+    public void Move(int oldPosition, int newPosition) {
+        if (oldPosition < newPosition) {
+            for (int i = oldPosition; i < newPosition; i++) {
+                Collections.swap(storeList, i, i + 1);
+            }
+        } else {
+            for (int i = oldPosition; i > newPosition; i--) {
+                Collections.swap(storeList, i, i - 1);
+            }
+        }
+        notifyItemMoved(oldPosition,newPosition);
     }
 }

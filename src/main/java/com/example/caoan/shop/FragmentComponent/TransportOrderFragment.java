@@ -7,9 +7,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
+import com.example.caoan.shop.Adapter.BillExpandListAdapter;
+import com.example.caoan.shop.Model.Bill;
+import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
 import com.example.caoan.shop.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +43,14 @@ public class TransportOrderFragment extends Fragment {
     private String mParam2;
 
     private OrderManagerActivity orderManagerActivity;
+    private View view;
+
+    private FirebaseDatabase firebaseDatabase;
+    private ExpandableListView expandableListView;
+
+    private HashMap<Bill,List<Cart>> ListBillDetail;
+    private List<Bill> billList;
+    private BillExpandListAdapter billExpandListAdapter;
 
     public TransportOrderFragment() {
         // Required empty public constructor
@@ -54,6 +75,17 @@ public class TransportOrderFragment extends Fragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_transport_order, container, false);
+        expandableListView = view.findViewById(R.id.expandableListView);
+
+        loadBill();
+        return view;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -62,11 +94,40 @@ public class TransportOrderFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transport_order, container, false);
+    private void loadBill() {
+        ListBillDetail = new HashMap<Bill, List<Cart>>();
+        billList = new ArrayList<Bill>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
+
+        databaseReference.child(getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE)
+                .getString("userID","")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Cart> cartList;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Bill bill = snapshot.getValue(Bill.class);
+                    if(bill.getState().equals("Đã xác nhận và đang giao")){
+                        cartList = bill.getCartList();
+                        Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
+                                bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
+
+                        billList.add(b);
+                        ListBillDetail.put(b,cartList);
+                    }
+                }
+//                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
+//                rcvlistbill.setAdapter(billRecyclerViewAdapter);
+//                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
+                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new TransportOrderFragment());
+                expandableListView.setAdapter(billExpandListAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

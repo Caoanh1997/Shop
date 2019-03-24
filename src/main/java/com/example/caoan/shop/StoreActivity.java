@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +75,20 @@ public class StoreActivity extends AppCompatActivity {
         tvstore = findViewById(R.id.tvstore);
         rcvstore = findViewById(R.id.rcvstore);
         shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
+
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallbackStore(new ItemTouchListenerStore() {
+            @Override
+            public void onSwipe(int position, int direction) {
+                adapter.Swipe(position,direction);
+            }
+
+            @Override
+            public void onMove(int oldPostion, int newPosition) {
+                adapter.Move(oldPostion,newPosition);
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rcvstore);
 
         Intent intent = new Intent(this, CheckNetwork.class);
         startService(intent);

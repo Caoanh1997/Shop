@@ -79,7 +79,6 @@ public class CartAdapter extends ArrayAdapter<Cart> {
             viewHolder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Cart c = getItem(position);
                     int number = dataCart.GetNumber(cart);
                     number++;
                     if(number>1) {

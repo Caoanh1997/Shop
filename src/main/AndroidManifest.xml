@@ -60,7 +60,14 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".OrderManagerActivity" />
-        <activity android:name=".TestViewSwapper"></activity>
+        <activity android:name=".TestViewSwapper" />
+        <activity android:name=".TestCartRecyclerView">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
     </application>
 
 </manifest>

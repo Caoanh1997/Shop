@@ -234,12 +234,13 @@ public class AccountFragment extends Fragment {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                                            updateUI(user);
+                                            //updateUI(user);
                                             SaveAccountToSharedPreferences(user);
                                             btsignin.dispose();
                                             progressDialog.dismiss();
                                             //tvuserid.setText(user.getUid());
-                                            startActivity(new Intent(getContext(),BottomNavigationBarActivity.class));
+                                            startActivity(new Intent(getContext(),BottomNavigationBarActivity.class)
+                                                    .putExtra("login",true));
                                         } else {
                                             btsignin.revertAnimation();
                                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();

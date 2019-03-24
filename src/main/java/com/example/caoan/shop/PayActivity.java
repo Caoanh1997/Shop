@@ -165,7 +165,7 @@ public class PayActivity extends AppCompatActivity {
                     date_time += " "+format_time.format(calendar.getTime());
 //                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
 //                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
-                    final Bill bill = new Bill(key_cart,getUserID(),cartList,total_price,"Đang đợi xác nhận",key,date_time,"");
+                    final Bill bill = new Bill(key_cart,getUserID(),cartList,total_price,"Đang chờ xác nhận",key,date_time,"");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -175,7 +175,7 @@ public class PayActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
+                                    startActivity(new Intent(PayActivity.this, OrderManagerActivity.class).putExtra("tab",1));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

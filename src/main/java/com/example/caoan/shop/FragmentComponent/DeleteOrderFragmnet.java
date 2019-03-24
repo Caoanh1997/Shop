@@ -4,15 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
-
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
@@ -30,12 +27,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AllOrderFragment.OnFragmentInteractionListener} interface
+ * {@link DeleteOrderFragmnet.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AllOrderFragment#newInstance} factory method to
+ * Use the {@link DeleteOrderFragmnet#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AllOrderFragment extends Fragment {
+public class DeleteOrderFragmnet extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,19 +41,18 @@ public class AllOrderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    //private RecyclerView rcvlistbill;
+
+    private OrderManagerActivity orderManagerActivity;
     private View view;
-    //private BillRecyclerViewAdapter billRecyclerViewAdapter;
-    //private List<Bill> billList;
+
     private FirebaseDatabase firebaseDatabase;
     private ExpandableListView expandableListView;
 
-    private OrderManagerActivity orderManagerActivity;
     private HashMap<Bill,List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
 
-    public AllOrderFragment() {
+    public DeleteOrderFragmnet() {
         // Required empty public constructor
     }
 
@@ -66,11 +62,11 @@ public class AllOrderFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AllOrderFragment.
+     * @return A new instance of fragment DeleteOrderFragmnet.
      */
     // TODO: Rename and change types and number of parameters
-    public static AllOrderFragment newInstance(String param1, String param2) {
-        AllOrderFragment fragment = new AllOrderFragment();
+    public static DeleteOrderFragmnet newInstance(String param1, String param2) {
+        DeleteOrderFragmnet fragment = new DeleteOrderFragmnet();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -91,12 +87,10 @@ public class AllOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_all_order, container, false);
-
+        view = inflater.inflate(R.layout.fragment_delete_order_fragmnet, container, false);
         expandableListView = view.findViewById(R.id.expandableListView);
 
         loadBill();
-
         return view;
     }
 
@@ -113,17 +107,19 @@ public class AllOrderFragment extends Fragment {
                 List<Cart> cartList;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Bill bill = snapshot.getValue(Bill.class);
-                    cartList = bill.getCartList();
-                    Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
-                            bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
+                    if(bill.getState().equals("Đã hủy đơn hàng")){
+                        cartList = bill.getCartList();
+                        Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
+                                bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
 
-                    billList.add(b);
-                    ListBillDetail.put(b,cartList);
+                        billList.add(b);
+                        ListBillDetail.put(b,cartList);
+                    }
                 }
 //                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
 //                rcvlistbill.setAdapter(billRecyclerViewAdapter);
 //                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
-                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new AllOrderFragment());
+                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new DeleteOrderFragmnet());
                 expandableListView.setAdapter(billExpandListAdapter);
             }
 
