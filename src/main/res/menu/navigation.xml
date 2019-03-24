@@ -2,21 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/home"
-        android:title="Shop"
+    <item
+        android:id="@+id/home"
         android:icon="@drawable/ic_home"
-        app:showAsAction="always"/>
-    <item android:id="@+id/cart"
-        android:title="Cart"
+        android:title="Shop"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/cart"
         android:icon="@drawable/ic_cart"
-        app:showAsAction="always"/>
-    <item android:id="@+id/account"
-        android:title="Account"
+        android:title="Cart"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/account"
         android:icon="@drawable/ic_account"
-        app:showAsAction="always"/>
-    <item android:id="@+id/setting"
-        android:title="Setting"
+        android:title="Account"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/setting"
         android:icon="@drawable/ic_setting"
-        app:showAsAction="always"/>
+        android:title="Setting"
+        app:showAsAction="always" />
 
 </menu>

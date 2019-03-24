@@ -12,7 +12,6 @@ import android.widget.Button;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.R;
-import com.example.caoan.shop.SettingActivity;
 import com.example.caoan.shop.StoreActivity;
 
 /**
@@ -80,7 +79,7 @@ public class SettingFragment extends Fragment {
         btchangestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),StoreActivity.class));
+                startActivity(new Intent(getActivity(), StoreActivity.class));
             }
         });
         return view;

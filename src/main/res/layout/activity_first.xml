@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FirstActivity"
-    android:id="@android:id/tabhost">
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstActivity">
 
     <RelativeLayout
-        android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:background="@color/gray">
 
         <FrameLayout
             android:id="@android:id/tabcontent"
@@ -18,11 +17,12 @@
             android:layout_height="wrap_content">
 
         </FrameLayout>
+
         <TabWidget
-            android:layout_alignParentBottom="true"
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true">
 
         </TabWidget>
     </RelativeLayout>

@@ -3,7 +3,6 @@ package com.example.caoan.shop.FragmentComponent;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.PhoneAdapter;
-import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.Model.Phone;
 import com.example.caoan.shop.R;
 import com.google.firebase.database.DataSnapshot;
@@ -45,7 +43,7 @@ public class PhoneFragment extends Fragment {
     public static PhoneFragment newInstance(String s) {
         PhoneFragment fragment = new PhoneFragment();
         Bundle args = new Bundle();
-        args.putString("text",s);
+        args.putString("text", s);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,7 +75,7 @@ public class PhoneFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Phone phone = snapshot.getValue(Phone.class);
                     phoneList.add(phone);
                 }
@@ -93,10 +91,10 @@ public class PhoneFragment extends Fragment {
             public void onClick(View view) {
                 //System.out.println(foodList.size());
                 //Toast.makeText(getApplicationContext(),foodList.size(),Toast.LENGTH_SHORT).show();
-                if(isOnline()){
-                    Toast.makeText(getContext(),"Online "+phoneList.size(),Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getContext(),"Offline "+phoneList.size(),Toast.LENGTH_SHORT).show();
+                if (isOnline()) {
+                    Toast.makeText(getContext(), "Online " + phoneList.size(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Offline " + phoneList.size(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -105,7 +103,7 @@ public class PhoneFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        adapter = new PhoneAdapter(getContext(),phoneList);
+        adapter = new PhoneAdapter(getContext(), phoneList);
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,10 +116,11 @@ public class PhoneFragment extends Fragment {
 
         return view;
     }
+
     private Boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected()) {
+        if (ni != null && ni.isConnected()) {
             return true;
         }
         return false;

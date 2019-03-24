@@ -3,114 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.CartFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".FragmentComponent.CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <!--<TextView-->
-        <!--android:id="@+id/tvfragment"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Cart fragment"-->
-        <!--android:textSize="25sp"/>-->
-    <TextView
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:textSize="25sp"
-        android:text="Cart"/>
-
 
     <RelativeLayout
-        android:layout_below="@+id/total"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/total">
+
         <ProgressBar
-            android:layout_centerInParent="true"
             android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
-        <ListView
-            android:visibility="gone"
-            android:id="@+id/lvcart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_centerInParent="true" />
 
-        </ListView>
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/lvcart"
             android:id="@+id/rcvcart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lvcart"
+            android:layout_marginTop="10dp">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/total"
-        android:background="@android:color/holo_purple"
-        android:layout_below="@+id/btthanhtoan"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btthanhtoan"
+        android:background="@android:color/holo_purple"
+        android:orientation="horizontal">
+
         <TextView
-            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
             android:text="Total: "
             android:textColor="@color/black"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
+
         <TextView
-            android:layout_marginRight="10dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="25sp"
+            android:id="@+id/tvsum"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
             android:gravity="right"
-            android:id="@+id/tvsum"/>
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="25sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_margin="10dp"
-        android:weightSum="2"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:visibility="gone"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:text="Thanh toan"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"/>
-        <Button
-            android:visibility="gone"
-            android:layout_weight="1"
-            android:id="@+id/bthome"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:text="Tiep tuc mua sam"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"/>
-    </LinearLayout>
     <Button
-        android:layout_margin="5dp"
         android:id="@+id/btthanhtoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Checkout"
         android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
         android:background="@drawable/button_delete"
-        android:textColor="@android:color/white"/>
+        android:text="Checkout"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

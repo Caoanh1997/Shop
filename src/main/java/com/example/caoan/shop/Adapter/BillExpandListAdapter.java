@@ -37,7 +37,7 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
     private List<Cart> cartList;
     private Fragment fragment;
 
-    public BillExpandListAdapter(Context context, List<Bill> billList, HashMap<Bill, List<Cart>> listDetailBill,Fragment fragment) {
+    public BillExpandListAdapter(Context context, List<Bill> billList, HashMap<Bill, List<Cart>> listDetailBill, Fragment fragment) {
         this.context = context;
         this.billList = billList;
         ListDetailBill = listDetailBill;
@@ -134,10 +134,10 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(context, "Hủy thành công", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(context, OrderManagerActivity.class);
-                                            if(fragment instanceof AllOrderFragment){
-                                                intent.putExtra("tab",0);
-                                            }else {
-                                                intent.putExtra("tab",1);
+                                            if (fragment instanceof AllOrderFragment) {
+                                                intent.putExtra("tab", 0);
+                                            } else {
+                                                intent.putExtra("tab", 1);
                                             }
                                             context.startActivity(intent);
                                         }

@@ -1,8 +1,8 @@
 package com.example.caoan.shop;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,10 +20,11 @@ public class SettingActivity extends AppCompatActivity {
         btchangestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SettingActivity.this,StoreActivity.class));
+                startActivity(new Intent(SettingActivity.this, StoreActivity.class));
             }
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();

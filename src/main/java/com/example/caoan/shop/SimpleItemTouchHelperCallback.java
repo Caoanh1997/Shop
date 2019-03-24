@@ -25,17 +25,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int swipeFlag = ItemTouchHelper.RIGHT;
         int moveFlag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        return makeMovementFlags(moveFlag,swipeFlag);
+        return makeMovementFlags(moveFlag, swipeFlag);
     }
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        itemTouchListener.onMove(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+        itemTouchListener.onMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return false;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        itemTouchListener.onSwipe(viewHolder.getAdapterPosition(),direction);
+        itemTouchListener.onSwipe(viewHolder.getAdapterPosition(), direction);
     }
 }

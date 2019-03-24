@@ -28,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
-import com.example.caoan.shop.FirstActivity;
-import com.example.caoan.shop.LoginActivity;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -120,7 +118,7 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_account, container, false);
+        view = inflater.inflate(R.layout.fragment_account, container, false);
 
         btsignin = view.findViewById(R.id.btsignin);
         btsignup = view.findViewById(R.id.btsignup);
@@ -209,8 +207,8 @@ public class AccountFragment extends Fragment {
             public void onClick(View view) {
                 //getActivity().finish();
                 //startActivity(getActivity().getIntent());
-                Intent intent = new Intent(getActivity(),BottomNavigationBarActivity.class);
-                intent.putExtra("login",true);
+                Intent intent = new Intent(getActivity(), BottomNavigationBarActivity.class);
+                intent.putExtra("login", true);
                 startActivity(intent);
 
             }
@@ -239,8 +237,8 @@ public class AccountFragment extends Fragment {
                                             btsignin.dispose();
                                             progressDialog.dismiss();
                                             //tvuserid.setText(user.getUid());
-                                            startActivity(new Intent(getContext(),BottomNavigationBarActivity.class)
-                                                    .putExtra("login",true));
+                                            startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
+                                                    .putExtra("login", true));
                                         } else {
                                             btsignin.revertAnimation();
                                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
@@ -251,7 +249,7 @@ public class AccountFragment extends Fragment {
                 } else {
                     btsignin.revertAnimation();
                     progressDialog.dismiss();
-                    Toast.makeText(getContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -280,13 +278,13 @@ public class AccountFragment extends Fragment {
                                     String xa = String.valueOf(spinnerxa.getTag());
                                     String phone = String.valueOf(etphone.getText());
 
-                                    Account account = new Account(userID,name,email,address,tinh,huyen,xa,phone);
+                                    Account account = new Account(userID, name, email, address, tinh, huyen, xa, phone);
                                     databaseReference.child(user.getUid()).setValue(account);
                                     updateUI(user);
                                     SaveAccountToSharedPreferences(user);
                                     btsignup.dispose();
                                     progressDialog.dismiss();
-                                    startActivity(new Intent(getContext(),BottomNavigationBarActivity.class));
+                                    startActivity(new Intent(getContext(), BottomNavigationBarActivity.class));
                                 } else {
                                     btsignup.revertAnimation();
                                     Toast.makeText(getContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
@@ -297,7 +295,7 @@ public class AccountFragment extends Fragment {
                 } else {
                     btsignup.revertAnimation();
                     progressDialog.dismiss();
-                    Toast.makeText(getContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -305,7 +303,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("userID");
                 editor.commit();
@@ -326,25 +324,26 @@ public class AccountFragment extends Fragment {
             this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
         }
     }
-    public void fillSpinner(){
-        tinh  = getResources().getStringArray(R.array.tinh);
-        final ArrayAdapter adapter = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,tinh);
+
+    public void fillSpinner() {
+        tinh = getResources().getStringArray(R.array.tinh);
+        final ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, tinh);
         spinnertinh.setAdapter(adapter);
         spinnertinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tinh = (String) adapterView.getItemAtPosition(i);
-                if(!tinh.equals("Tỉnh/thành phố")){
+                if (!tinh.equals("Tỉnh/thành phố")) {
                     spinnerhuyen.setVisibility(View.VISIBLE);
-                    if(tinh.equals("Đà Nẵng")){
+                    if (tinh.equals("Đà Nẵng")) {
                         spinnertinh.setTag(tinh);
                         huyen = getResources().getStringArray(R.array.huyenDN);
-                    }else {
+                    } else {
                         spinnertinh.setTag("Quảng Nam");
                         huyen = getResources().getStringArray(R.array.huyenQN);
                     }
-                    spinnerhuyen.setAdapter(new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,huyen));
-                }else {
+                    spinnerhuyen.setAdapter(new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, huyen));
+                } else {
                     spinnerhuyen.setVisibility(View.INVISIBLE);
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
@@ -359,7 +358,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String huyen = (String) adapterView.getItemAtPosition(i);
-                if(!huyen.equals("Quận/huyện")){
+                if (!huyen.equals("Quận/huyện")) {
                     spinnerxa.setVisibility(View.VISIBLE);
                     if (huyen.equals("Thanh Khê")) {
                         xa = getResources().getStringArray(R.array.xaDN1);
@@ -380,8 +379,8 @@ public class AccountFragment extends Fragment {
                         xa = getResources().getStringArray(R.array.xaQN3);
                     }
                     spinnerhuyen.setTag(huyen);
-                    spinnerxa.setAdapter(new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,xa));
-                }else {
+                    spinnerxa.setAdapter(new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, xa));
+                } else {
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
             }
@@ -404,6 +403,7 @@ public class AccountFragment extends Fragment {
             }
         });
     }
+
     public boolean CheckOnline() {
         ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
@@ -424,24 +424,26 @@ public class AccountFragment extends Fragment {
         }
     }
 
-    public void SaveAccountToSharedPreferences(FirebaseUser user){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE);
+    public void SaveAccountToSharedPreferences(FirebaseUser user) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("userID",user.getUid());
+        editor.putString("userID", user.getUid());
         editor.commit();
     }
-    public boolean checkSpinner(){
-        if(spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
-                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")){
-            Snackbar.make(spinnerxa,"Điền đầy đủ thông tin địa chỉ",Snackbar.LENGTH_LONG).setAction("Action",null)
+
+    public boolean checkSpinner() {
+        if (spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
+                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")) {
+            Snackbar.make(spinnerxa, "Điền đầy đủ thông tin địa chỉ", Snackbar.LENGTH_LONG).setAction("Action", null)
                     .show();
             return false;
-        }else {
+        } else {
             return true;
         }
     }
+
     private void updateUI(final FirebaseUser user) {
-        if(user == null){
+        if (user == null) {
             final ObjectAnimator objectAnimator7 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_down_animator);
             final ObjectAnimator objectAnimator8 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_down_animator);
 
@@ -464,7 +466,7 @@ public class AccountFragment extends Fragment {
             tvsignin.setVisibility(View.GONE);
 
             tvsignup.setClickable(true);
-        }else {
+        } else {
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
 
@@ -472,7 +474,7 @@ public class AccountFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Account account = dataSnapshot.child(user.getUid()).getValue(Account.class);
-                    tvuserid.setText("Tên khách hàng: "+account.getName());
+                    tvuserid.setText("Tên khách hàng: " + account.getName());
                 }
 
                 @Override

@@ -1,7 +1,5 @@
 package com.example.caoan.shop.Model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class StoreList {

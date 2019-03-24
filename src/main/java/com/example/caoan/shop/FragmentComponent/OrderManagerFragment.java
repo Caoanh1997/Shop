@@ -44,13 +44,14 @@ public class OrderManagerFragment extends Fragment {
 
     private BottomNavigationBarActivity bottomNavigationBarActivity;
     private View view;
-    private TextView tvname,tvallorder,tvsignout;
-    private LinearLayout lnconfirm,lntransport,lndelivered;
+    private TextView tvname, tvallorder, tvsignout;
+    private LinearLayout lnconfirm, lntransport, lndelivered;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference reference;
     private Account account;
+
     public OrderManagerFragment() {
         // Required empty public constructor
     }
@@ -97,7 +98,7 @@ public class OrderManagerFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        if(user != null){
+        if (user != null) {
             firebaseDatabase = FirebaseDatabase.getInstance();
             reference = firebaseDatabase.getReference("Account");
 
@@ -127,33 +128,33 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(getActivity(),BottomNavigationBarActivity.class).putExtra("login",true));
+                startActivity(new Intent(getActivity(), BottomNavigationBarActivity.class).putExtra("login", true));
             }
         });
         lnconfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Chưa xác nhận",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
-                intent.putExtra("tab",1);
+                Toast.makeText(getContext(), "Chưa xác nhận", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
+                intent.putExtra("tab", 1);
                 startActivity(intent);
             }
         });
         lntransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Đang giao",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
-                intent.putExtra("tab",2);
+                Toast.makeText(getContext(), "Đang giao", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
+                intent.putExtra("tab", 2);
                 startActivity(intent);
             }
         });
         lndelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Đã giao",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(),OrderManagerActivity.class);
-                intent.putExtra("tab",3);
+                Toast.makeText(getContext(), "Đã giao", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
+                intent.putExtra("tab", 3);
                 startActivity(intent);
             }
         });

@@ -4,15 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
-
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
@@ -52,7 +49,7 @@ public class AllOrderFragment extends Fragment {
     private ExpandableListView expandableListView;
 
     private OrderManagerActivity orderManagerActivity;
-    private HashMap<Bill,List<Cart>> ListBillDetail;
+    private HashMap<Bill, List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
 
@@ -106,24 +103,24 @@ public class AllOrderFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
 
-        databaseReference.child(getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE)
-                .getString("userID","")).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE)
+                .getString("userID", "")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Cart> cartList;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Bill bill = snapshot.getValue(Bill.class);
                     cartList = bill.getCartList();
-                    Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
-                            bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
+                    Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                            bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                     billList.add(b);
-                    ListBillDetail.put(b,cartList);
+                    ListBillDetail.put(b, cartList);
                 }
 //                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
 //                rcvlistbill.setAdapter(billRecyclerViewAdapter);
 //                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
-                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new AllOrderFragment());
+                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new AllOrderFragment());
                 expandableListView.setAdapter(billExpandListAdapter);
             }
 

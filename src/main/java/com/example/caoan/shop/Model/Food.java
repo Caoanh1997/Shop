@@ -13,6 +13,9 @@ public class Food {
         this.price = price;
     }
 
+    public Food() {
+    }
+
     public String getName() {
         return name;
     }
@@ -53,8 +56,5 @@ public class Food {
                 ", urlimage='" + urlimage + '\'' +
                 ", price=" + price +
                 '}';
-    }
-
-    public Food() {
     }
 }

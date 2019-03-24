@@ -17,7 +17,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -170,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                                             btsignin.dispose();
                                             progressDialog.dismiss();
                                             tvuserid.setText(user.getUid());
-                                            startActivity(new Intent(LoginActivity.this,FirstActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, FirstActivity.class));
                                         } else {
                                             Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                                         }
@@ -180,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     btsignin.dispose();
                     progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -209,13 +208,13 @@ public class LoginActivity extends AppCompatActivity {
                                     String xa = String.valueOf(spinnerxa.getTag());
                                     String phone = String.valueOf(etphone.getText());
 
-                                    Account account = new Account(userID,name,email,address,tinh,huyen,xa,phone);
+                                    Account account = new Account(userID, name, email, address, tinh, huyen, xa, phone);
                                     databaseReference.child(user.getUid()).setValue(account);
                                     updateUI(user);
                                     SaveAccountToSharedPreferences(user);
                                     btsignup.dispose();
                                     progressDialog.dismiss();
-                                    startActivity(new Intent(LoginActivity.this,FirstActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, FirstActivity.class));
                                 } else {
                                     btsignup.dispose();
                                     Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
@@ -226,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     btsignup.dispose();
                     progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Kiểm tra kết nối Internet",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -234,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
-                SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("Account", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("userID");
                 editor.commit();
@@ -250,13 +249,13 @@ public class LoginActivity extends AppCompatActivity {
         //check if user is signed in
         FirebaseUser user = firebaseAuth.getCurrentUser();
         updateUI(user);
-        if(user != null){
+        if (user != null) {
             //startActivity(new Intent(this,FirstActivity.class));
         }
     }
 
     private void updateUI(final FirebaseUser user) {
-        if(user == null){
+        if (user == null) {
             final ObjectAnimator objectAnimator7 = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.move_down_animator);
             final ObjectAnimator objectAnimator8 = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.move_down_animator);
 
@@ -279,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
             tvsignin.setVisibility(View.GONE);
 
             tvsignup.setClickable(true);
-        }else {
+        } else {
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
 
@@ -287,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Account account = dataSnapshot.child(user.getUid()).getValue(Account.class);
-                    tvuserid.setText("Tên khách hàng: "+account.getName());
+                    tvuserid.setText("Tên khách hàng: " + account.getName());
                 }
 
                 @Override
@@ -341,31 +340,32 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void SaveAccountToSharedPreferences(FirebaseUser user){
-        SharedPreferences sharedPreferences = getSharedPreferences("Account",Context.MODE_PRIVATE);
+    public void SaveAccountToSharedPreferences(FirebaseUser user) {
+        SharedPreferences sharedPreferences = getSharedPreferences("Account", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("userID",user.getUid());
+        editor.putString("userID", user.getUid());
         editor.commit();
     }
-    public void fillSpinner(){
-        tinh  = getResources().getStringArray(R.array.tinh);
-        final ArrayAdapter adapter = new ArrayAdapter(LoginActivity.this,android.R.layout.simple_spinner_item,tinh);
+
+    public void fillSpinner() {
+        tinh = getResources().getStringArray(R.array.tinh);
+        final ArrayAdapter adapter = new ArrayAdapter(LoginActivity.this, android.R.layout.simple_spinner_item, tinh);
         spinnertinh.setAdapter(adapter);
         spinnertinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tinh = (String) adapterView.getItemAtPosition(i);
-                if(!tinh.equals("Tỉnh/thành phố")){
+                if (!tinh.equals("Tỉnh/thành phố")) {
                     spinnerhuyen.setVisibility(View.VISIBLE);
-                    if(tinh.equals("Đà Nẵng")){
+                    if (tinh.equals("Đà Nẵng")) {
                         spinnertinh.setTag(tinh);
                         huyen = getResources().getStringArray(R.array.huyenDN);
-                    }else {
+                    } else {
                         spinnertinh.setTag("Quảng Nam");
                         huyen = getResources().getStringArray(R.array.huyenQN);
                     }
-                    spinnerhuyen.setAdapter(new ArrayAdapter(LoginActivity.this,android.R.layout.simple_spinner_item,huyen));
-                }else {
+                    spinnerhuyen.setAdapter(new ArrayAdapter(LoginActivity.this, android.R.layout.simple_spinner_item, huyen));
+                } else {
                     spinnerhuyen.setVisibility(View.INVISIBLE);
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
@@ -380,7 +380,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String huyen = (String) adapterView.getItemAtPosition(i);
-                if(!huyen.equals("Quận/huyện")){
+                if (!huyen.equals("Quận/huyện")) {
                     spinnerxa.setVisibility(View.VISIBLE);
                     if (huyen.equals("Thanh Khê")) {
                         xa = getResources().getStringArray(R.array.xaDN1);
@@ -401,8 +401,8 @@ public class LoginActivity extends AppCompatActivity {
                         xa = getResources().getStringArray(R.array.xaQN3);
                     }
                     spinnerhuyen.setTag(huyen);
-                    spinnerxa.setAdapter(new ArrayAdapter(LoginActivity.this,android.R.layout.simple_spinner_item,xa));
-                }else {
+                    spinnerxa.setAdapter(new ArrayAdapter(LoginActivity.this, android.R.layout.simple_spinner_item, xa));
+                } else {
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
             }
@@ -425,13 +425,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public boolean checkSpinner(){
-        if(spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
-                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")){
-            Snackbar.make(spinnerxa,"Điền đầy đủ thông tin địa chỉ",Snackbar.LENGTH_LONG).setAction("Action",null)
+
+    public boolean checkSpinner() {
+        if (spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
+                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")) {
+            Snackbar.make(spinnerxa, "Điền đầy đủ thông tin địa chỉ", Snackbar.LENGTH_LONG).setAction("Action", null)
                     .show();
             return false;
-        }else {
+        } else {
             return true;
         }
     }

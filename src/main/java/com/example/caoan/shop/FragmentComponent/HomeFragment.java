@@ -1,7 +1,6 @@
 package com.example.caoan.shop.FragmentComponent;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -66,10 +65,11 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     private void fillFragment(String key, String userkey) {
         fragmentList = new ArrayList<Fragment>();
-        FoodFragment foodFragment = new FoodFragment().newInstance(key,userkey);
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key,userkey);
+        FoodFragment foodFragment = new FoodFragment().newInstance(key, userkey);
+        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key, userkey);
 
         fragmentList.add(foodFragment);
         fragmentList.add(drinkFragment);
@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         //System.out.println("Create View Fragment");
         super.onCreate(savedInstanceState);
-        view =  inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
         tabLayout = view.findViewById(R.id.tablayout);
         viewPager = view.findViewById(R.id.viewpager);
@@ -89,9 +89,9 @@ public class HomeFragment extends Fragment {
         String key = bundle.getString(ARG_PARAM1);
         String userkey = bundle.getString(ARG_PARAM2);
 //        System.out.println("key: "+key+"\nuserkey: "+userkey);
-        fillFragment(key,userkey);
-        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),fragmentList);
-        viewPager.setPageTransformer(true,new CubeInScalingTransformation());
+        fillFragment(key, userkey);
+        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), fragmentList);
+        viewPager.setPageTransformer(true, new CubeInScalingTransformation());
         viewPager.setAdapter(fragmentAdapter);
 
         tabLayout.setupWithViewPager(viewPager);

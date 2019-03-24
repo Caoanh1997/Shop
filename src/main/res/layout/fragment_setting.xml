@@ -3,23 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.SettingFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".FragmentComponent.SettingFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/tvfragment"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Setting fragment"
-        android:textSize="25sp"/>
+        android:textSize="25sp" />
+
     <Button
         android:id="@+id/btchangestore"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Store"/>
+        android:layout_gravity="center"
+        android:text="Change Store" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvlistbill"
         android:layout_width="match_parent"

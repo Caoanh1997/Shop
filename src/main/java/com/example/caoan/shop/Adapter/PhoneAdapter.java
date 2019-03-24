@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.Model.Phone;
 import com.example.caoan.shop.R;
 
@@ -24,6 +23,7 @@ import java.util.List;
 public class PhoneAdapter extends ArrayAdapter<Phone> {
 
     private List<Phone> phoneList;
+
     public PhoneAdapter(@NonNull Context context, @NonNull List<Phone> objects) {
         super(context, 0, objects);
         phoneList = objects;
@@ -34,33 +34,34 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
         ViewHolder viewHolder;
-        if(convertView==null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.phone_item_layout,parent,false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.phone_item_layout, parent, false);
 
             viewHolder.imageView = convertView.findViewById(R.id.imagephone);
             viewHolder.tvname = convertView.findViewById(R.id.tvname);
             viewHolder.tvprice = convertView.findViewById(R.id.tvprice);
 
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Phone phone = getItem(position);
-        if(phone != null){
+        if (phone != null) {
             viewHolder.tvname.setText(phone.getName());
-            viewHolder.tvprice.setText(String.valueOf(phone.getPrice())+" d");
+            viewHolder.tvprice.setText(String.valueOf(phone.getPrice()) + " d");
             new Processing(viewHolder.imageView).execute(phone.getUrlimage());
         }
 
         return convertView;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         ImageView imageView;
-        TextView tvname,tvprice;
+        TextView tvname, tvprice;
     }
-    private class Processing extends AsyncTask<String,Void,Bitmap> {
+
+    private class Processing extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
 
         public Processing(ImageView imageView) {

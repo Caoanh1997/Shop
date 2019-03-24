@@ -1,82 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AccountActivity">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:textSize="25sp"
-        android:text="Account"/>
+        android:text="Account"
+        android:textSize="25sp" />
+
     <EditText
+        android:id="@+id/etemail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="enter the email"
-        android:id="@+id/etemail"
-        android:inputType="textEmailAddress"
-        />
+        android:inputType="textEmailAddress" />
 
     <EditText
+        android:id="@+id/etpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="enter the password"
-        android:id="@+id/etpassword"
-        android:inputType="textPassword"
-        />
+        android:inputType="textPassword" />
 
     <TextView
-        android:layout_margin="10dp"
-        android:textSize="25sp"
+        android:id="@+id/tvuserid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvuserid"/>
+        android:layout_margin="10dp"
+        android:textSize="25sp" />
 
     <LinearLayout
-        android:weightSum="2"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <Button
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
+            android:id="@+id/btsignin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in"
-            android:id="@+id/btsignin"/>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Sign in" />
+
         <Button
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
+            android:id="@+id/btsignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:id="@+id/btsignup"/>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Sign up" />
 
     </LinearLayout>
+
     <Button
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
+        android:id="@+id/btlogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log out"
-        android:id="@+id/btlogout"/>
-    <Button
-        android:layout_margin="10dp"
         android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Log out" />
+
+    <Button
+        android:id="@+id/btverify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify email"
-        android:id="@+id/btverify"/>
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Verify email" />
 
 </LinearLayout>

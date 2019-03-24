@@ -24,7 +24,7 @@ public class Store implements Serializable {
     @SerializedName("phone")
     private String phone;
 
-    public Store(String key, String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage,String phone) {
+    public Store(String key, String name, String duong, String xa, String huyen, String tinh, String userkey, String urlImage, String phone) {
         this.key = key;
         this.name = name;
         this.duong = duong;
@@ -45,6 +45,9 @@ public class Store implements Serializable {
         this.userkey = userkey;
         this.urlImage = urlImage;
         this.phone = phone;
+    }
+
+    public Store() {
     }
 
     public String getKey() {
@@ -132,8 +135,5 @@ public class Store implements Serializable {
                 ", urlImage='" + urlImage + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
-    }
-
-    public Store() {
     }
 }

@@ -3,39 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.PhoneFragment"
+    android:background="@color/tomato"
     android:orientation="vertical"
-    android:background="@color/tomato">
+    tools:context=".FragmentComponent.PhoneFragment">
 
     <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Phone"
-        android:id="@+id/tv"/>
+        android:textSize="25sp" />
 
     <GridView
-        android:layout_below="@+id/tv"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
         android:id="@+id/gv"
-        android:numColumns="3"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
-    </GridView>
+        android:layout_height="250dp"
+        android:layout_below="@+id/tv"
+        android:layout_margin="10dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="3"
+        android:verticalSpacing="2dp"></GridView>
+
     <Button
-        android:visibility="visible"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:text="Size list"
+        android:id="@+id/btsize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btsize"
-        android:layout_below="@+id/gv"/>
+        android:layout_below="@+id/gv"
+        android:layout_centerHorizontal="true"
+        android:text="Size list"
+        android:textSize="25sp"
+        android:visibility="visible" />
 
 
 </RelativeLayout>

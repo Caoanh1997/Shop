@@ -1,12 +1,12 @@
 package com.example.caoan.shop;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.caoan.shop.Adapter.OrderManagerAdapter;
@@ -39,17 +39,17 @@ public class OrderManagerActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager);
 
         fillFragment();
-        orderManagerAdapter = new OrderManagerAdapter(getSupportFragmentManager(),fragmentList);
+        orderManagerAdapter = new OrderManagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(orderManagerAdapter);
 
-        int i = intent.getIntExtra("tab",0);
+        int i = intent.getIntExtra("tab", 0);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(i);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
             default:

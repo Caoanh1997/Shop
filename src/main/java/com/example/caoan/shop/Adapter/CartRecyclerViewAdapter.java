@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> implements Filterable{
+public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> implements Filterable {
 
     private List<Cart> cartList;
     private List<Cart> filterList;
@@ -34,12 +34,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         this.context = context;
         filterList = cartList;
         dataCart = new DataCart(context);
-        String key_store = context.getSharedPreferences("key_store",Context.MODE_PRIVATE).getString("key","");
+        String key_store = context.getSharedPreferences("key_store", Context.MODE_PRIVATE).getString("key", "");
         String sum = String.valueOf(dataCart.Total(key_store));
-        if(context instanceof CartActivity){
-            CartActivity.setTextviewSum(sum+"đ");
-        }else {
-            CartFragment.setTextview(sum+"đ");
+        if (context instanceof CartActivity) {
+            CartActivity.setTextviewSum(sum + "đ");
+        } else {
+            CartFragment.setTextview(sum + "đ");
         }
     }
 
@@ -142,12 +142,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             protected FilterResults performFiltering(CharSequence charSequence) {
                 List<Cart> suggestion = new ArrayList<>();
 
-                if(charSequence.length() == 0 || charSequence ==null){
+                if (charSequence.length() == 0 || charSequence == null) {
                     suggestion.addAll(filterList);
-                }else {
+                } else {
                     String str = StoreRecycleViewAdapter.convertString(charSequence.toString().toLowerCase().trim());
-                    for(Cart cart : cartList){
-                        if(StoreRecycleViewAdapter.convertString(cart.getName().toLowerCase().trim()).contains(str)){
+                    for (Cart cart : cartList) {
+                        if (StoreRecycleViewAdapter.convertString(cart.getName().toLowerCase().trim()).contains(str)) {
                             suggestion.add(cart);
                         }
                     }

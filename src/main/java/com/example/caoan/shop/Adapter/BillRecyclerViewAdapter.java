@@ -28,7 +28,7 @@ public class BillRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.bill_item_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.bill_item_layout, parent, false);
         RecyclerView.ViewHolder viewHolder = new ItemViewHolder(view);
         return viewHolder;
     }
@@ -38,7 +38,7 @@ public class BillRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Bill bill = billList.get(position);
-        if(bill != null){
+        if (bill != null) {
             //Picasso.get().load(bill.getCartList().get)
             String url = bill.getCartList().get(0).getUrlImage();
             Picasso.get().load(bill.getCartList().get(0).getUrlImage()).into(itemViewHolder.avatar);
@@ -58,7 +58,7 @@ public class BillRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         return billList.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder{
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvkeycart, tvdateput, tvdatepay, tvnameproduct, tvprice, tvnumber, tvstate, tvsumprice;
         private ImageView avatar;

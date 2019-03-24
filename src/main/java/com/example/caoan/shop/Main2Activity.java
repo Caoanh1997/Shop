@@ -3,8 +3,8 @@ package com.example.caoan.shop;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class Main2Activity extends AppCompatActivity {
 
-    private  String imgURL;
+    private String imgURL;
     private GridView gridView;
     private ProgressBar progressBar;
     private FoodAdapter adapter;
@@ -51,7 +51,7 @@ public class Main2Activity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Food");
 
-         for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             String foodID = reference.push().getKey();
             Food food = new Food("Chuoi", "This is banana", "https://cdn1.woolworths.media/content/wowproductimages/medium/306510.jpg", 10000);
             reference.child(foodID).setValue(food);
@@ -60,12 +60,13 @@ public class Main2Activity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Food food = snapshot.getValue(Food.class);
                     System.out.println(food.getName());
                     foodList.add(food);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -77,10 +78,10 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //System.out.println(foodList.size());
                 //Toast.makeText(getApplicationContext(),foodList.size(),Toast.LENGTH_SHORT).show();
-                if(isOnline()){
-                    Toast.makeText(getApplicationContext(),"Online",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Offline",Toast.LENGTH_SHORT).show();
+                if (isOnline()) {
+                    Toast.makeText(getApplicationContext(), "Online", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Offline", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -100,10 +101,11 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
     }
+
     private Boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected()) {
+        if (ni != null && ni.isConnected()) {
             return true;
         }
         return false;

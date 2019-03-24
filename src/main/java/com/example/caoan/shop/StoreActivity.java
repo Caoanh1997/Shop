@@ -43,17 +43,11 @@ public class StoreActivity extends AppCompatActivity {
 
     private CheckBox checkBox;
     private Spinner spxa, sphuyen, sptinh;
-    //private ListView listView;
-    private String[] tinh;
     private String[] xa, huyen;
     private List<Store> storeList;
     private List<Store> stores;
-    //private StoreAdapter adapter;
     private StoreRecycleViewAdapter adapter;
-    private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
-    private Button btsize, btdata;
-    //private ProgressBar progressBar;
     private DataCart data;
     private TextView tvstore;
     private RecyclerView rcvstore;
@@ -68,10 +62,6 @@ public class StoreActivity extends AppCompatActivity {
         sphuyen = findViewById(R.id.sphuyen);
         sptinh = findViewById(R.id.sptinh);
         checkBox = findViewById(R.id.cbaddress);
-        //listView = findViewById(R.id.lvstore);
-        btsize = findViewById(R.id.btsize);
-        btdata = findViewById(R.id.btdata);
-        //progressBar = findViewById(R.id.progressstore);
         tvstore = findViewById(R.id.tvstore);
         rcvstore = findViewById(R.id.rcvstore);
         shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
@@ -79,12 +69,12 @@ public class StoreActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallbackStore(new ItemTouchListenerStore() {
             @Override
             public void onSwipe(int position, int direction) {
-                adapter.Swipe(position,direction);
+                adapter.Swipe(position, direction);
             }
 
             @Override
             public void onMove(int oldPostion, int newPosition) {
-                adapter.Move(oldPostion,newPosition);
+                adapter.Move(oldPostion, newPosition);
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -125,9 +115,7 @@ public class StoreActivity extends AppCompatActivity {
                         huyen = getResources().getStringArray(R.array.huyenQN);
                     }
                     sptinh.setTag(tinh);
-//                    Toast.makeText(getApplicationContext(), tinh, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(tinh);
-                    //listView.invalidateViews();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, huyen);
                     sphuyen.setAdapter(adapter);
                 } else {
@@ -167,9 +155,7 @@ public class StoreActivity extends AppCompatActivity {
                         xa = getResources().getStringArray(R.array.xaQN3);
                     }
                     sphuyen.setTag(huyen);
-//                    Toast.makeText(getApplicationContext(), huyen, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(huyen);
-                    //listView.invalidateViews();
                     ArrayAdapter adapter = new ArrayAdapter(StoreActivity.this, android.R.layout.simple_spinner_item, xa);
                     spxa.setAdapter(adapter);
                 } else {
@@ -190,9 +176,7 @@ public class StoreActivity extends AppCompatActivity {
                 if (!xa.equals("Xã/phường")) {
                     String tinh = (String) sptinh.getTag();
                     String huyen = (String) sphuyen.getTag();
-//                    Toast.makeText(getApplicationContext(), tinh + huyen + xa, Toast.LENGTH_SHORT).show();
                     adapter.getFilter().filter(xa);
-                    //listView.invalidateViews();
                 } else {
                     adapter.getFilter().filter(String.valueOf(sphuyen.getTag()));
                 }
@@ -206,40 +190,6 @@ public class StoreActivity extends AppCompatActivity {
 
         storeList = new ArrayList<>();
         Load();
-
-        btsize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), String.valueOf(storeList.size()), Toast.LENGTH_SHORT).show();
-                //listView.invalidateViews();
-            }
-        });
-        btdata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stores = data.getStoreList();
-                Toast.makeText(getApplicationContext(), String.valueOf(stores.size()), Toast.LENGTH_SHORT).show();
-            }
-        });
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Store store = (Store) adapterView.getItemAtPosition(i);
-                SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("key",store.getKey());
-                editor.putString("key_master",store.getUserkey());
-                editor.commit();
-                startActivity(new Intent(StoreActivity.this, FirstActivity.class));
-            }
-        });*/
-        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                return false;
-            }
-        });*/
     }
 
     @Override
@@ -303,12 +253,7 @@ public class StoreActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Store store = snapshot.getValue(Store.class);
                     storeList.add(store);
-                    //data.InsertStore(store);
                 }
-                //progressBar.setVisibility(View.GONE);
-                /*adapter = new StoreAdapter(getApplicationContext(),storeList);
-                listView.setAdapter(adapter);
-                listView.setVisibility(View.VISIBLE);*/
                 rcvstore.setVisibility(View.VISIBLE);
                 checkBox.setEnabled(true);
                 shimmerRecyclerView.hideShimmerAdapter();
@@ -327,13 +272,11 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-//        System.out.println("Call stop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-//        System.out.println("Call destroy");
         super.onDestroy();
     }
 
@@ -343,17 +286,13 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-//        System.out.println("Call restart");
         super.onRestart();
     }
 
     public void Load() {
-//        listView.setVisibility(View.GONE);
-        //progressBar.setVisibility(View.VISIBLE);
         rcvstore.setVisibility(View.INVISIBLE);
         shimmerRecyclerView.showShimmerAdapter();
         fillStore();
-        //new ProgressBarProcess().execute();
     }
 
     /*public void API(){

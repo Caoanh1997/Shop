@@ -20,120 +20,128 @@
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_account_active" />
+
         <TextView
             android:id="@+id/tvname"
-            android:layout_marginTop="5dp"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
             android:text="Name"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
             android:textSize="25sp"
-            android:layout_below="@+id/avatar"
-            />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tvsignout"
-            android:layout_marginTop="5dp"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tvname"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
             android:text="Sign out"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp"
-            android:layout_below="@+id/tvname"
-            />
+            android:textSize="20sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp">
+
         <TextView
-            android:textColor="@android:color/black"
-            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Đơn hàng của tôi"/>
+            android:layout_alignParentLeft="true"
+            android:text="Đơn hàng của tôi"
+            android:textColor="@android:color/black" />
+
         <TextView
             android:id="@+id/tvallorder"
-            android:layout_marginRight="5dp"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Xem tất cả các đơn hàng >"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="Xem tất cả các đơn hàng >"
+            android:textColor="@android:color/holo_red_dark" />
     </RelativeLayout>
 
 
     <LinearLayout
-        android:weightSum="3"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <LinearLayout
             android:id="@+id/lnconfirm"
-            android:weightSum="2"
-            android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <ImageView
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:src="@drawable/ic_pay"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_pay" />
+
             <TextView
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:text="Chờ xác nhận"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Chờ xác nhận"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/lntransport"
-            android:weightSum="2"
-            android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <ImageView
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:src="@drawable/ic_transport"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_transport" />
+
             <TextView
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:text="Đang giao"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Đang giao"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/lndelivered"
-            android:weightSum="2"
-            android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <ImageView
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:src="@drawable/ic_delivered"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_delivered" />
+
             <TextView
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:text="Đã giao"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Đã giao"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 

@@ -48,7 +48,7 @@ public class ConfirmOrderFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private ExpandableListView expandableListView;
 
-    private HashMap<Bill,List<Cart>> ListBillDetail;
+    private HashMap<Bill, List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
 
@@ -101,26 +101,26 @@ public class ConfirmOrderFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
 
-        databaseReference.child(getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE)
-                .getString("userID","")).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE)
+                .getString("userID", "")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Cart> cartList;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Bill bill = snapshot.getValue(Bill.class);
-                    if(bill.getState().equals("Đang chờ xác nhận")){
+                    if (bill.getState().equals("Đang chờ xác nhận")) {
                         cartList = bill.getCartList();
-                        Bill b = new Bill(bill.getKey_cart(),bill.getUserID(),bill.getTotal_price(),
-                                bill.getState(),bill.getKey_store(),bill.getDatetime(),bill.getDatetime_delivered());
+                        Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                         billList.add(b);
-                        ListBillDetail.put(b,cartList);
+                        ListBillDetail.put(b, cartList);
                     }
                 }
 //                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
 //                rcvlistbill.setAdapter(billRecyclerViewAdapter);
 //                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
-                billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new ConfirmOrderFragment());
+                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new ConfirmOrderFragment());
                 expandableListView.setAdapter(billExpandListAdapter);
             }
 

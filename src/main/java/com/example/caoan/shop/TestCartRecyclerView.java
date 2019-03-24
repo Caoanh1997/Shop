@@ -2,8 +2,8 @@ package com.example.caoan.shop;
 
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -31,7 +31,7 @@ public class TestCartRecyclerView extends AppCompatActivity {
         new ProgressBarProcess().execute();
     }
 
-    class ProgressBarProcess extends AsyncTask<Void,Void,Void> {
+    class ProgressBarProcess extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -45,7 +45,7 @@ public class TestCartRecyclerView extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for(int i=1;i<=3;i++){
+            for (int i = 1; i <= 3; i++) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -57,7 +57,7 @@ public class TestCartRecyclerView extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            cartRecyclerViewAdapter = new CartRecyclerViewAdapter(TestCartRecyclerView.this,cartList);
+            cartRecyclerViewAdapter = new CartRecyclerViewAdapter(TestCartRecyclerView.this, cartList);
             System.out.println(cartList.size());
             recyclerView.setAdapter(cartRecyclerViewAdapter);
 

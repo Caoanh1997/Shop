@@ -3,36 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentComponent.AllOrderFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".FragmentComponent.AllOrderFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tv"
-        android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All order fragment" />
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:layout_below="@+id/tv"-->
-        <!--android:id="@+id/rcvlistbill"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
     <ExpandableListView
-        android:pointerIcon="zoom_in"
-        android:padding="10dp"
         android:id="@+id/expandableListView"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:layout_height="match_parent"
+        android:childDivider="@android:color/holo_blue_bright"
         android:divider="@android:color/holo_red_light"
         android:dividerHeight="1dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:listSelector="@android:color/holo_green_dark"
-        android:childDivider="@android:color/holo_blue_bright">
+        android:padding="10dp"
+        android:pointerIcon="zoom_in">
 
     </ExpandableListView>
 

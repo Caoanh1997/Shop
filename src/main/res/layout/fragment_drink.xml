@@ -18,17 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
 
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="Food"
-            android:textSize="25sp"
-            android:visibility="gone" />
-
         <GridView
             android:id="@+id/gv"
             android:layout_width="match_parent"
@@ -36,19 +25,7 @@
             android:layout_below="@+id/tv"
             android:horizontalSpacing="10dp"
             android:numColumns="2"
-            android:verticalSpacing="10dp">
-        </GridView>
-
-        <Button
-            android:id="@+id/btsize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gv"
-            android:layout_centerHorizontal="true"
-            android:clickable="false"
-            android:text="Size list"
-            android:textSize="25sp"
-            android:visibility="gone" />
+            android:verticalSpacing="10dp"></GridView>
 
         <View
             android:id="@+id/viewbg"

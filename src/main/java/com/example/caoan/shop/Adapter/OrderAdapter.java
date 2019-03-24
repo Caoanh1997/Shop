@@ -15,7 +15,6 @@ import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends ArrayAdapter<Cart> {
@@ -24,7 +23,7 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
     private Context context;
 
     public OrderAdapter(@NonNull Context context, @NonNull List<Cart> objects) {
-        super(context, 0,  objects);
+        super(context, 0, objects);
         this.context = context;
         cartList = objects;
     }
@@ -68,10 +67,10 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
-        if(convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.order_item_layout,parent,false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.order_item_layout, parent, false);
             viewHolder.avatar = convertView.findViewById(R.id.avatar);
             viewHolder.tvnameproduct = convertView.findViewById(R.id.tvnameproduct);
             //viewHolder.tvprice = convertView.findViewById(R.id.tvprice);
@@ -80,33 +79,34 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
             viewHolder.tvsumprice = convertView.findViewById(R.id.tvsumprice);
 
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Cart cart = getItem(position);
-        if (cart != null){
+        if (cart != null) {
             fullscreen(viewHolder.avatar);
             Picasso.get().load(cart.getUrlImage()).into(viewHolder.avatar);
             viewHolder.tvnameproduct.setText(cart.getName());
             //viewHolder.tvprice.setText(String.valueOf(cart.getPrice()));
-            viewHolder.tvnumber.setText("Number:"+String.valueOf(cart.getNumber()));
+            viewHolder.tvnumber.setText("Number:" + String.valueOf(cart.getNumber()));
             //viewHolder.tvstate.setText("Chưa xác nhận");
-            viewHolder.tvsumprice.setText(String.valueOf(cart.getPrice()*cart.getNumber())+"đ");
+            viewHolder.tvsumprice.setText(String.valueOf(cart.getPrice() * cart.getNumber()) + "đ");
         }
         return convertView;
     }
-    class ViewHolder{
-        private ImageView avatar;
-        private TextView tvnameproduct,tvnumber,tvsumprice;//,tvprice,tvstate;
+
+    public void fullscreen(ImageView imageView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            imageView.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+        else {
+        }
     }
 
-    public void fullscreen(ImageView imageView){
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH ){
-            imageView.setSystemUiVisibility( View.SYSTEM_UI_FLAG_HIDE_NAVIGATION );
-
-        }
-        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB )
-            imageView.setSystemUiVisibility( View.STATUS_BAR_HIDDEN );
-        else{}
+    class ViewHolder {
+        private ImageView avatar;
+        private TextView tvnameproduct, tvnumber, tvsumprice;//,tvprice,tvstate;
     }
 }

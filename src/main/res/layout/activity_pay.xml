@@ -16,9 +16,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -36,17 +36,17 @@
             </RelativeLayout>
 
             <ListView
-                android:nestedScrollingEnabled="true"
                 android:id="@+id/lvcart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true">
 
             </ListView>
 
             <RelativeLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,10 +133,11 @@
                 android:hint="Nhập số điện thoại khách hàng"
                 android:inputType="phone"
                 android:paddingLeft="5dp" />
+
             <RelativeLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -151,20 +152,22 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_pay" />
             </RelativeLayout>
+
             <Spinner
-                android:spinnerMode="dropdown"
                 android:id="@+id/sppay"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown">
 
             </Spinner>
+
             <Button
+                android:id="@+id/btput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/state_button_checkout"
-                android:id="@+id/btput"
                 android:text="Submit Order"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
     </ScrollView>

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TestViewSwapper">
-    
+
     <ViewSwitcher
-        android:background="@android:color/white"
-        android:layout_above="@+id/navigation"
         android:id="@+id/vs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:background="@android:color/white">
 
     </ViewSwitcher>
 

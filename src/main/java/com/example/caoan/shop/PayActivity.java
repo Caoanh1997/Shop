@@ -3,11 +3,11 @@ package com.example.caoan.shop;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.example.caoan.shop.Adapter.OrderAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Account;
@@ -39,10 +37,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
-
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -99,7 +93,7 @@ public class PayActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("Order");
 
         DatabaseReference reference = firebaseDatabase.getReference("Account");
-        String key_user = getSharedPreferences("Account",Context.MODE_PRIVATE).getString("userID","");
+        String key_user = getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", "");
         reference.child(key_user).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,19 +110,19 @@ public class PayActivity extends AppCompatActivity {
             }
         });
         String[] pay = getResources().getStringArray(R.array.pay);
-        sppay.setAdapter(new ArrayAdapter(this,android.R.layout.simple_spinner_item,pay));
+        sppay.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, pay));
 
 
         spinnerhuyen.setVisibility(View.INVISIBLE);
         spinnerxa.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
-        key_master = sharedPreferences.getString("key_master","");
-        key = sharedPreferences.getString("key","");
+        key_master = sharedPreferences.getString("key_master", "");
+        key = sharedPreferences.getString("key", "");
         cartList = new ArrayList<>();
         //cartList = (ArrayList<Cart>) intent.getSerializableExtra("listcart");
         cartList = (ArrayList<Cart>) dataCart.getCartList(key);
-        OrderAdapter orderAdapter = new OrderAdapter(this,cartList);
+        OrderAdapter orderAdapter = new OrderAdapter(this, cartList);
         lvcart.setAdapter(orderAdapter);
         setListViewHeightBasedOnItems(lvcart);
 
@@ -143,7 +137,7 @@ public class PayActivity extends AppCompatActivity {
         btput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()){
+                if (CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()) {
                     //loadingButton.startAnimation();
                     firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -151,9 +145,9 @@ public class PayActivity extends AppCompatActivity {
                     final DatabaseReference reference1 = firebaseDatabase.getReference("Order");
                     //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
                     final String key_cart = databaseReference.push().getKey();
-                    String product="";
-                    for (Cart cart : cartList){
-                        product += cart.getName() + " ("+cart.getPrice()+" x"+cart.getNumber()+"),";
+                    String product = "";
+                    for (Cart cart : cartList) {
+                        product += cart.getName() + " (" + cart.getPrice() + " x" + cart.getNumber() + "),";
                     }
                     String total_price = dataCart.Total(key);
                     calendar = Calendar.getInstance();
@@ -162,25 +156,25 @@ public class PayActivity extends AppCompatActivity {
 
                     String date_time = "";
                     date_time += format_date.format(calendar.getTime());
-                    date_time += " "+format_time.format(calendar.getTime());
+                    date_time += " " + format_time.format(calendar.getTime());
 //                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
 //                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
-                    final Bill bill = new Bill(key_cart,getUserID(),cartList,total_price,"Đang chờ xác nhận",key,date_time,"");
+                    final Bill bill = new Bill(key_cart, getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             //loadingButton.revertAnimation();
-                            reference1.child(getSharedPreferences("Account",Context.MODE_PRIVATE).getString("userID",""))
+                            reference1.child(getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", ""))
                                     .child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(),"Đặt hàng thành công",Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(PayActivity.this, OrderManagerActivity.class).putExtra("tab",1));
+                                    Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(PayActivity.this, OrderManagerActivity.class).putExtra("tab", 1));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(),"Đặt hàng thất bại",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -188,7 +182,7 @@ public class PayActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //loadingButton.revertAnimation();
-                            Toast.makeText(getApplicationContext(),"Đặt hàng thất bại",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
                         }
                     });
                     dataCart.DeleteCart(key);
@@ -199,7 +193,7 @@ public class PayActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -208,9 +202,9 @@ public class PayActivity extends AppCompatActivity {
         }
     }
 
-    public String getUserID(){
-        String id = getSharedPreferences("Account",Context.MODE_PRIVATE)
-                .getString("userID","");
+    public String getUserID() {
+        String id = getSharedPreferences("Account", Context.MODE_PRIVATE)
+                .getString("userID", "");
         return id;
     }
 
@@ -254,35 +248,37 @@ public class PayActivity extends AppCompatActivity {
             return true;
         }
     }
-    public boolean checkSpinner(){
-        if(spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
-                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")){
-            Snackbar.make(spinnertinh,"Điền đầy đủ thông tin địa chỉ",Snackbar.LENGTH_LONG).setAction("Action",null)
+
+    public boolean checkSpinner() {
+        if (spinnertinh.getSelectedItem().toString().equals("Tỉnh/thành phố") || spinnerhuyen.getSelectedItem().toString().equals("Quận/huyện")
+                || spinnerxa.getSelectedItem().toString().equals("Xã/phường")) {
+            Snackbar.make(spinnertinh, "Điền đầy đủ thông tin địa chỉ", Snackbar.LENGTH_LONG).setAction("Action", null)
                     .show();
             return false;
-        }else {
+        } else {
             return true;
         }
     }
-    public void initSpinner(){
-        tinh  = getResources().getStringArray(R.array.tinh);
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, tinh);
+
+    public void initSpinner() {
+        tinh = getResources().getStringArray(R.array.tinh);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, tinh);
         spinnertinh.setAdapter(adapter);
         spinnertinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tinh = (String) adapterView.getItemAtPosition(i);
-                if(!tinh.equals("Tỉnh/thành phố")){
+                if (!tinh.equals("Tỉnh/thành phố")) {
                     spinnerhuyen.setVisibility(View.VISIBLE);
-                    if(tinh.equals("Đà Nẵng")){
+                    if (tinh.equals("Đà Nẵng")) {
                         spinnertinh.setTag(tinh);
                         huyen = getResources().getStringArray(R.array.huyenDN);
-                    }else {
+                    } else {
                         spinnertinh.setTag("Quảng Nam");
                         huyen = getResources().getStringArray(R.array.huyenQN);
                     }
-                    spinnerhuyen.setAdapter(new ArrayAdapter(PayActivity.this,android.R.layout.simple_spinner_item,huyen));
-                }else {
+                    spinnerhuyen.setAdapter(new ArrayAdapter(PayActivity.this, android.R.layout.simple_spinner_item, huyen));
+                } else {
                     spinnerhuyen.setVisibility(View.INVISIBLE);
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
@@ -297,7 +293,7 @@ public class PayActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String huyen = (String) adapterView.getItemAtPosition(i);
-                if(!huyen.equals("Quận/huyện")){
+                if (!huyen.equals("Quận/huyện")) {
                     spinnerxa.setVisibility(View.VISIBLE);
                     if (huyen.equals("Thanh Khê")) {
                         xa = getResources().getStringArray(R.array.xaDN1);
@@ -318,8 +314,8 @@ public class PayActivity extends AppCompatActivity {
                         xa = getResources().getStringArray(R.array.xaQN3);
                     }
                     spinnerhuyen.setTag(huyen);
-                    spinnerxa.setAdapter(new ArrayAdapter(PayActivity.this,android.R.layout.simple_spinner_item,xa));
-                }else {
+                    spinnerxa.setAdapter(new ArrayAdapter(PayActivity.this, android.R.layout.simple_spinner_item, xa));
+                } else {
                     spinnerxa.setVisibility(View.INVISIBLE);
                 }
             }

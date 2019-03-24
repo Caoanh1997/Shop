@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -16,10 +16,8 @@ import com.example.caoan.shop.Adapter.FoodAdapter;
 import com.example.caoan.shop.Adapter.FragmentAdapter;
 import com.example.caoan.shop.FragmentComponent.DrinkFragment;
 import com.example.caoan.shop.FragmentComponent.FoodFragment;
-import com.example.caoan.shop.FragmentComponent.PhoneFragment;
 import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.ViewPageTransformer.CubeInScalingTransformation;
-import com.example.caoan.shop.ViewPageTransformer.DepthPageTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         initTabhost();
         fillFragment();
 
-        adapter = new FragmentAdapter(getSupportFragmentManager(),fragmentList);
+        adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
-        viewPager.setPageTransformer(true,new CubeInScalingTransformation());
+        viewPager.setPageTransformer(true, new CubeInScalingTransformation());
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -77,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillFragment() {
         fragmentList = new ArrayList<Fragment>();
-        SharedPreferences sharedPreferences = getSharedPreferences("key_store",Context.MODE_PRIVATE);
-        String key = sharedPreferences.getString("key","null");
-        String userKey = sharedPreferences.getString("key_master","null");
-        FoodFragment foodFragment = new FoodFragment().newInstance(key,userKey);
-        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key,userKey);
+        SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
+        String key = sharedPreferences.getString("key", "null");
+        String userKey = sharedPreferences.getString("key_master", "null");
+        FoodFragment foodFragment = new FoodFragment().newInstance(key, userKey);
+        DrinkFragment drinkFragment = new DrinkFragment().newInstance(key, userKey);
 
         fragmentList.add(foodFragment);
         fragmentList.add(drinkFragment);
@@ -127,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected()) {
+        if (ni != null && ni.isConnected()) {
             return true;
         }
         return false;

@@ -1,9 +1,9 @@
 package com.example.caoan.shop;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +19,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private Button btsignup,btsignin,btlogout,btverify;
+    private Button btsignup, btsignin, btlogout, btverify;
     private TextView textView;
     private FirebaseAuth mAuth;
-    private EditText etemail,etpassword;
+    private EditText etemail, etpassword;
     private FirebaseUser firebaseUser;
-    private String s="";
+    private String s = "";
     private ActionBar actionBar;
     private Button back;
 
@@ -56,10 +56,10 @@ public class AccountActivity extends AppCompatActivity {
                 String email = etemail.getText().toString();
                 String password = etpassword.getText().toString();
 
-                if(email== null || password == null || email.equals("") || password.equals("")){
+                if (email == null || password == null || email.equals("") || password.equals("")) {
                     etemail.setError("Dien thong tin nay");
                     etpassword.setError("Dien thong tin nay");
-                }else{
+                } else {
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(AccountActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -85,10 +85,10 @@ public class AccountActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 btverify.setEnabled(true);
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Verification email sent to " + firebaseUser.getEmail(),
                                             Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(getApplicationContext(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -106,19 +106,19 @@ public class AccountActivity extends AppCompatActivity {
                 String email = etemail.getText().toString();
                 String password = etpassword.getText().toString();
 
-                if(email== null || password == null || email.equals("") || password.equals("")){
+                if (email == null || password == null || email.equals("") || password.equals("")) {
                     etemail.setError("Dien thong tin nay");
                     etpassword.setError("Dien thong tin nay");
-                }else{
-                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(AccountActivity.this, new OnCompleteListener<AuthResult>() {
+                } else {
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(AccountActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(),"Sign in success",Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Sign in success", Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
-                            }else {
-                                Toast.makeText(getApplicationContext(),"Sign in failed",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -138,7 +138,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseUser = mAuth.getCurrentUser();
-                Toast.makeText(getApplicationContext(),String.valueOf(firebaseUser.isEmailVerified()),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(firebaseUser.isEmailVerified()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -151,7 +151,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        if (user != null){
+        if (user != null) {
             etpassword.setVisibility(View.GONE);
             etemail.setVisibility(View.GONE);
 
@@ -160,8 +160,8 @@ public class AccountActivity extends AppCompatActivity {
             btlogout.setVisibility(View.VISIBLE);
             btverify.setVisibility(View.VISIBLE);
 
-            textView.setText("Email: "+user.getEmail()+"(Verify: "+user.isEmailVerified()+")"+"\nUserID: "+user.getUid());
-        }else {
+            textView.setText("Email: " + user.getEmail() + "(Verify: " + user.isEmailVerified() + ")" + "\nUserID: " + user.getUid());
+        } else {
             etpassword.setVisibility(View.VISIBLE);
             etemail.setVisibility(View.VISIBLE);
 
@@ -176,7 +176,7 @@ public class AccountActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -184,6 +184,7 @@ public class AccountActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();

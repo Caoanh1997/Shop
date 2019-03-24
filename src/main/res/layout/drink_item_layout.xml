@@ -2,34 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/imagedrink"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:id="@+id/imagedrink"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
+
         <TextView
+            android:id="@+id/tvdrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
             android:gravity="center"
-            android:textColor="@color/red"
-            android:layout_margin="2dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="name drink"
-            android:id="@+id/tvdrink"/>
+            android:textColor="@color/red" />
+
         <TextView
-            android:textColor="@color/black"
-            android:layout_margin="2dp"
-            android:layout_gravity="center"
+            android:id="@+id/tvprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
             android:text="price drink"
-            android:id="@+id/tvprice"/>
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </RelativeLayout>
