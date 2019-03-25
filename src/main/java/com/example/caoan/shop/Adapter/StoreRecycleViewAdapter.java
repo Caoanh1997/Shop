@@ -12,7 +12,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.ItemClickListener;
@@ -49,13 +48,6 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
         }
     }
 
-    /*public void setAnimation(View view, int positoin){
-        if(positoin > lastPosition){
-            YoYo.with(Techniques.SlideInUp).duration(3000).playOn(view);
-            lastPosition=positoin;
-        }
-    }*/
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -86,7 +78,7 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 } else {
-                    Toast.makeText(context, "Long click", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -140,8 +132,8 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
     }
 
     public void Swipe(int position, int direction) {
-        storeList.remove(position);
-        notifyItemRemoved(position);
+        //storeList.remove(position);
+        //notifyItemRemoved(position);
     }
 
     public void Move(int oldPosition, int newPosition) {

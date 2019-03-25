@@ -37,14 +37,6 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <ListView
-            android:id="@+id/lvcart"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/rcvcart"
-            android:visibility="gone">
-
-        </ListView>
     </RelativeLayout>
 
     <LinearLayout

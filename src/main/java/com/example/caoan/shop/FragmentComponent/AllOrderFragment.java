@@ -41,10 +41,7 @@ public class AllOrderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    //private RecyclerView rcvlistbill;
     private View view;
-    //private BillRecyclerViewAdapter billRecyclerViewAdapter;
-    //private List<Bill> billList;
     private FirebaseDatabase firebaseDatabase;
     private ExpandableListView expandableListView;
 
@@ -117,9 +114,6 @@ public class AllOrderFragment extends Fragment {
                     billList.add(b);
                     ListBillDetail.put(b, cartList);
                 }
-//                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
-//                rcvlistbill.setAdapter(billRecyclerViewAdapter);
-//                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
                 billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new AllOrderFragment());
                 expandableListView.setAdapter(billExpandListAdapter);
             }

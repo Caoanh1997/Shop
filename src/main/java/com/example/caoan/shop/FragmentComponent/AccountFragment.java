@@ -65,7 +65,7 @@ public class AccountFragment extends Fragment {
 
     private CircularProgressButton btsignin, btsignup, btsignout;
     private EditText etemail, etpassword, etname, etaddress, etphone;
-    private TextView tvuserid, tvsignup, tvsignin;
+    private TextView tvsignup, tvsignin;
     private FirebaseAuth firebaseAuth;
     private Animation animation;
     private FirebaseDatabase firebaseDatabase;
@@ -128,7 +128,6 @@ public class AccountFragment extends Fragment {
         etname = view.findViewById(R.id.etname);
         etaddress = view.findViewById(R.id.etaddress);
         etphone = view.findViewById(R.id.etphone);
-        tvuserid = view.findViewById(R.id.tvuserid);
         tvsignup = view.findViewById(R.id.tvsignup);
         tvsignin = view.findViewById(R.id.tvsignin);
         lospinner = view.findViewById(R.id.spinner);
@@ -280,11 +279,12 @@ public class AccountFragment extends Fragment {
 
                                     Account account = new Account(userID, name, email, address, tinh, huyen, xa, phone);
                                     databaseReference.child(user.getUid()).setValue(account);
-                                    updateUI(user);
+                                    //updateUI(user);
                                     SaveAccountToSharedPreferences(user);
                                     btsignup.dispose();
                                     progressDialog.dismiss();
-                                    startActivity(new Intent(getContext(), BottomNavigationBarActivity.class));
+                                    startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
+                                            .putExtra("login", true));
                                 } else {
                                     btsignup.revertAnimation();
                                     Toast.makeText(getContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
@@ -474,7 +474,6 @@ public class AccountFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Account account = dataSnapshot.child(user.getUid()).getValue(Account.class);
-                    tvuserid.setText("Tên khách hàng: " + account.getName());
                 }
 
                 @Override
@@ -503,7 +502,6 @@ public class AccountFragment extends Fragment {
             etaddress.setClickable(false);
             etphone.setClickable(false);
 
-            tvuserid.setVisibility(View.VISIBLE);
             btsignout.setVisibility(View.VISIBLE);
         }
     }

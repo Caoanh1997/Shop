@@ -10,15 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.FoodAdapter;
-import com.example.caoan.shop.MainActivity;
+import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.Model.Food;
 import com.example.caoan.shop.R;
 import com.google.firebase.database.DataSnapshot;
@@ -43,16 +41,11 @@ public class FoodFragment extends Fragment {
     private String mParam2;
     private FirebaseDatabase database;
     private FoodAdapter adapter;
-    private Button button;
     private ProgressBar progressBar;
-    private MainActivity mainActivity;
     private List<Food> foodList;
     private String keyStore;
     private String userKey;
-//    private BottomSheetBehavior bottomSheetBehavior;
-//    private LinearLayout bottomSheetLayout;
-//    private View viewbg;
-//    private Button btclose, btaddcart;
+    private BottomNavigationBarActivity bottomNavigationBarActivity;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -140,8 +133,8 @@ public class FoodFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainActivity) {
-            this.mainActivity = (MainActivity) context;
+        if (context instanceof BottomNavigationBarActivity) {
+            this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
         }
     }
 

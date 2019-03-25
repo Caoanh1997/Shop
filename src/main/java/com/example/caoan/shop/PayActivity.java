@@ -120,17 +120,10 @@ public class PayActivity extends AppCompatActivity {
         key_master = sharedPreferences.getString("key_master", "");
         key = sharedPreferences.getString("key", "");
         cartList = new ArrayList<>();
-        //cartList = (ArrayList<Cart>) intent.getSerializableExtra("listcart");
         cartList = (ArrayList<Cart>) dataCart.getCartList(key);
         OrderAdapter orderAdapter = new OrderAdapter(this, cartList);
         lvcart.setAdapter(orderAdapter);
         setListViewHeightBasedOnItems(lvcart);
-
-        //final DataCart dataCart = new DataCart(this);
-
-        //String str = dataCart.Total(key);
-        //float total = Float.valueOf(str);
-        //tvsum.setText(String.valueOf(total)+"d");
 
         initSpinner();
 
@@ -145,7 +138,7 @@ public class PayActivity extends AppCompatActivity {
                     final DatabaseReference reference1 = firebaseDatabase.getReference("Order");
                     //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
                     final String key_cart = databaseReference.push().getKey();
-                    String product = "";
+                    String product = null;
                     for (Cart cart : cartList) {
                         product += cart.getName() + " (" + cart.getPrice() + " x" + cart.getNumber() + "),";
                     }

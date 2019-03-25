@@ -11,18 +11,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.caoan.shop.Adapter.CartAdapter;
 import com.example.caoan.shop.Adapter.CartRecyclerViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Cart;
@@ -33,18 +28,13 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     private static TextView textView;
-    private Button btthanhtoan, bthome;
+    private Button btthanhtoan;
     private ActionBar actionBar;
     private ProgressBar progressBar;
-    private CartAdapter cartAdapter;
     private CartRecyclerViewAdapter cartRecyclerViewAdapter;
-    private ListView listView;
     private RecyclerView recyclerView;
     private List<Cart> cartList;
     private DataCart dataCart;
-    private int num;
-    //private float total;
-    //private String str="";
     private String key_store;
 
     public static void setTextviewSum(String sum) {
@@ -57,12 +47,9 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         btthanhtoan = findViewById(R.id.btthanhtoan);
-        bthome = findViewById(R.id.bthome);
-        listView = findViewById(R.id.lvcart);
         recyclerView = findViewById(R.id.rcvcart);
         textView = findViewById(R.id.tvsum);
         progressBar = findViewById(R.id.progress);
-        //listView.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
         key_store = sharedPreferences.getString("key", "");
@@ -70,7 +57,6 @@ public class CartActivity extends AppCompatActivity {
         textView.setText(dataCart.Total(key_store) + "đ");
 
         new ProgressBarProcess().execute();
-        registerForContextMenu(listView);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
             @Override
             public void onSwipe(int vitri, int huong) {
@@ -95,7 +81,8 @@ public class CartActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
                 String userID = getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", "");
                 if (userID.equals("")) {
-                    startActivity(new Intent(CartActivity.this, LoginActivity.class));
+                    startActivity(new Intent(CartActivity.this, BottomNavigationBarActivity.class)
+                            .putExtra("login", true));
                 } else {
                     Intent intent = new Intent(CartActivity.this, PayActivity.class);
                     intent.putExtra("listcart", (Serializable) cartList);
@@ -103,54 +90,6 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });
-        bthome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CartActivity.this, FirstActivity.class);
-                startActivity(intent);
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), ((Cart) adapterView.getItemAtPosition(i)).toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listView.setTag(((Cart) adapterView.getItemAtPosition(i)).getId());
-                num = i;
-                return false;
-            }
-        });
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.context_menu, menu);
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete:
-                int id = (int) listView.getTag();
-                dataCart.Delete(id);
-                cartList.remove(num);
-                listView.invalidateViews();
-                textView.setText(dataCart.Total(key_store) + "đ");
-                if (dataCart.Total(key_store).equals("0")) {
-                    btthanhtoan.setEnabled(false);
-                } else {
-                    btthanhtoan.setEnabled(true);
-                }
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-
     }
 
     @Override
@@ -234,25 +173,16 @@ public class CartActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             //super.onPostExecute(aVoid);
             progressBar.setVisibility(View.GONE);
-            //listView.setVisibility(View.VISIBLE);
-
-            cartAdapter = new CartAdapter(CartActivity.this, cartList);
-            listView.setAdapter(cartAdapter);
             cartRecyclerViewAdapter = new CartRecyclerViewAdapter(CartActivity.this, cartList);
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             recyclerView.setAdapter(cartRecyclerViewAdapter);
 
-//            str = dataCart.Total(key_store);
-//            float total = Float.valueOf(str);
-            //textView.setText(cartAdapter.getSum()+"đ");
             String str = (String) textView.getText();
             if (dataCart.Total(key_store).equals("0") || str.equals("0đ")) {
                 btthanhtoan.setEnabled(false);
             } else {
                 btthanhtoan.setEnabled(true);
             }
-            bthome.setEnabled(true);
-
         }
     }
 }

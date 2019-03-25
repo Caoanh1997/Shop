@@ -12,24 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".FirstActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
         <activity android:name=".CartActivity" />
-        <activity android:name=".AccountActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".Main2Activity" />
         <activity android:name=".StoreActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,19 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
         <activity android:name=".PayActivity" />
-        <activity
-            android:name=".SnackActivity"
-            android:label="@string/title_activity_snack"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".Service.CheckNetwork"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".TabLayoutActivity" />
         <activity android:name=".BottomNavigationBarActivity">
 
             <!-- <intent-filter> -->
@@ -60,14 +38,6 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".OrderManagerActivity" />
-        <activity android:name=".TestViewSwapper" />
-        <activity android:name=".TestCartRecyclerView">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
     </application>
 
 </manifest>
