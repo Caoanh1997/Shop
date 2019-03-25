@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.caoan.shop.FragmentComponent.AccountFragment;
 import com.example.caoan.shop.FragmentComponent.AccountFragmentFix;
 import com.example.caoan.shop.FragmentComponent.CartFragment;
 import com.example.caoan.shop.FragmentComponent.HomeFragment;
@@ -40,6 +40,7 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
     private List<Fragment> listhide;
     private Fragment active;
     private FirebaseDatabase firebaseDatabase;
+    private boolean doubleClickBackPress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +174,27 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleClickBackPress) {
+            /*Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);*/
+            finish();
+        }
+        Toast.makeText(getApplicationContext(), "Please click BACK again to Store", Toast.LENGTH_SHORT).show();
+        this.doubleClickBackPress = true;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleClickBackPress = false;
+            }
+        }, 5000);
+
     }
 
     private void replaceFragment(Fragment fragment) {
