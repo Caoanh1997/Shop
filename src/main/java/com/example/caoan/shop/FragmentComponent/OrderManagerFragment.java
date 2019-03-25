@@ -128,7 +128,8 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(getActivity(), BottomNavigationBarActivity.class).putExtra("login", true));
+                Toast.makeText(getContext(),"Logout success",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), BottomNavigationBarActivity.class));
             }
         });
         lnconfirm.setOnClickListener(new View.OnClickListener() {

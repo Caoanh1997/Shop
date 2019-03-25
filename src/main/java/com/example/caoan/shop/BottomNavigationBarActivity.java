@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.caoan.shop.FragmentComponent.AccountFragment;
+import com.example.caoan.shop.FragmentComponent.AccountFragmentFix;
 import com.example.caoan.shop.FragmentComponent.CartFragment;
 import com.example.caoan.shop.FragmentComponent.HomeFragment;
 import com.example.caoan.shop.FragmentComponent.OrderManagerFragment;
@@ -57,10 +58,11 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Store");
 
-        final Fragment fragment1 = new HomeFragment().newInstance(key, userKey);
+
         navigationView = findViewById(R.id.navigation);
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
+        final Fragment fragment1 = new HomeFragment().newInstance(key, userKey);
         fragmentManager.beginTransaction().add(R.id.frame_container, fragment1, "home").commit();
         listhide = new ArrayList<Fragment>();
         active = fragment1;
@@ -78,7 +80,6 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().show(fragment1).commit();
                     }
                     active = fragment1;
-                    //actionBar.setTitle("Home");
                 }
                 Fragment fragment;
                 switch (item.getItemId()) {
@@ -101,7 +102,7 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
                         if (user != null) {
                             fragment = new OrderManagerFragment();
                         } else {
-                            fragment = new AccountFragment();
+                            fragment = new AccountFragmentFix();
                         }
                         loadFragment(fragment, fragmentManager);
                         //actionBar.setTitle("Account");

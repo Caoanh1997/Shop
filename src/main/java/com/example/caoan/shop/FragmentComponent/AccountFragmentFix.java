@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -27,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.R;
@@ -46,36 +47,38 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AccountFragment.OnFragmentInteractionListener} interface
+ * {@link AccountFragmentFix.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AccountFragment#newInstance} factory method to
+ * Use the {@link AccountFragmentFix#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountFragment extends Fragment {
+public class AccountFragmentFix extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private BottomNavigationBarActivity bottomNavigationBarActivity;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private View view;
 
-    private CircularProgressButton btsignin, btsignup, btsignout;
+    private CircularProgressButton btsignin, btsignup;
     private EditText etemail, etpassword, etname, etaddress, etphone;
     private TextView tvsignup, tvsignin;
     private FirebaseAuth firebaseAuth;
     private Animation animation;
     private FirebaseDatabase firebaseDatabase;
+    private ProgressDialog progressDialog;
     private LinearLayout lospinner;
     private String[] tinh;
     private String[] huyen;
     private String[] xa;
     private Spinner spinnertinh, spinnerhuyen, spinnerxa;
+    private View view;
 
-    public AccountFragment() {
+    private BottomNavigationBarActivity bottomNavigationBarActivity;
+
+    public AccountFragmentFix() {
         // Required empty public constructor
     }
 
@@ -85,11 +88,11 @@ public class AccountFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
+     * @return A new instance of fragment AccountFragmentFix.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
+    public static AccountFragmentFix newInstance(String param1, String param2) {
+        AccountFragmentFix fragment = new AccountFragmentFix();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -107,21 +110,13 @@ public class AccountFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        updateUI(user);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_account, container, false);
+        view = inflater.inflate(R.layout.fragment_account_fragment_fix, container, false);
 
         btsignin = view.findViewById(R.id.btsignin);
         btsignup = view.findViewById(R.id.btsignup);
-        btsignout = view.findViewById(R.id.btsignout);
         etemail = view.findViewById(R.id.etemail);
         etpassword = view.findViewById(R.id.etpassword);
         etname = view.findViewById(R.id.etname);
@@ -137,44 +132,19 @@ public class AccountFragment extends Fragment {
         spinnerhuyen.setVisibility(View.INVISIBLE);
         spinnerxa.setVisibility(View.INVISIBLE);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         fillSpinner();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
 
-        animation = new AnimationUtils().loadAnimation(getContext(), R.anim.fade_out);
-
-        final ObjectAnimator objectAnimator = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.fade_out_animator);
-        final ObjectAnimator objectAnimator1 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.fade_out_animator);
-        final ObjectAnimator objectAnimator2 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.object_animator_ex);
-        final ObjectAnimator objectAnimator3 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_left_animator);
-        final ObjectAnimator objectAnimator4 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_right_animator);
-        final ObjectAnimator objectAnimator5 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_left_animator);
-        final ObjectAnimator objectAnimator6 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_up_animator);
-
-        final ObjectAnimator objectAnimator9 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_up_animator);
-        final ObjectAnimator objectAnimator10 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_up_animator);
-        final ObjectAnimator objectAnimator11 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_up_animator);
-
-        objectAnimator.setTarget(tvsignup);
-        objectAnimator1.setTarget(btsignin);
-        objectAnimator2.setTarget(tvsignup);
-        objectAnimator3.setTarget(etname);
-        objectAnimator11.setTarget(lospinner);
-        objectAnimator4.setTarget(etaddress);
-        objectAnimator5.setTarget(etphone);
-        objectAnimator6.setTarget(btsignup);
-
-        objectAnimator9.setTarget(etemail);
-        objectAnimator10.setTarget(etpassword);
-
         tvsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                btsignin.startAnimation(animation);
-                btsignin.setEnabled(false);
                 btsignin.setVisibility(View.GONE);
+                tvsignup.setVisibility(View.GONE);
+
                 etname.setVisibility(View.VISIBLE);
                 lospinner.setVisibility(View.VISIBLE);
                 etaddress.setVisibility(View.VISIBLE);
@@ -182,34 +152,25 @@ public class AccountFragment extends Fragment {
                 btsignup.setVisibility(View.VISIBLE);
                 tvsignin.setVisibility(View.VISIBLE);
                 tvsignin.setClickable(true);
-                tvsignup.setVisibility(View.GONE);
 
-                //etpassword.startAnimation(animation);
-                objectAnimator.start();
-                objectAnimator1.start();
-                objectAnimator2.start();
-                objectAnimator3.start();
-                objectAnimator4.start();
-                objectAnimator5.start();
-                objectAnimator6.start();
-                objectAnimator9.start();
-                objectAnimator10.start();
-                objectAnimator11.start();
+                //Amination
+                YoYo.with(Techniques.BounceInRight).duration(2000).playOn(etname);
+                YoYo.with(Techniques.BounceInRight).duration(2000).playOn(etaddress);
+                YoYo.with(Techniques.BounceInLeft).duration(2000).playOn(lospinner);
+                YoYo.with(Techniques.BounceInLeft).duration(2000).playOn(etphone);
+                YoYo.with(Techniques.StandUp).duration(1000).playOn(btsignup);
+                YoYo.with(Techniques.StandUp).duration(1000).playOn(tvsignin);
             }
         });
         tvsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //getActivity().finish();
-                //startActivity(getActivity().getIntent());
-                Intent intent = new Intent(getActivity(), BottomNavigationBarActivity.class);
+                /*Intent intent = new Intent(getActivity(), BottomNavigationBarActivity.class);
                 intent.putExtra("login", true);
-                startActivity(intent);
-                //updateUI(null);
+                startActivity(intent);*/
+                updateUI(null);
             }
         });
-
-        firebaseAuth = FirebaseAuth.getInstance();
 
         btsignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +194,7 @@ public class AccountFragment extends Fragment {
 
                                             //tvuserid.setText(user.getUid());
                                             startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
-                                                    );
+                                            );
                                             Toast.makeText(getContext(), "Sign in success", Toast.LENGTH_SHORT).show();
                                         } else {
                                             btsignin.revertAnimation();
@@ -281,7 +242,7 @@ public class AccountFragment extends Fragment {
                                     btsignup.dispose();
 
                                     startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
-                                            );
+                                    );
                                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
                                 } else {
                                     btsignup.revertAnimation();
@@ -297,30 +258,8 @@ public class AccountFragment extends Fragment {
                 }
             }
         });
-        btsignout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("userID");
-                editor.commit();
-                getActivity().finish();
-                startActivity(getActivity().getIntent());
-            }
-        });
+
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof BottomNavigationBarActivity) {
-            this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
-        }
     }
 
     public void fillSpinner() {
@@ -401,6 +340,24 @@ public class AccountFragment extends Fragment {
             }
         });
     }
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BottomNavigationBarActivity) {
+            this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
+        }
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        updateUI(user);
+    }
 
     public boolean CheckOnline() {
         ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -442,66 +399,27 @@ public class AccountFragment extends Fragment {
 
     private void updateUI(final FirebaseUser user) {
         if (user == null) {
-            final ObjectAnimator objectAnimator7 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_down_animator);
-            final ObjectAnimator objectAnimator8 = (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), R.animator.move_down_animator);
-
-            objectAnimator7.setTarget(etemail);
-            objectAnimator8.setTarget(etpassword);
-
-            objectAnimator7.start();
-            objectAnimator8.start();
-
-            etname.setVisibility(View.GONE);
-            lospinner.setVisibility(View.GONE);
-            etaddress.setVisibility(View.INVISIBLE);
-            etphone.setVisibility(View.INVISIBLE);
-            etname.setClickable(false);
-            lospinner.setClickable(false);
-            etaddress.setClickable(false);
-            etphone.setClickable(false);
-            btsignup.setVisibility(View.GONE);
-            btsignout.setVisibility(View.GONE);
-            tvsignin.setVisibility(View.GONE);
-            btsignin.setVisibility(View.VISIBLE);
-            tvsignup.setVisibility(View.VISIBLE);
-            tvsignup.setClickable(true);
-        } else {
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = firebaseDatabase.getReference("Account");
-
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Account account = dataSnapshot.child(user.getUid()).getValue(Account.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            etemail.setVisibility(View.GONE);
-            etpassword.setVisibility(View.GONE);
             etname.setVisibility(View.GONE);
             lospinner.setVisibility(View.GONE);
             etaddress.setVisibility(View.GONE);
             etphone.setVisibility(View.GONE);
-            btsignin.setVisibility(View.GONE);
             btsignup.setVisibility(View.GONE);
             tvsignin.setVisibility(View.GONE);
-            tvsignup.setVisibility(View.GONE);
-            btsignup.setEnabled(false);
-            btsignin.setEnabled(false);
-            tvsignup.setClickable(false);
-            tvsignin.setClickable(false);
-            etemail.setEnabled(false);
-            etpassword.setEnabled(false);
             etname.setClickable(false);
             lospinner.setClickable(false);
             etaddress.setClickable(false);
             etphone.setClickable(false);
+            btsignin.setVisibility(View.VISIBLE);
+            tvsignup.setVisibility(View.VISIBLE);
+            tvsignup.setClickable(true);
 
-            btsignout.setVisibility(View.VISIBLE);
+            //Amination
+            YoYo.with(Techniques.SlideInUp).duration(1000).playOn(etemail);
+            YoYo.with(Techniques.SlideInUp).duration(1000).playOn(etpassword);
+            YoYo.with(Techniques.FlipInX).duration(1000).playOn(btsignin);
+            YoYo.with(Techniques.FlipInX).duration(1000).playOn(tvsignup);
+        } else {
+
         }
     }
 
