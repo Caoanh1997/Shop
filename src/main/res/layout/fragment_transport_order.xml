@@ -6,6 +6,11 @@
     tools:context=".FragmentComponent.TransportOrderFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress"/>
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"

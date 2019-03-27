@@ -3,13 +3,17 @@ package com.example.caoan.shop.FragmentComponent;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
+import com.example.caoan.shop.LoadEvent;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
@@ -19,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +58,7 @@ public class ConfirmOrderFragment extends Fragment {
     private HashMap<Bill, List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
+    private ProgressBar progressBar;
 
     public ConfirmOrderFragment() {
         // Required empty public constructor
@@ -81,6 +89,9 @@ public class ConfirmOrderFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -90,9 +101,21 @@ public class ConfirmOrderFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_confirm_order, container, false);
 
         expandableListView = view.findViewById(R.id.expandableListView);
+        progressBar = view.findViewById(R.id.progress);
 
         loadBill();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void loadBill() {
@@ -102,26 +125,23 @@ public class ConfirmOrderFragment extends Fragment {
         DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
 
         databaseReference.child(getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE)
-                .getString("userID", "")).addValueEventListener(new ValueEventListener() {
+                .getString("userID", "")).child("New").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Cart> cartList;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Bill bill = snapshot.getValue(Bill.class);
-                    if (bill.getState().equals("Đang chờ xác nhận")) {
                         cartList = bill.getCartList();
                         Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
                                 bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                         billList.add(b);
                         ListBillDetail.put(b, cartList);
-                    }
+
                 }
-//                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
-//                rcvlistbill.setAdapter(billRecyclerViewAdapter);
-//                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
                 billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new ConfirmOrderFragment());
                 expandableListView.setAdapter(billExpandListAdapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -129,6 +149,16 @@ public class ConfirmOrderFragment extends Fragment {
 
             }
         });
+    }
+
+
+    @Subscribe
+    public void Load(LoadEvent loadEvent){
+        if(loadEvent.isLoad()){
+            ListBillDetail.clear();
+            billList.clear();
+            loadBill();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

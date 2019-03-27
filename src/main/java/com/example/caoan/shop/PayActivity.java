@@ -1,5 +1,6 @@
 package com.example.caoan.shop;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,6 +58,7 @@ public class PayActivity extends AppCompatActivity {
     private Account account;
     private DataCart dataCart;
     private ActionBar actionBar;
+    private ProgressDialog progressDialog;
     //private CircularProgressButton loadingButton;
 
     @Override
@@ -109,7 +111,7 @@ public class PayActivity extends AppCompatActivity {
 
             }
         });
-        String[] pay = getResources().getStringArray(R.array.pay);
+        final String[] pay = getResources().getStringArray(R.array.pay);
         sppay.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, pay));
 
 
@@ -132,6 +134,10 @@ public class PayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()) {
                     //loadingButton.startAnimation();
+                    progressDialog = new ProgressDialog(PayActivity.this);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Đang đặt hàng...");
+                    progressDialog.show();
                     firebaseDatabase = FirebaseDatabase.getInstance();
 
                     databaseReference = firebaseDatabase.getReference("NewOrder");
@@ -150,23 +156,24 @@ public class PayActivity extends AppCompatActivity {
                     String date_time = "";
                     date_time += format_date.format(calendar.getTime());
                     date_time += " " + format_time.format(calendar.getTime());
-//                    String address = String.valueOf(etaddress.getText()) +", "+ String.valueOf(spinnerxa.getTag())+"-"
-//                            +String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
+
                     final Bill bill = new Bill(key_cart, getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             //loadingButton.revertAnimation();
                             reference1.child(getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", ""))
-                                    .child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    .child("New").child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(PayActivity.this, OrderManagerActivity.class).putExtra("tab", 1));
+                                    startActivity(new Intent(PayActivity.this, OrderManagerActivityFix.class).putExtra("tab", 0));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -175,6 +182,7 @@ public class PayActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //loadingButton.revertAnimation();
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
                         }
                     });

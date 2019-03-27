@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.OrderManagerActivity;
+import com.example.caoan.shop.OrderManagerActivityFix;
 import com.example.caoan.shop.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -120,7 +121,7 @@ public class OrderManagerFragment extends Fragment {
         tvallorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), OrderManagerActivity.class));
+                startActivity(new Intent(getActivity(), OrderManagerActivityFix.class));
             }
         });
         tvsignout.setClickable(true);
@@ -136,8 +137,8 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Chưa xác nhận", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
-                intent.putExtra("tab", 1);
+                Intent intent = new Intent(getActivity(), OrderManagerActivityFix.class);
+                intent.putExtra("tab", 0);
                 startActivity(intent);
             }
         });
@@ -145,8 +146,8 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Đang giao", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
-                intent.putExtra("tab", 2);
+                Intent intent = new Intent(getActivity(), OrderManagerActivityFix.class);
+                intent.putExtra("tab", 1);
                 startActivity(intent);
             }
         });
@@ -154,8 +155,8 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Đã giao", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), OrderManagerActivity.class);
-                intent.putExtra("tab", 3);
+                Intent intent = new Intent(getActivity(), OrderManagerActivityFix.class);
+                intent.putExtra("tab", 2);
                 startActivity(intent);
             }
         });

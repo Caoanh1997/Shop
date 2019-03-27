@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
+import com.example.caoan.shop.LoadEvent;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
@@ -19,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +54,9 @@ public class AllOrderFragment extends Fragment {
     private HashMap<Bill, List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
+    private String[] arr = {"New", "Transport", "Delivered", "Delete"};
+    private String userID;
+    private ProgressBar progressBar;
 
     public AllOrderFragment() {
         // Required empty public constructor
@@ -79,6 +87,9 @@ public class AllOrderFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -88,20 +99,25 @@ public class AllOrderFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_all_order, container, false);
 
         expandableListView = view.findViewById(R.id.expandableListView);
-
+        progressBar = view.findViewById(R.id.progress);
         loadBill();
 
         return view;
     }
 
-    private void loadBill() {
+    public void getUserID(){
+        userID = getActivity().getSharedPreferences("Account",Context.MODE_PRIVATE)
+                .getString("userID","");
+    }
+
+    public void loadBill() {
         ListBillDetail = new HashMap<Bill, List<Cart>>();
         billList = new ArrayList<Bill>();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
 
-        databaseReference.child(getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE)
-                .getString("userID", "")).addValueEventListener(new ValueEventListener() {
+        getUserID();
+        databaseReference.child(userID).child("New").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Cart> cartList;
@@ -114,8 +130,71 @@ public class AllOrderFragment extends Fragment {
                     billList.add(b);
                     ListBillDetail.put(b, cartList);
                 }
-                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new AllOrderFragment());
-                expandableListView.setAdapter(billExpandListAdapter);
+                firebaseDatabase.getReference("Order").child(userID).child("Transport").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Cart> cartList;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Bill bill = snapshot.getValue(Bill.class);
+                            cartList = bill.getCartList();
+                            Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                    bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
+
+                            billList.add(b);
+                            ListBillDetail.put(b, cartList);
+                        }
+                        firebaseDatabase.getReference("Order").child(userID)
+                                .child("Delivered").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                List<Cart> cartList;
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Bill bill = snapshot.getValue(Bill.class);
+                                    cartList = bill.getCartList();
+                                    Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                            bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
+
+                                    billList.add(b);
+                                    ListBillDetail.put(b, cartList);
+                                }
+                                firebaseDatabase.getReference("Order").child(userID)
+                                        .child("Delete").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        List<Cart> cartList;
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            Bill bill = snapshot.getValue(Bill.class);
+                                            cartList = bill.getCartList();
+                                            Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                                    bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
+
+                                            billList.add(b);
+                                            ListBillDetail.put(b, cartList);
+                                        }
+                                        billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new AllOrderFragment());
+                                        expandableListView.setAdapter(billExpandListAdapter);
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -136,6 +215,21 @@ public class AllOrderFragment extends Fragment {
         if (context instanceof OrderManagerActivity) {
             this.orderManagerActivity = (OrderManagerActivity) context;
         }
+    }
+
+    @Subscribe
+    public void Load(LoadEvent loadEvent){
+        if(loadEvent.isLoad()){
+            ListBillDetail.clear();
+            billList.clear();
+            loadBill();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

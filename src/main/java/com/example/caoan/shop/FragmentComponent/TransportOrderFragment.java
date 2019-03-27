@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
 import com.example.caoan.shop.Model.Bill;
@@ -51,6 +52,7 @@ public class TransportOrderFragment extends Fragment {
     private HashMap<Bill, List<Cart>> ListBillDetail;
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
+    private ProgressBar progressBar;
 
     public TransportOrderFragment() {
         // Required empty public constructor
@@ -80,7 +82,7 @@ public class TransportOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_transport_order, container, false);
         expandableListView = view.findViewById(R.id.expandableListView);
-
+        progressBar = view.findViewById(R.id.progress);
         loadBill();
         return view;
     }
@@ -101,26 +103,27 @@ public class TransportOrderFragment extends Fragment {
         DatabaseReference databaseReference = firebaseDatabase.getReference("Order");
 
         databaseReference.child(getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE)
-                .getString("userID", "")).addValueEventListener(new ValueEventListener() {
+                .getString("userID", "")).child("Transport").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Cart> cartList;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Bill bill = snapshot.getValue(Bill.class);
-                    if (bill.getState().equals("Đã xác nhận và đang giao")) {
+
                         cartList = bill.getCartList();
                         Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
                                 bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                         billList.add(b);
                         ListBillDetail.put(b, cartList);
-                    }
+
                 }
 //                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
 //                rcvlistbill.setAdapter(billRecyclerViewAdapter);
 //                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
                 billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new TransportOrderFragment());
                 expandableListView.setAdapter(billExpandListAdapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

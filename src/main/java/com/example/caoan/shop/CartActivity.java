@@ -1,11 +1,13 @@
 package com.example.caoan.shop;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.caoan.shop.Adapter.CartRecyclerViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
+import com.example.caoan.shop.FragmentComponent.CartFragment;
 import com.example.caoan.shop.Model.Cart;
 
 import java.io.Serializable;
@@ -59,9 +62,24 @@ public class CartActivity extends AppCompatActivity {
         new ProgressBarProcess().execute();
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
             @Override
-            public void onSwipe(int vitri, int huong) {
-                cartRecyclerViewAdapter.swipe(vitri, huong);
-                new ProgressBarProcess().execute();
+            public void onSwipe(final int vitri, final int huong) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                builder.setTitle("Warning").setMessage("Are you sure delete this product?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                cartRecyclerViewAdapter.swipe(vitri, huong);
+                                new ProgressBarProcess().execute();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                new ProgressBarProcess().execute();
+                            }
+                        }).create().show();
             }
 
             @Override

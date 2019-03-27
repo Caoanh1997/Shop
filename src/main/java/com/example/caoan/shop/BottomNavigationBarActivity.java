@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +53,6 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         final Intent intent = getIntent();
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("key_store", Context.MODE_PRIVATE);
         key = sharedPreferences.getString("key", "null");
         userKey = sharedPreferences.getString("key_master", "null");
@@ -70,7 +71,6 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
 
                 if (item.getItemId() == R.id.home) {
                     if (active != fragment1) {
