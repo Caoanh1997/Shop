@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.caoan.shop.FragmentComponent.AllOrderFragment;
 import com.example.caoan.shop.FragmentComponent.ConfirmOrderFragment;
@@ -72,6 +71,7 @@ public class OrderManagerActivityFix extends AppCompatActivity {
         setContentView(R.layout.activity_order_manager_fix);
 
         actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         bottomNavigationView = findViewById(R.id.navigation);
 
         loadFragment(new ConfirmOrderFragment());
@@ -101,8 +101,21 @@ public class OrderManagerActivityFix extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //startActivity(new Intent(OrderManagerActivityFix.this,BottomNavigationBarActivity.class));
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
+//        startActivity(new Intent(OrderManagerActivityFix.this,BottomNavigationBarActivity.class));
         finish();
     }
 

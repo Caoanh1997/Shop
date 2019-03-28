@@ -23,7 +23,7 @@ public class CheckNetwork extends Service {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null || !ni.isConnected()) {
-            Toast.makeText(getApplicationContext(), "Check internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
         }
 
         return START_REDELIVER_INTENT;

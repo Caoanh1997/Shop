@@ -9,28 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
-import com.example.caoan.shop.BillEvent;
-import com.example.caoan.shop.LoadEvent;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;
 import com.example.caoan.shop.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -125,9 +121,13 @@ public class DeleteOrderFragmnet extends Fragment {
                         billList.add(b);
                         ListBillDetail.put(b, cartList);
                 }
-                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new DeleteOrderFragmnet());
-                expandableListView.setAdapter(billExpandListAdapter);
                 progressBar.setVisibility(View.GONE);
+                if (billList.size() == 0) {
+                    Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                } else {
+                    billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new DeleteOrderFragmnet());
+                    expandableListView.setAdapter(billExpandListAdapter);
+                }
             }
 
             @Override

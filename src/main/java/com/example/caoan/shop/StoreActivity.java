@@ -77,9 +77,6 @@ public class StoreActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rcvstore);
 
-        Intent intent = new Intent(this, CheckNetwork.class);
-        startService(intent);
-
         YoYo.with(Techniques.RollIn).duration(2000).playOn(tvstore);
 
         data = new DataCart(this);
@@ -192,6 +189,8 @@ public class StoreActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, CheckNetwork.class);
+        startService(intent);
         if (!isOnline()) {
             //Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
         }

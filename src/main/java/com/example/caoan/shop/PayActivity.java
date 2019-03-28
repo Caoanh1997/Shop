@@ -168,7 +168,7 @@ public class PayActivity extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(PayActivity.this, OrderManagerActivityFix.class).putExtra("tab", 0));
+                                    startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

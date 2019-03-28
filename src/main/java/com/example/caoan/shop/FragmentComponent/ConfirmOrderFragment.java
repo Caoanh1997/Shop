@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
 import com.example.caoan.shop.LoadEvent;
@@ -30,6 +29,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -139,9 +141,13 @@ public class ConfirmOrderFragment extends Fragment {
                         ListBillDetail.put(b, cartList);
 
                 }
-                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new ConfirmOrderFragment());
-                expandableListView.setAdapter(billExpandListAdapter);
                 progressBar.setVisibility(View.GONE);
+                if (billList.size() == 0) {
+                    Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                } else {
+                    billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new ConfirmOrderFragment());
+                    expandableListView.setAdapter(billExpandListAdapter);
+                }
             }
 
             @Override

@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -121,9 +124,14 @@ public class TransportOrderFragment extends Fragment {
 //                billRecyclerViewAdapter = new BillRecyclerViewAdapter(getContext(),billList);
 //                rcvlistbill.setAdapter(billRecyclerViewAdapter);
 //                rcvlistbill.setLayoutManager(new LinearLayoutManager(getContext()));
-                billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new TransportOrderFragment());
-                expandableListView.setAdapter(billExpandListAdapter);
                 progressBar.setVisibility(View.GONE);
+                if (billList.size() == 0) {
+                    Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                } else {
+                    billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new TransportOrderFragment());
+                    expandableListView.setAdapter(billExpandListAdapter);
+                }
+
             }
 
             @Override

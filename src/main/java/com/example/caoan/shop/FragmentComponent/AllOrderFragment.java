@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -171,9 +174,14 @@ public class AllOrderFragment extends Fragment {
                                             billList.add(b);
                                             ListBillDetail.put(b, cartList);
                                         }
-                                        billExpandListAdapter = new BillExpandListAdapter(getContext(),billList,ListBillDetail,new AllOrderFragment());
-                                        expandableListView.setAdapter(billExpandListAdapter);
+
                                         progressBar.setVisibility(View.GONE);
+                                        if (billList.size() == 0) {
+                                            Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                                        } else {
+                                            billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new AllOrderFragment());
+                                            expandableListView.setAdapter(billExpandListAdapter);
+                                        }
                                     }
 
                                     @Override
