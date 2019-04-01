@@ -2,6 +2,7 @@ package com.example.caoan.shop;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,14 +25,19 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.StoreRecycleViewAdapter;
+import com.example.caoan.shop.BroadcastReceiver.DataChangeBroadcast;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Store;
+import com.example.caoan.shop.Service.CheckDataChangeFirebase;
 import com.example.caoan.shop.Service.CheckNetwork;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +55,7 @@ public class StoreActivity extends AppCompatActivity {
     private TextView tvstore;
     private RecyclerView rcvstore;
     private ShimmerRecyclerView shimmerRecyclerView;
+    private DataChangeBroadcast dataChangeBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,10 @@ public class StoreActivity extends AppCompatActivity {
         tvstore = findViewById(R.id.tvstore);
         rcvstore = findViewById(R.id.rcvstore);
         shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
+
+        dataChangeBroadcast = new DataChangeBroadcast();
+        IntentFilter intentFilter = new IntentFilter("dataChange.Broadcast");
+        registerReceiver(dataChangeBroadcast,intentFilter);
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallbackStore(new ItemTouchListenerStore() {
             @Override
@@ -191,6 +202,12 @@ public class StoreActivity extends AppCompatActivity {
         super.onStart();
         Intent intent = new Intent(this, CheckNetwork.class);
         startService(intent);
+        Intent intent1 = new Intent(this, CheckDataChangeFirebase.class);
+        startService(intent1);
+
+        /*if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }*/
         if (!isOnline()) {
             //Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
         }
@@ -269,7 +286,17 @@ public class StoreActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //EventBus.getDefault().unregister(this);
+        unregisterReceiver(dataChangeBroadcast);
     }
+
+    /*@Subscribe
+    public void Load(LoadEvent loadEvent){
+        if(loadEvent.isLoad()){
+            storeList.clear();
+            Load();
+        }
+    }*/
 
     @Override
     protected void onDestroy() {
@@ -312,4 +339,6 @@ public class StoreActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.invalidateViews();
     }*/
+
+
 }

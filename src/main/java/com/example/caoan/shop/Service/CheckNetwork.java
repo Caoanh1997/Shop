@@ -26,7 +26,7 @@ public class CheckNetwork extends Service {
             Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
         }
 
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
     }
 
     @Override

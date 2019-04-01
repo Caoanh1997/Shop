@@ -148,7 +148,8 @@ public class OrderManagerActivityFix extends AppCompatActivity {
     public void OnCustomEvent(BillEvent billEvent) {
 
         final Bill bill = billEvent.getBill();
-        final Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getCartList(), bill
+        final Bill b = new Bill(bill.getKey_cart(),bill.getName_user(),bill.getAddress(),
+                bill.getPhone(), bill.getUserID(), bill.getCartList(), bill
                 .getTotal_price(), "Đã hủy đơn hàng",
                 bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Order");

@@ -157,7 +157,10 @@ public class PayActivity extends AppCompatActivity {
                     date_time += format_date.format(calendar.getTime());
                     date_time += " " + format_time.format(calendar.getTime());
 
-                    final Bill bill = new Bill(key_cart, getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
+                    String address = String.valueOf(etaddress.getText())+", "+String.valueOf(spinnerxa.getTag())+"-"+
+                            String.valueOf(spinnerhuyen.getTag())+"-"+String.valueOf(spinnertinh.getTag());
+                    final Bill bill = new Bill(key_cart,String.valueOf(etname.getText()),address, String.valueOf(etphone.getText()),
+                            getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
                     databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

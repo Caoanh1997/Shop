@@ -39,7 +39,12 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".OrderManagerActivity" />
-        <activity android:name=".OrderManagerActivityFix"></activity>
+        <activity android:name=".OrderManagerActivityFix" />
+
+        <service
+            android:name=".Service.CheckDataChangeFirebase"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -127,7 +127,8 @@ public class AllOrderFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Bill bill = snapshot.getValue(Bill.class);
                     cartList = bill.getCartList();
-                    Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                    Bill b = new Bill(bill.getKey_cart(),bill.getName_user(),bill.getAddress(),
+                            bill.getPhone(),bill.getUserID(), bill.getTotal_price(),
                             bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                     billList.add(b);
@@ -140,7 +141,8 @@ public class AllOrderFragment extends Fragment {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Bill bill = snapshot.getValue(Bill.class);
                             cartList = bill.getCartList();
-                            Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                            Bill b = new Bill(bill.getKey_cart(),bill.getName_user(),bill.getAddress(),
+                                    bill.getPhone(), bill.getUserID(), bill.getTotal_price(),
                                     bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                             billList.add(b);
@@ -154,7 +156,8 @@ public class AllOrderFragment extends Fragment {
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     Bill bill = snapshot.getValue(Bill.class);
                                     cartList = bill.getCartList();
-                                    Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                    Bill b = new Bill(bill.getKey_cart(),bill.getName_user(),bill.getAddress(),
+                                            bill.getPhone(), bill.getUserID(), bill.getTotal_price(),
                                             bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                                     billList.add(b);
@@ -168,7 +171,8 @@ public class AllOrderFragment extends Fragment {
                                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                             Bill bill = snapshot.getValue(Bill.class);
                                             cartList = bill.getCartList();
-                                            Bill b = new Bill(bill.getKey_cart(), bill.getUserID(), bill.getTotal_price(),
+                                            Bill b = new Bill(bill.getKey_cart(),bill.getName_user(),bill.getAddress(),
+                                                    bill.getPhone(), bill.getUserID(), bill.getTotal_price(),
                                                     bill.getState(), bill.getKey_store(), bill.getDatetime(), bill.getDatetime_delivered());
 
                                             billList.add(b);
