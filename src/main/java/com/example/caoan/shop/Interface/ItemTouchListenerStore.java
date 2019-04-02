@@ -1,4 +1,4 @@
-package com.example.caoan.shop;
+package com.example.caoan.shop.Interface;
 
 public interface ItemTouchListenerStore {
     void onSwipe(int position, int direction);

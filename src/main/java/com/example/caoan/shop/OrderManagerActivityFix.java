@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.caoan.shop.EventBus.BillEvent;
+import com.example.caoan.shop.EventBus.LoadEvent;
 import com.example.caoan.shop.FragmentComponent.AllOrderFragment;
 import com.example.caoan.shop.FragmentComponent.ConfirmOrderFragment;
 import com.example.caoan.shop.FragmentComponent.DeleteOrderFragmnet;

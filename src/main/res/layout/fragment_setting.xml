@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Setting fragment"
-        android:textSize="25sp" />
+        android:textSize="@dimen/text_size_title_bill" />
 
     <Button
         android:id="@+id/btchangestore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Change Store" />
+        android:text="@string/change_store" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvlistbill"

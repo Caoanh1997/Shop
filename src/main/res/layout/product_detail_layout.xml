@@ -3,7 +3,7 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/food_item_margin"
     android:background="#fff"
     android:orientation="vertical">
 
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/with_button_delete"
+        android:layout_height="@dimen/with_button_delete"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/ic_cart_active" />
@@ -33,17 +33,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Name Product"
+        android:text="@string/name_product"
         android:textColor="@color/red"
-        android:textSize="25sp" />
+        android:textSize="@dimen/text_size_title_bill" />
 
     <TextView
         android:id="@+id/tvdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Detail"
-        android:textSize="20sp" />
+        android:text="@string/detail"
+        android:textSize="@dimen/text_size_small_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:text="Close"
+            android:text="@string/close"
             android:textColor="@android:color/holo_orange_dark" />
 
         <Button
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="Add to cart"
+            android:text="@string/add_to_cart"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

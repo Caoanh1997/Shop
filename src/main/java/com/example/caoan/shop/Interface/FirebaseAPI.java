@@ -1,4 +1,4 @@
-package com.example.caoan.shop;
+package com.example.caoan.shop.Interface;
 
 import com.example.caoan.shop.Model.Store;
 

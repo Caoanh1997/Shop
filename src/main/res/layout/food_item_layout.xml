@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/food_item_margin"
     android:background="@android:color/white"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imagefood"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_margin="5dp"
+        android:layout_height="@dimen/with_button_delete"
+        android:layout_margin="@dimen/spinner_margin"
         android:scaleType="fitXY"
         android:src="@drawable/ic_home" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="25dp">
+        android:layout_height="@dimen/size_menu_item">
 
         <TextView
             android:id="@+id/tvname"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/spinner_margin"
             android:gravity="center"
-            android:text="name food"
+            android:text="@string/name_product"
             android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/ivmenu"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/size_menu_item"
+            android:layout_height="@dimen/size_menu_item"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_popup_menu" />
 
@@ -40,11 +40,11 @@
     <TextView
         android:id="@+id/tvprice"
         android:layout_width="fill_parent"
-        android:layout_height="25dp"
+        android:layout_height="@dimen/size_menu_item"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/spinner_margin"
         android:gravity="end"
-        android:text="price food"
+        android:text="@string/price"
         android:textColor="@color/blue" />
 
 </LinearLayout>

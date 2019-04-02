@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/lvcart"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="@dimen/food_item_margin">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
@@ -41,30 +41,30 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/spinner_margin"
             android:text="Total: "
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="@dimen/text_size_small_title" />
 
         <TextView
             android:id="@+id/tvsum"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/food_item_margin"
             android:gravity="right"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="25sp"
+            android:textSize="@dimen/text_size_small_title"
             android:textStyle="bold" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btthanhtoan"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/detail_bill_margin"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/spinner_margin"
         android:background="@drawable/button_delete"
-        android:text="Checkout"
+        android:text="@string/checkout"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

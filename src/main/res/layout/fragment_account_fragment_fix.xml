@@ -19,37 +19,37 @@
             <EditText
                 android:id="@+id/etemail"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/bill_item_margin"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="nhập email"
+                android:hint="@string/input_email_user"
                 android:inputType="textEmailAddress"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <EditText
                 android:id="@+id/etpassword"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/bill_item_margin"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="nhập mật khẩu"
+                android:hint="@string/input_password_user"
                 android:inputType="textPassword"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <EditText
                 android:id="@+id/etname"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/bill_item_margin"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="nhập tên"
+                android:hint="@string/input_name_user"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <LinearLayout
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="@dimen/height_button_delete"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -78,41 +78,41 @@
             <EditText
                 android:id="@+id/etaddress"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/bill_item_margin"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="số nhà, tên đường"
+                android:hint="@string/input_address_user"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <EditText
                 android:id="@+id/etphone"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/bill_item_margin"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="nhập số điện thoại"
+                android:hint="@string/input_phone_user"
                 android:inputType="phone"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/btsignin"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/bill_item_margin"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/food_item_margin"
                 android:background="@drawable/state_button"
-                android:text="Đăng nhập"
+                android:text="@string/login"
                 android:textColor="@color/white" />
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/btsignup"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/bill_item_margin"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/food_item_margin"
                 android:background="@drawable/state_button"
-                android:text="Đăng ký"
+                android:text="@string/signup"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tvsignup"
@@ -120,9 +120,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Chưa có tài khoản? Đăng ký ngay bây giờ."
+                android:text="@string/text_signup"
                 android:textColor="@color/blue"
-                android:textSize="17sp" />
+                android:textSize="@dimen/text_size_item" />
 
             <TextView
                 android:id="@+id/tvsignin"
@@ -130,9 +130,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Đã có tài khoản? Đăng nhập ngay bây giờ."
+                android:text="@string/text_signin"
                 android:textColor="@color/blue"
-                android:textSize="17sp" />
+                android:textSize="@dimen/text_size_item" />
 
         </LinearLayout>
 

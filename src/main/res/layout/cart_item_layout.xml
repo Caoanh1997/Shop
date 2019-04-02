@@ -7,82 +7,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/spinner_margin"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/size_image_cart"
+            android:layout_height="@dimen/size_image_cart"
             android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/spinner_margin"
             android:orientation="horizontal"
             android:weightSum="100">
 
-            <!--<LinearLayout-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp">-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="15sp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/tvname"-->
-            <!--android:text="Name: "/>-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20sp"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/name" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp">-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="15sp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/tvprice"-->
-            <!--android:text="Price: "/>-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20sp"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/price" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp">-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="15sp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/tvnumber"-->
-            <!--android:text="Number: "/>-->
-            <!--<TextView-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20sp"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/number" />-->
-            <!--</LinearLayout>-->
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
@@ -96,16 +36,16 @@
                     android:layout_gravity="top|left"
                     android:text="Name"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_item" />
 
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="Price"
+                    android:text="@string/price"
                     android:textColor="@color/green"
-                    android:textSize="25sp"
+                    android:textSize="@dimen/text_size_title"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -120,7 +60,7 @@
                     android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_margin="2dp"
+                    android:layout_margin="@dimen/spinner_margin"
                     android:layout_weight="1"
                     android:src="@drawable/ic_add" />
 
@@ -137,7 +77,7 @@
                     android:id="@+id/remove"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_margin="2dp"
+                    android:layout_margin="@dimen/spinner_margin"
                     android:layout_weight="1"
                     android:src="@drawable/ic_remove" />
 

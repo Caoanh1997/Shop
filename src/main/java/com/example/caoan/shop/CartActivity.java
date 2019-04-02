@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.example.caoan.shop.Adapter.CartRecyclerViewAdapter;
 import com.example.caoan.shop.Database.DataCart;
-import com.example.caoan.shop.FragmentComponent.CartFragment;
+import com.example.caoan.shop.Interface.ItemTouchListener;
 import com.example.caoan.shop.Model.Cart;
 
 import java.io.Serializable;

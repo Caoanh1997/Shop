@@ -1,4 +1,4 @@
-package com.example.caoan.shop;
+package com.example.caoan.shop.EventBus;
 
 import android.support.v4.app.Fragment;
 

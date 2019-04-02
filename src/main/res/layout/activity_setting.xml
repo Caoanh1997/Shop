@@ -11,15 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Quản lý đơn hàng"
-        android:textSize="25sp" />
+        android:layout_margin="@dimen/spinner_margin"
+        android:text="@string/manager_order"
+        android:textSize="@dimen/text_size_title" />
 
     <Button
         android:id="@+id/btchangestore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Change Store" />
+        android:text="@string/change_store" />
 
 </LinearLayout>

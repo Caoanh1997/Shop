@@ -22,9 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tv"
-            android:horizontalSpacing="10dp"
+            android:horizontalSpacing="@dimen/food_item_margin"
             android:numColumns="2"
-            android:verticalSpacing="10dp"></GridView>
+            android:verticalSpacing="@dimen/food_item_margin"></GridView>
 
         <View
             android:id="@+id/viewbg"

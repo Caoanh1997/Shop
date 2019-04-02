@@ -18,14 +18,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_margin="@dimen/spinner_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:text="Products"
                     android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/text_size_item" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -46,14 +46,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_margin="@dimen/spinner_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Shipping"
+                    android:text="@string/shopping"
                     android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/text_size_item" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -66,25 +66,25 @@
                 android:id="@+id/etname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="Nhập tên khách hàng"
+                android:hint="@string/input_name_user"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <EditText
                 android:id="@+id/etemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="Nhập email khách hàng"
+                android:hint="@string/input_email_user"
                 android:inputType="textEmailAddress"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="@dimen/height_spinner"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -118,33 +118,33 @@
                 android:id="@+id/etaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="Nhập số nhà, tên đường(tổ, thôn)"
+                android:hint="@string/input_address_user"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <EditText
                 android:id="@+id/etphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/state_edittext"
-                android:hint="Nhập số điện thoại khách hàng"
+                android:hint="@string/input_phone_user"
                 android:inputType="phone"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="@dimen/spinner_margin" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_margin="@dimen/spinner_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Payment"
+                    android:text="@string/payment"
                     android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/text_size_item" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/state_button_checkout"
-                android:text="Submit Order"
+                android:text="@string/submit"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

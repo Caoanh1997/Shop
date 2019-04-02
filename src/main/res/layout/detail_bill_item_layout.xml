@@ -5,24 +5,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/size_image_cart"
+        android:layout_marginBottom="@dimen/spinner_margin"
+        android:layout_marginLeft="@dimen/detail_bill_margin"
+        android:layout_marginTop="@dimen/spinner_margin"
         android:background="@android:color/darker_gray"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/size_image_cart"
+            android:layout_height="@dimen/size_image_cart"
             android:scaleType="fitXY"
             android:src="@drawable/ic_cart_active" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/spinner_margin"
             android:orientation="vertical"
             android:weightSum="3">
 
@@ -31,9 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Name product"
+                android:text="@string/name_product"
                 android:textColor="@color/black"
-                android:textSize="25sp"
+                android:textSize="@dimen/text_size_title_bill"
                 android:textStyle="bold" />
 
             <TextView
@@ -41,9 +41,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Price"
+                android:text="@string/price"
                 android:textColor="@color/blue"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_size_small_title"
                 android:textStyle="normal" />
 
 
@@ -52,9 +52,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Number"
+                android:text="@string/number"
                 android:textColor="@color/red"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_size_small_title"
                 android:textStyle="normal" />
 
         </LinearLayout>

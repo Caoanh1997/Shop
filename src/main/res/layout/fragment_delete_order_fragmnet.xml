@@ -20,7 +20,7 @@
         android:dividerHeight="1dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:listSelector="@android:color/holo_green_dark"
-        android:padding="10dp"
+        android:padding="@dimen/food_item_margin"
         android:pointerIcon="zoom_in" />
 
 </RelativeLayout>

@@ -3,6 +3,8 @@ package com.example.caoan.shop;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.example.caoan.shop.Interface.ItemTouchListenerStore;
+
 public class ItemTouchHelperCallbackStore extends ItemTouchHelper.Callback {
 
     private ItemTouchListenerStore itemTouchListenerStore;

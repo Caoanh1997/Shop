@@ -7,21 +7,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="@dimen/bill_item_margin"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvkeycart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mã đơn hàng"
+            android:text="@string/key_order"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvdateput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ngày đặt"
+            android:text="@string/date_put"
             android:textColor="@android:color/black"
             android:textStyle="normal" />
 
@@ -29,44 +29,44 @@
             android:id="@+id/tvdatepay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngày thanh toán"
+            android:text="@string/date_pay"
             android:textColor="@android:color/black"
             android:textStyle="normal" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="@dimen/spinner_margin">
 
             <TextView
                 android:id="@+id/tvsumprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="Sum price"
+                android:text="@string/sum_price"
                 android:textColor="@color/red"
-                android:textSize="20sp" />
+                android:textSize="@dimen/text_size_item" />
 
             <TextView
                 android:id="@+id/tvstate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="State"
+                android:text="@string/state"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_size_item"
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/tvdeleteorder"
-                android:layout_width="200dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/with_button_delete"
+                android:layout_height="@dimen/height_button_delete"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/tvstate"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/button_delete"
                 android:gravity="center"
-                android:text="Hủy đơn hàng"
+                android:text="@string/delete_order"
                 android:textColor="@color/blue" />
         </RelativeLayout>
 

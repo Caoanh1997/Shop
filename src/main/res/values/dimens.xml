@@ -1,3 +1,18 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="spinner_margin">5dp</dimen>
+    <dimen name="text_size_title">30sp</dimen>
+    <dimen name="text_size_item">17sp</dimen>
+    <dimen name="height_spinner">35dp</dimen>
+    <dimen name="bill_item_margin">40dp</dimen>
+    <dimen name="with_button_delete">200dp</dimen>
+    <dimen name="height_button_delete">35dp</dimen>
+    <dimen name="size_image_cart">100dp</dimen>
+    <dimen name="detail_bill_margin">50dp</dimen>
+    <dimen name="text_size_title_bill">25sp</dimen>
+    <dimen name="text_size_small_title">20sp</dimen>
+    <dimen name="food_item_margin">10dp</dimen>
+    <dimen name="size_menu_item">25dp</dimen>
+    <dimen name="shimmer_margin">3dp</dimen>
+    <dimen name="width_size_store">150dp</dimen>
 </resources>

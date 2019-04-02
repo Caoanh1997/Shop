@@ -27,6 +27,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.StoreRecycleViewAdapter;
 import com.example.caoan.shop.BroadcastReceiver.DataChangeBroadcast;
 import com.example.caoan.shop.Database.DataCart;
+import com.example.caoan.shop.Interface.ItemTouchListenerStore;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.Service.CheckDataChangeFirebase;
 import com.example.caoan.shop.Service.CheckNetwork;
@@ -35,9 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -59,6 +59,45 @@
         <item>Duy Hòa</item>
     </string-array>
     <string name="title_activity_snack">SnackActivity</string>
+    <string name="tilte_store">List Store</string>
+    <string name="tilte_spinner">enable/disable search address</string>
+    <string name="total">Total:</string>
+    <string name="input_name_user">Nhập tên khách hàng</string>
+    <string name="input_email_user">Nhập email khách hàng</string>
+    <string name="input_address_user">Nhập số nhà, tên đường(tổ, thôn)</string>
+    <string name="input_phone_user">Nhập số điện thoại khách hàng</string>
+    <string name="payment">Payment</string>
+    <string name="shopping">Shopping</string>
+    <string name="submit">Submit Order</string>
+    <string name="manager_order">Quản lý đơn hàng</string>
+    <string name="change_store">Change Store</string>
+    <string name="key_order">Mã đơn hàng</string>
+    <string name="date_put">Ngày đặt</string>
+    <string name="date_pay">Ngày thanh toán</string>
+    <string name="sum_price">Tổng giá</string>
+    <string name="state">State</string>
+    <string name="delete_order">Hủy đơn hàng</string>
+    <string name="price">Price</string>
+    <string name="name_product">Name product</string>
+    <string name="number">Number</string>
+    <string name="input_password_user">nhập mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="signup">Đăng ký</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="text_signup">Chưa có tài khoản? Đăng ký ngay bây giờ.</string>
+    <string name="text_signin">Đã có tài khoản? Đăng nhập ngay bây giờ.</string>
+    <string name="checkout">Checkout</string>
+    <string name="my_order">Đơn hàng của tôi</string>
+    <string name="all_order"><![CDATA[Xem tất cả các đơn hàng >]]></string>
+    <string name="wait_confirm">Chờ xác nhận</string>
+    <string name="transport">Đang giao</string>
+    <string name="delivered">Đã giao</string>
+    <string name="detail">Detail</string>
+    <string name="close">Close</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="address">Address</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
     <string-array name="pay">
         <item>Thanh toán khi giao hàng</item>
         <item>Thẻ ATM</item>

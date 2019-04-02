@@ -11,7 +11,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
-import com.example.caoan.shop.LoadEvent;
+import com.example.caoan.shop.EventBus.LoadEvent;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
 import com.example.caoan.shop.OrderManagerActivity;

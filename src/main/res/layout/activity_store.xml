@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xam"
+    android:background="@color/grey"
     android:orientation="vertical"
     tools:context=".StoreActivity">
 
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="enable/disable search address" />
+        android:text="@string/tilte_spinner" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:id="@+id/sptinh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/spinner_margin"
             android:layout_weight="1"
             android:spinnerMode="dropdown"
             android:visibility="gone"></Spinner>
@@ -34,7 +34,7 @@
             android:id="@+id/sphuyen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/spinner_margin"
             android:layout_weight="1"
             android:spinnerMode="dropdown"
             android:visibility="gone"></Spinner>
@@ -43,7 +43,7 @@
             android:id="@+id/spxa"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/spinner_margin"
             android:layout_weight="1"
             android:spinnerMode="dropdown"
             android:visibility="gone"></Spinner>
@@ -56,9 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="List Store"
+        android:text="@string/tilte_store"
         android:textColor="@color/red"
-        android:textSize="30sp"
+        android:textSize="@dimen/text_size_title"
         android:textStyle="normal" />
 
     <RelativeLayout

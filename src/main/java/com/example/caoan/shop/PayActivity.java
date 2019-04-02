@@ -84,12 +84,6 @@ public class PayActivity extends AppCompatActivity {
 
         dataCart = new DataCart(this);
 
-        /*loadingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingButton.startLoading();
-            }
-        });*/
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Order");

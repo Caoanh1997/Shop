@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/size_image_cart"
+            android:layout_height="@dimen/size_image_cart"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_account_active" />
@@ -27,10 +27,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
             android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/spinner_margin"
             android:text="Name"
             android:textColor="@android:color/white"
-            android:textSize="25sp"
+            android:textSize="@dimen/text_size_title_bill"
             android:textStyle="bold" />
 
         <TextView
@@ -39,21 +39,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvname"
             android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:text="Sign out"
+            android:layout_marginTop="@dimen/spinner_margin"
+            android:text="@string/logout"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text_size_small_title" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="@dimen/height_button_delete">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:text="Đơn hàng của tôi"
+            android:text="@string/my_order"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -61,15 +61,15 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:text="Xem tất cả các đơn hàng >"
+            android:layout_marginRight="@dimen/spinner_margin"
+            android:text="@string/all_order"
             android:textColor="@android:color/holo_red_dark" />
     </RelativeLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/size_image_cart"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -92,7 +92,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Chờ xác nhận"
+                android:text="@string/wait_confirm"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -116,7 +116,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Đang giao"
+                android:text="@string/transport"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
@@ -140,7 +140,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Đã giao"
+                android:text="@string/delivered"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>

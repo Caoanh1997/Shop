@@ -1,12 +1,9 @@
 package com.example.caoan.shop.Adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
-import com.example.caoan.shop.ItemClickListener;
+import com.example.caoan.shop.Interface.ItemClickListener;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
 import com.squareup.picasso.Picasso;
