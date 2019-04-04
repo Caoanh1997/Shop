@@ -14,6 +14,7 @@ import com.example.caoan.shop.EventBus.BillEvent;
 import com.example.caoan.shop.EventBus.LoadEvent;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
+import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -103,15 +104,34 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView tvkeycart = view.findViewById(R.id.tvkeycart);
+        final TextView tvstore = view.findViewById(R.id.tvstore);
         TextView tvdateput = view.findViewById(R.id.tvdateput);
         TextView tvdatepay = view.findViewById(R.id.tvdatepay);
+        TextView tvname = view.findViewById(R.id.tvname);
+        TextView tvaddress = view.findViewById(R.id.tvaddress);
+        TextView tvphone = view.findViewById(R.id.tvphone);
         TextView tvsumprice = view.findViewById(R.id.tvsumprice);
         TextView tvstate = view.findViewById(R.id.tvstate);
         final TextView tvdeleteorder = view.findViewById(R.id.tvdeleteorder);
 
         tvkeycart.setText("Mã đơn hàng: " + bill.getKey_cart());
+        FirebaseDatabase.getInstance().getReference("Store").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Store store = dataSnapshot.child(bill.getKey_store()).getValue(Store.class);
+                tvstore.setText("Cửa hàng: " + store.getName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         tvdateput.setText("Ngày đặt: " + bill.getDatetime());
         tvdatepay.setText("Ngày thanh toán: " + bill.getDatetime_delivered());
+        tvname.setText("Tên khách hàng: " + bill.getName_user());
+        tvaddress.setText("Địa chỉ giao hàng: " + bill.getAddress());
+        tvphone.setText("Số điện thoại: " + bill.getPhone());
         tvsumprice.setText("Tổng tiền: " + bill.getTotal_price() + "đ");
         tvstate.setText(bill.getState());
         if (String.valueOf(tvstate.getText()).equals("Đang chờ xác nhận")) {

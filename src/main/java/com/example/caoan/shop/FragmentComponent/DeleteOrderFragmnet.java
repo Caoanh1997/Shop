@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.BillExpandListAdapter;
 import com.example.caoan.shop.Model.Bill;
 import com.example.caoan.shop.Model.Cart;
@@ -24,9 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +56,7 @@ public class DeleteOrderFragmnet extends Fragment {
     private List<Bill> billList;
     private BillExpandListAdapter billExpandListAdapter;
     private ProgressBar progressBar;
+    private TextView tv;
 
     public DeleteOrderFragmnet() {
         // Required empty public constructor
@@ -96,6 +97,7 @@ public class DeleteOrderFragmnet extends Fragment {
         view = inflater.inflate(R.layout.fragment_delete_order_fragmnet, container, false);
         expandableListView = view.findViewById(R.id.expandableListView);
         progressBar = view.findViewById(R.id.progress);
+        tv = view.findViewById(R.id.tv);
 
         loadBill();
         return view;
@@ -124,10 +126,15 @@ public class DeleteOrderFragmnet extends Fragment {
                 }
                 progressBar.setVisibility(View.GONE);
                 if (billList.size() == 0) {
-                    Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                    //Crouton.makeText(getActivity(), "Không có đơn hàng", Style.ALERT).show();
+                    tv.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.BounceInDown).duration(1000).playOn(tv);
                 } else {
                     billExpandListAdapter = new BillExpandListAdapter(getContext(), billList, ListBillDetail, new DeleteOrderFragmnet());
                     expandableListView.setAdapter(billExpandListAdapter);
+                    tv.setVisibility(View.VISIBLE);
+                    tv.setText("Có " + String.valueOf(billList.size()) + " đơn hàng");
+                    YoYo.with(Techniques.BounceInDown).duration(1000).playOn(tv);
                 }
             }
 

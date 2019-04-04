@@ -6,12 +6,24 @@
     tools:context=".FragmentComponent.ConfirmOrderFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/no_order"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
     <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/progress"/>
     <ExpandableListView
+        android:layout_below="@+id/tv"
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +31,7 @@
         android:divider="@android:color/holo_red_light"
         android:dividerHeight="1dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:listSelector="@android:color/holo_green_dark"
+        android:listSelector="@android:color/holo_orange_dark"
         android:padding="@dimen/food_item_margin"
         android:pointerIcon="zoom_in" />
 

@@ -1,7 +1,5 @@
 package com.example.caoan.shop.FragmentComponent;
 
-import android.animation.AnimatorInflater;
-import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -36,11 +35,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
@@ -171,10 +167,14 @@ public class AccountFragmentFix extends Fragment {
                 updateUI(null);
             }
         });
+        final LinearLayout linearLayout = view.findViewById(R.id.linearlayout);
+
+        final InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         btsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                inputMethodManager.hideSoftInputFromWindow(linearLayout.getWindowToken(), 0);
                 String email = String.valueOf(etemail.getText());
                 String password = String.valueOf(etpassword.getText());
                 if (CheckOnline()) {
@@ -196,9 +196,11 @@ public class AccountFragmentFix extends Fragment {
                                             startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
                                             );
                                             Toast.makeText(getContext(), "Sign in success", Toast.LENGTH_SHORT).show();
+                                            //Crouton.makeText(getActivity(),"Success",Style.INFO).show();
                                         } else {
                                             btsignin.revertAnimation();
                                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
+                                            //Crouton.makeText(getActivity(),"Sign in failed",Style.ALERT).show();
                                         }
                                     }
                                 });
@@ -214,6 +216,7 @@ public class AccountFragmentFix extends Fragment {
         btsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                inputMethodManager.hideSoftInputFromWindow(linearLayout.getWindowToken(), 0);
                 String email = String.valueOf(etemail.getText());
                 String password = String.valueOf(etpassword.getText());
                 if (CheckOnline()) {
@@ -244,9 +247,11 @@ public class AccountFragmentFix extends Fragment {
                                     startActivity(new Intent(getContext(), BottomNavigationBarActivity.class)
                                     );
                                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                                    //Crouton.makeText(getActivity(),"Success", Style.INFO).show();
                                 } else {
                                     btsignup.revertAnimation();
                                     Toast.makeText(getContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
+                                    //Crouton.makeText(getActivity(),"Sign up failed",Style.ALERT).show();
                                 }
                             }
                         });

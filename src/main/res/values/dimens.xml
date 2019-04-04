@@ -15,4 +15,6 @@
     <dimen name="size_menu_item">25dp</dimen>
     <dimen name="shimmer_margin">3dp</dimen>
     <dimen name="width_size_store">150dp</dimen>
+    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="size_image_small">60dp</dimen>
 </resources>

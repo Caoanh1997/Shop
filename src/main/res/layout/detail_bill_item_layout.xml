@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_image_cart"
+        android:layout_height="@dimen/size_image_small"
         android:layout_marginBottom="@dimen/spinner_margin"
         android:layout_marginLeft="@dimen/detail_bill_margin"
         android:layout_marginTop="@dimen/spinner_margin"
@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/size_image_cart"
-            android:layout_height="@dimen/size_image_cart"
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
             android:scaleType="fitXY"
             android:src="@drawable/ic_cart_active" />
 
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:text="@string/name_product"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_title_bill"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:text="@string/price"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small_title"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="normal" />
 
 
@@ -54,7 +54,7 @@
                 android:layout_weight="1"
                 android:text="@string/number"
                 android:textColor="@color/red"
-                android:textSize="@dimen/text_size_small_title"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="normal" />
 
         </LinearLayout>

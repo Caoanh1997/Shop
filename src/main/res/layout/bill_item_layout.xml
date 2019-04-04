@@ -18,6 +18,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvstore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/store"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvdateput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,36 +41,71 @@
             android:textColor="@android:color/black"
             android:textStyle="normal" />
 
+        <TextView
+            android:id="@+id/tvname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@android:color/black"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvaddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:textColor="@android:color/black"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone"
+            android:textColor="@android:color/black"
+            android:textStyle="normal" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spinner_margin">
 
-            <TextView
-                android:id="@+id/tvsumprice"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ln"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="@string/sum_price"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_item" />
+                android:layout_marginBottom="5dp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvstate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/state"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textSize="@dimen/text_size_item"
-                android:textStyle="italic" />
+                <TextView
+                    android:id="@+id/tvsumprice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1"
+                    android:text="Sum price"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvstate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:text="State"
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvdeleteorder"
                 android:layout_width="@dimen/with_button_delete"
                 android:layout_height="@dimen/height_button_delete"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/tvstate"
+                android:layout_below="@id/ln"
                 android:layout_margin="@dimen/spinner_margin"
                 android:background="@drawable/button_delete"
                 android:gravity="center"

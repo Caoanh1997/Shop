@@ -113,7 +113,15 @@ public class CartFragment extends Fragment {
         key_store = sharedPreferences.getString("key", "");
         dataCart = new DataCart(getContext());
 
-        new ProgressBarProcess().execute();
+        String userID = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", "");
+        if (userID == null || userID.equals("")) {
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+            btthanhtoan.setEnabled(false);
+        } else {
+            new ProgressBarProcess().execute();
+        }
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
             @Override
             public void onSwipe(final int vitri, final int huong) {

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DrinkFragment extends Fragment {
 
@@ -37,6 +37,8 @@ public class DrinkFragment extends Fragment {
     private String keyStore;
     private String userKey;
     private DataCart dataCart;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ArrayList<Drink> drinkList;
 
     public DrinkFragment() {
         // Required empty public constructor
@@ -62,6 +64,7 @@ public class DrinkFragment extends Fragment {
 
         gridView = view.findViewById(R.id.gv);
         progressBar = view.findViewById(R.id.progress);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
 
         gridView.setVisibility(View.INVISIBLE);
 
@@ -69,11 +72,33 @@ public class DrinkFragment extends Fragment {
         keyStore = getArguments().getString("keyStore");
         userKey = getArguments().getString("userKey");
         //textView.setText(str);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                drinkList.clear();
+                Load();
+            }
+        });
+        Load();
 
+        //drinkAdapter = new DrinkAdapter(getContext(), drinkList);
+        //gridView.setAdapter(drinkAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DrinkAdapter.ShowDetail((Drink) adapterView.getItemAtPosition(i), getContext());
+            }
+        });
+        return view;
+    }
+
+    public void Load() {
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Product").child(keyStore).child("Drink");
 
-        final List<Drink> drinkList = new ArrayList<Drink>();
+        drinkList = new ArrayList<Drink>();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,6 +112,9 @@ public class DrinkFragment extends Fragment {
                 drinkAdapter = new DrinkAdapter(getContext(), drinkList);
                 gridView.setAdapter(drinkAdapter);
                 YoYo.with(Techniques.BounceInUp).duration(1000).playOn(gridView);
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
@@ -94,20 +122,6 @@ public class DrinkFragment extends Fragment {
 
             }
         });
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        drinkAdapter = new DrinkAdapter(getContext(), drinkList);
-        gridView.setAdapter(drinkAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DrinkAdapter.ShowDetail((Drink) adapterView.getItemAtPosition(i), getContext());
-            }
-        });
-        return view;
     }
 
     private Boolean isOnline() {

@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class FoodFragment extends Fragment {
     private String keyStore;
     private String userKey;
     private BottomNavigationBarActivity bottomNavigationBarActivity;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -87,13 +89,36 @@ public class FoodFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_food, container, false);
         gridView = view.findViewById(R.id.gv);
         progressBar = view.findViewById(R.id.progress);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
 
         gridView.setVisibility(View.INVISIBLE);
 
         keyStore = getArguments().getString("keyStore");
         userKey = getArguments().getString("userKey");
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                foodList.clear();
+                Load();
+            }
+        });
 
+        Load();
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                FoodAdapter.ShowDetail((Food) adapterView.getItemAtPosition(i), getContext());
+            }
+        });
+
+        return view;
+    }
+
+    public void Load() {
         foodList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
@@ -111,6 +136,9 @@ public class FoodFragment extends Fragment {
                 gridView.setVisibility(View.VISIBLE);
                 adapter = new FoodAdapter(getContext(), foodList);
                 gridView.setAdapter(adapter);
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 YoYo.with(Techniques.BounceInUp).duration(1000).playOn(gridView);
             }
 
@@ -119,15 +147,6 @@ public class FoodFragment extends Fragment {
 
             }
         });
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                FoodAdapter.ShowDetail((Food) adapterView.getItemAtPosition(i), getContext());
-            }
-        });
-
-        return view;
     }
 
     @Override

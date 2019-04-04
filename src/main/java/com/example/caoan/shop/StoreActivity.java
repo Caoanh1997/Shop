@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,7 @@ public class StoreActivity extends AppCompatActivity {
     private RecyclerView rcvstore;
     private ShimmerRecyclerView shimmerRecyclerView;
     private DataChangeBroadcast dataChangeBroadcast;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class StoreActivity extends AppCompatActivity {
         tvstore = findViewById(R.id.tvstore);
         rcvstore = findViewById(R.id.rcvstore);
         shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         dataChangeBroadcast = new DataChangeBroadcast();
         IntentFilter intentFilter = new IntentFilter("dataChange.Broadcast");
@@ -87,6 +90,17 @@ public class StoreActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(rcvstore);
 
         YoYo.with(Techniques.RollIn).duration(2000).playOn(tvstore);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorAccent);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                storeList.clear();
+                Load();
+            }
+        });
 
         data = new DataCart(this);
         checkBox.setChecked(false);
@@ -203,9 +217,9 @@ public class StoreActivity extends AppCompatActivity {
         Intent intent1 = new Intent(this, CheckDataChangeFirebase.class);
         startService(intent1);
 
-        /*if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }*/
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this);
+//        }
         if (!isOnline()) {
             //Toast.makeText(getApplicationContext(), "Bạn cần kết nối internet", Toast.LENGTH_SHORT).show();
         }
@@ -272,6 +286,9 @@ public class StoreActivity extends AppCompatActivity {
                 rcvstore.setAdapter(adapter);
                 rcvstore.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 YoYo.with(Techniques.BounceInRight).duration(3000).playOn(rcvstore);
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override

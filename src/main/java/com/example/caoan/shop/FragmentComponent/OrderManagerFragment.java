@@ -2,6 +2,7 @@ package com.example.caoan.shop.FragmentComponent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.Model.Account;
-import com.example.caoan.shop.OrderManagerActivity;
 import com.example.caoan.shop.OrderManagerActivityFix;
 import com.example.caoan.shop.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -129,7 +129,9 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
+                DeleteAccountFromSharedPreferences();
                 Toast.makeText(getContext(),"Logout success",Toast.LENGTH_SHORT).show();
+                //Crouton.makeText(getActivity(),"Logout success", Style.CONFIRM).show();
                 startActivity(new Intent(getActivity(), BottomNavigationBarActivity.class));
             }
         });
@@ -162,6 +164,13 @@ public class OrderManagerFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void DeleteAccountFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("userID");
+        editor.commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
