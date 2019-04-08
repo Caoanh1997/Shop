@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.BottomNavigationBarActivity;
+import com.example.caoan.shop.EventBus.LoadEvent;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.OrderManagerActivityFix;
 import com.example.caoan.shop.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +29,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,13 +53,14 @@ public class OrderManagerFragment extends Fragment {
 
     private BottomNavigationBarActivity bottomNavigationBarActivity;
     private View view;
-    private TextView tvname, tvallorder, tvsignout;
+    private TextView tvname, tvallorder, tvsignout, tvverify;
     private LinearLayout lnconfirm, lntransport, lndelivered;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference reference;
     private Account account;
+    private SwipeRefreshLayout refreshLayout;
 
     public OrderManagerFragment() {
         // Required empty public constructor
@@ -82,6 +91,9 @@ public class OrderManagerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -91,31 +103,52 @@ public class OrderManagerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_order_manager, container, false);
 
         tvname = view.findViewById(R.id.tvname);
+        tvverify = view.findViewById(R.id.tvverify);
         tvsignout = view.findViewById(R.id.tvsignout);
         tvallorder = view.findViewById(R.id.tvallorder);
         lnconfirm = view.findViewById(R.id.lnconfirm);
         lntransport = view.findViewById(R.id.lntransport);
         lndelivered = view.findViewById(R.id.lndelivered);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
+
+        refreshLayout.setColorSchemeResources(R.color.colorAccent);
+        refreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            firebaseDatabase = FirebaseDatabase.getInstance();
-            reference = firebaseDatabase.getReference("Account");
+        ClickVerifyEmail();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                user.reload().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            refreshLayout.setRefreshing(false);
+                            LoadUser();
+                            ClickVerifyEmail();
+                        }
+                    }
+                });
 
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    account = dataSnapshot.child(user.getUid()).getValue(Account.class);
-                    tvname.setText(account.getName());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
+            }
+        });
+        tvverify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.sendEmailVerification().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Kiểm tra email để xác thực", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getContext(), "Send verified failed", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+        LoadUser();
 
         tvallorder.setClickable(true);
         tvallorder.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +199,48 @@ public class OrderManagerFragment extends Fragment {
         return view;
     }
 
+    private void ClickVerifyEmail() {
+        if (!user.isEmailVerified()) {
+            tvverify.setClickable(true);
+        } else {
+            tvverify.setClickable(false);
+            tvverify.setEnabled(false);
+        }
+    }
+
+    private void LoadUser() {
+        if (user != null) {
+            final String str;
+            if (!user.isEmailVerified()) {
+                str = "Email: " + user.getEmail() + ". Nhấn để xác thực email";
+            } else {
+                str = "Email: " + user.getEmail() + ". Email đã xác thực";
+            }
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            reference = firebaseDatabase.getReference("Account");
+
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    account = dataSnapshot.child(user.getUid()).getValue(Account.class);
+                    tvname.setText(account.getName());
+                    tvverify.setText(str);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().getCurrentUser().reload();
+    }
+
     private void DeleteAccountFromSharedPreferences() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Account", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -186,8 +261,16 @@ public class OrderManagerFragment extends Fragment {
         }
     }
 
+    @Subscribe
+    public void onLoadEvent(LoadEvent loadEvent) {
+        if (loadEvent.isLoad()) {
+            refreshLayout.setRefreshing(true);
+        }
+    }
+
     @Override
     public void onDetach() {
+        EventBus.getDefault().unregister(this);
         super.onDetach();
     }
 

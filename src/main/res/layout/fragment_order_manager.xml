@@ -7,43 +7,63 @@
     tools:context=".FragmentComponent.OrderManagerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@android:color/holo_blue_bright"
-        android:weightSum="3">
+        android:layout_height="350dp">
 
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/size_image_cart"
-            android:layout_height="@dimen/size_image_cart"
-            android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_account_active" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="@android:color/holo_blue_bright"
+            android:weightSum="3">
 
-        <TextView
-            android:id="@+id/tvname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/avatar"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/spinner_margin"
-            android:text="Name"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_title_bill"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/size_image_cart"
+                android:layout_height="@dimen/size_image_cart"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_account_active" />
 
-        <TextView
-            android:id="@+id/tvsignout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvname"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/spinner_margin"
-            android:text="@string/logout"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="@dimen/text_size_small_title" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/avatar"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/spinner_margin"
+                android:text="Name"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_title_bill"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvverify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvname"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/spinner_margin"
+                android:gravity="center"
+                android:text="Verify"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/text_size_item"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvsignout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvverify"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/spinner_margin"
+                android:text="@string/logout"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="@dimen/text_size_small_title" />
+        </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
