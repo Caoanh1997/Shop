@@ -115,11 +115,24 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
         final TextView tvdeleteorder = view.findViewById(R.id.tvdeleteorder);
 
         tvkeycart.setText("Mã đơn hàng: " + bill.getKey_cart());
-        FirebaseDatabase.getInstance().getReference("Store").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Shopmaster").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    for (DataSnapshot ss : snapshot.getChildren()){
+//                        Store store = ss.getValue(Store.class);
+//                        if(store.getKey().equals(bill.getKey_store())){
+//                            tvstore.setText("Cửa hàng: " + store.getName());
+//                        }
+//                    }
+//                }
                 Store store = dataSnapshot.child(bill.getKey_store()).getValue(Store.class);
-                tvstore.setText("Cửa hàng: " + store.getName());
+                if(store != null){
+                    tvstore.setText("Cửa hàng: " + store.getName());
+                }else {
+                    tvstore.setText("Cửa hàng không tồn tại hoặc đã xóa");
+                }
+
             }
 
             @Override

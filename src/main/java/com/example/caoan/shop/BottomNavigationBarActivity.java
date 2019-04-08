@@ -29,8 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,9 +125,10 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
         });
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child(userKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 Store store = dataSnapshot.child(key).getValue(Store.class);
                 actionBar.setTitle(store.getName());
             }

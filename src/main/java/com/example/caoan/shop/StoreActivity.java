@@ -276,8 +276,10 @@ public class StoreActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Store store = snapshot.getValue(Store.class);
-                    storeList.add(store);
+                    for(DataSnapshot ss : snapshot.getChildren()){
+                        Store store = ss.getValue(Store.class);
+                        storeList.add(store);
+                    }
                 }
                 rcvstore.setVisibility(View.VISIBLE);
                 checkBox.setEnabled(true);
