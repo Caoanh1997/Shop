@@ -14,8 +14,32 @@ public class Bill {
     private String key_store;
     private String datetime;
     private String datetime_delivered;
+    private String token_master;
 
     public Bill() {
+    }
+
+    public Bill(String key_cart, String name_user, String address, String phone, String userID, List<Cart> cartList, String total_price, String state, String key_store, String datetime, String datetime_delivered, String token_master) {
+        this.key_cart = key_cart;
+        this.name_user = name_user;
+        this.address = address;
+        this.phone = phone;
+        this.userID = userID;
+        this.cartList = cartList;
+        this.total_price = total_price;
+        this.state = state;
+        this.key_store = key_store;
+        this.datetime = datetime;
+        this.datetime_delivered = datetime_delivered;
+        this.token_master = token_master;
+    }
+
+    public String getToken_master() {
+        return token_master;
+    }
+
+    public void setToken_master(String token_master) {
+        this.token_master = token_master;
     }
 
     public Bill(String key_cart, String name_user, String address, String phone, String userID, String total_price, String state, String key_store, String datetime, String datetime_delivered) {

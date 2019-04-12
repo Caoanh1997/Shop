@@ -31,9 +31,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Food";
+                return "Đồ ăn nhanh";
             case 1:
-                return "Drink";
+                return "Thức uống";
         }
         return null;
     }

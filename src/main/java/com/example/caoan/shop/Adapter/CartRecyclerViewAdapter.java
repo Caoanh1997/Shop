@@ -1,9 +1,7 @@
 package com.example.caoan.shop.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,7 +146,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     suggestion.addAll(filterList);
                 } else {
                     String str = StoreRecycleViewAdapter.convertString(charSequence.toString().toLowerCase().trim());
-                    for (Cart cart : cartList) {
+                    for (Cart cart : filterList) {
                         if (StoreRecycleViewAdapter.convertString(cart.getName().toLowerCase().trim()).contains(str)) {
                             suggestion.add(cart);
                         }

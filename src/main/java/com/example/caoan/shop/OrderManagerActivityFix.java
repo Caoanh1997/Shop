@@ -19,9 +19,13 @@ import com.example.caoan.shop.FragmentComponent.DeleteOrderFragmnet;
 import com.example.caoan.shop.FragmentComponent.DeliveredOrderFragment;
 import com.example.caoan.shop.FragmentComponent.TransportOrderFragment;
 import com.example.caoan.shop.Model.Bill;
+import com.example.caoan.shop.Model.Store;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,27 +44,27 @@ public class OrderManagerActivityFix extends AppCompatActivity {
                         case R.id.orderconfirm:
                             fragment = new ConfirmOrderFragment();
                             loadFragment(fragment);
-                            actionBar.setTitle("Confirm");
+                            actionBar.setTitle("Đơn hàng đợi xác nhận");
                             return true;
                         case R.id.ordertransport:
                             fragment = new TransportOrderFragment();
                             loadFragment(fragment);
-                            actionBar.setTitle("Transport");
+                            actionBar.setTitle("Đơn hàng đang giao");
                             return true;
                         case R.id.orderdelivered:
                             fragment = new DeliveredOrderFragment();
                             loadFragment(fragment);
-                            actionBar.setTitle("Delivered");
+                            actionBar.setTitle("Đơn hàng đã giao");
                             return true;
                         case R.id.orderdelete:
                             fragment = new DeleteOrderFragmnet();
                             loadFragment(fragment);
-                            actionBar.setTitle("Delete");
+                            actionBar.setTitle("Đơn hàng đã xóa");
                             return true;
                         case R.id.orderall:
                             fragment = new AllOrderFragment();
                             loadFragment(fragment);
-                            actionBar.setTitle("All");
+                            actionBar.setTitle("Tất cả đơn hàng");
                             return true;
                     }
                     return false;
@@ -77,7 +81,7 @@ public class OrderManagerActivityFix extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.navigation);
 
         loadFragment(new ConfirmOrderFragment());
-        actionBar.setTitle("Confirm");
+        actionBar.setTitle("Đơn hàng cần xác nhận");
         Intent intent = getIntent();
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         int tab = intent.getIntExtra("tab", 0);
@@ -162,15 +166,27 @@ public class OrderManagerActivityFix extends AppCompatActivity {
                 new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        FirebaseDatabase.getInstance().getReference("DeleteOrder")
-                                .child(getSharedPreferences("key_store", Context.MODE_PRIVATE)
-                                        .getString("key_master", "")).child(b.getKey_cart())
-                                .setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                //Toast.makeText(OrderManagerActivityFix.this, "Add delete order", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        FirebaseDatabase.getInstance().getReference("Shopmaster").child(b.getKey_store())
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Store store = dataSnapshot.getValue(Store.class);
+                                        String key_master = store.getUserkey();
+                                        FirebaseDatabase.getInstance().getReference("DeleteOrder")
+                                                .child(key_master).child(b.getKey_cart())
+                                                .setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                //Toast.makeText(OrderManagerActivityFix.this, "Add delete order", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                     }
                 }
         );

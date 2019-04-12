@@ -5,22 +5,22 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
-        android:title="Shop"
+        android:title="@string/shop"
         app:showAsAction="always" />
     <item
         android:id="@+id/cart"
         android:icon="@drawable/ic_cart"
-        android:title="Cart"
+        android:title="@string/cart"
         app:showAsAction="always" />
     <item
         android:id="@+id/account"
         android:icon="@drawable/ic_account"
-        android:title="Account"
+        android:title="@string/account"
         app:showAsAction="always" />
     <item
         android:id="@+id/setting"
         android:icon="@drawable/ic_setting"
-        android:title="Setting"
+        android:title="@string/setting"
         app:showAsAction="always" />
 
 </menu>

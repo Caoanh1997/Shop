@@ -23,8 +23,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Products"
-                    android:textColor="@color/black"
+                    android:text="@string/product"
+                    android:textColor="@android:color/holo_orange_dark"
                     android:textSize="@dimen/text_size_item" />
 
                 <ImageView
@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:text="@string/shopping"
-                    android:textColor="@color/black"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/text_size_item" />
 
                 <ImageView
@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:text="@string/payment"
-                    android:textColor="@color/black"
+                    android:textColor="@color/tomato"
                     android:textSize="@dimen/text_size_item" />
 
                 <ImageView

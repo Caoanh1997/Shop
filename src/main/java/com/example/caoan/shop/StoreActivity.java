@@ -2,10 +2,11 @@ package com.example.caoan.shop;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.daimajia.androidanimations.library.Techniques;
@@ -32,11 +34,15 @@ import com.example.caoan.shop.Interface.ItemTouchListenerStore;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.Service.CheckDataChangeFirebase;
 import com.example.caoan.shop.Service.CheckNetwork;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +62,7 @@ public class StoreActivity extends AppCompatActivity {
     private ShimmerRecyclerView shimmerRecyclerView;
     private DataChangeBroadcast dataChangeBroadcast;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean doubleClickBackPress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +78,9 @@ public class StoreActivity extends AppCompatActivity {
         shimmerRecyclerView = findViewById(R.id.shimmer_recycler_view);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
-        dataChangeBroadcast = new DataChangeBroadcast();
-        IntentFilter intentFilter = new IntentFilter("dataChange.Broadcast");
-        registerReceiver(dataChangeBroadcast,intentFilter);
+        //dataChangeBroadcast = new DataChangeBroadcast();
+        //IntentFilter intentFilter = new IntentFilter("dataChange.Broadcast");
+        //registerReceiver(dataChangeBroadcast,intentFilter);
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallbackStore(new ItemTouchListenerStore() {
             @Override
@@ -207,6 +214,18 @@ public class StoreActivity extends AppCompatActivity {
 
         storeList = new ArrayList<>();
         Load();
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("Failed: " + task.getException());
+                } else {
+                    String token = task.getResult().getToken();
+                    System.out.println(token);
+                }
+            }
+        });
     }
 
     @Override
@@ -304,7 +323,7 @@ public class StoreActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         //EventBus.getDefault().unregister(this);
-        unregisterReceiver(dataChangeBroadcast);
+//        unregisterReceiver(dataChangeBroadcast);
     }
 
     /*@Subscribe
@@ -357,5 +376,23 @@ public class StoreActivity extends AppCompatActivity {
         listView.invalidateViews();
     }*/
 
+    @Override
+    public void onBackPressed() {
+        if (doubleClickBackPress) {
+            finish();
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+        }
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.back_to_exit), Toast.LENGTH_SHORT).show();
+        this.doubleClickBackPress = true;
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleClickBackPress = false;
+            }
+        }, 5000);
+    }
 }

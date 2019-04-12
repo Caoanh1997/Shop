@@ -183,8 +183,9 @@ public class BottomNavigationBarActivity extends AppCompatActivity {
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);*/
             finish();
+            startActivity(new Intent(BottomNavigationBarActivity.this, StoreActivity.class));
         }
-        Toast.makeText(getApplicationContext(), "Please click BACK again to Store", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.back_to_store), Toast.LENGTH_SHORT).show();
         this.doubleClickBackPress = true;
 
         new Handler().postDelayed(new Runnable() {

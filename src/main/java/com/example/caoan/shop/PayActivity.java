@@ -60,7 +60,7 @@ public class PayActivity extends AppCompatActivity {
     private DataCart dataCart;
     private ActionBar actionBar;
     private ProgressDialog progressDialog;
-    //private CircularProgressButton loadingButton;
+    //private String token_master;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,6 @@ public class PayActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         dataCart = new DataCart(this);
-
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Order");
@@ -123,6 +122,7 @@ public class PayActivity extends AppCompatActivity {
         setListViewHeightBasedOnItems(lvcart);
 
         initSpinner();
+        //getToken_master();
 
         btput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +170,10 @@ public class PayActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         progressDialog.dismiss();
+                                        //String token = "e0h044I-l1U:APA91bHuwr4kXYC-iSkT4iScgnYKLvtbcmG6HVvcCg3IZCsx2rrVJI3v1O3bzbYrExL8gM_vqXw8xUXC4l-ihzTojMy_2L2baMzE7bte6Sl0P_Eh6awizh_FS4r8XQM4uSiVScnjDelG";
+
                                         Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+                                        finish();
                                         startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -343,4 +346,19 @@ public class PayActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*public void getToken_master() {
+        FirebaseDatabase.getInstance().getReference("Account").child(key_master).child("token")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        token_master = dataSnapshot.getValue(String.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }*/
 }

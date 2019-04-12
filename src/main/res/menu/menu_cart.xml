@@ -11,10 +11,10 @@
     <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh"
-        android:title="Refresh"
-        app:showAsAction="ifRoom" />
+        android:title="Làm mới"
+        app:showAsAction="never" />
     <item
         android:id="@+id/about"
-        android:title="About"
+        android:title="Thông tin"
         app:showAsAction="never" />
 </menu>

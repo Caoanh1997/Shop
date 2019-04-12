@@ -2,6 +2,7 @@ package com.example.caoan.shop.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
     private List<Cart> cartList;
     private Fragment fragment;
     private Bill item;
+    private String token_master;
 
     public BillExpandListAdapter(Context context, List<Bill> billList, HashMap<Bill, List<Cart>> listDetailBill, Fragment fragment) {
         this.context = context;
@@ -51,6 +53,7 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
         SharedPreferences sharedPreferences = context.getSharedPreferences("key_store", Context.MODE_PRIVATE);
         key = sharedPreferences.getString("key", "");
         key_master = sharedPreferences.getString("key_master", "");
+//        token_master = sharedPreferences.getString("token_master","");
         sharedPreferences = context.getSharedPreferences("Account", Context.MODE_PRIVATE);
         userID = sharedPreferences.getString("userID", "");
     }
@@ -156,6 +159,7 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View view) {
                     getStoreInfor();
+
                     firebaseDatabase = FirebaseDatabase.getInstance();
                     firebaseDatabase.getReference("Order").child(userID).child("New")
                             .child(bill.getKey_cart()).addValueEventListener(new ValueEventListener() {
@@ -165,9 +169,24 @@ public class BillExpandListAdapter extends BaseExpandableListAdapter {
                             EventBus.getDefault().post(new BillEvent(item));
                             firebaseDatabase.getReference("Order").child(userID).child("New")
                                     .child(bill.getKey_cart()).removeValue();
-                            firebaseDatabase.getReference("NewOrder").child(key_master)
-                                    .child(bill.getKey_cart()).removeValue();
-                            EventBus.getDefault().post(new LoadEvent(true,fragment));
+                            String key_store = bill.getKey_store();
+                            FirebaseDatabase.getInstance().getReference("Shopmaster").child(key_store)
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Store store = dataSnapshot.getValue(Store.class);
+                                            String key_master = store.getUserkey();
+                                            FirebaseDatabase.getInstance().getReference("NewOrder").child(key_master)
+                                                    .child(bill.getKey_cart()).removeValue();
+                                            EventBus.getDefault().post(new LoadEvent(true, fragment));
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                         }
 
                         @Override

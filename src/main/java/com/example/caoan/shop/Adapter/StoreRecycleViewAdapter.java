@@ -17,6 +17,10 @@ import com.example.caoan.shop.BottomNavigationBarActivity;
 import com.example.caoan.shop.Interface.ItemClickListener;
 import com.example.caoan.shop.Model.Store;
 import com.example.caoan.shop.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.Normalizer;
@@ -30,6 +34,7 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
     private Context context;
     private List<Store> storeList, filterList;
     private int lastPosition = -1;
+    private String token_master;
 
     public StoreRecycleViewAdapter(Context context, List<Store> stores) {
         this.context = context;
@@ -70,10 +75,25 @@ public class StoreRecycleViewAdapter extends RecyclerView.Adapter<StoreRecycleVi
             public void onClick(View view, int position, boolean isLongClick) {
                 if (!isLongClick) {
                     SharedPreferences sharedPreferences = context.getSharedPreferences("key_store", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    final SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("key", storeList.get(position).getKey());
                     editor.putString("key_master", storeList.get(position).getUserkey());
                     editor.commit();
+                    FirebaseDatabase.getInstance().getReference("Account").child(storeList.get(position).getUserkey())
+                            .child("token").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            token_master = dataSnapshot.getValue(String.class);
+                            editor.putString("token_master", token_master);
+                            editor.commit();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     Intent intent = new Intent(context, BottomNavigationBarActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

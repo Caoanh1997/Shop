@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginTop="@dimen/spinner_margin"
-            android:text="Total: "
+            android:text="@string/sum_price"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_small_title" />
 

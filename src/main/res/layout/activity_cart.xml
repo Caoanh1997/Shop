@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginTop="@dimen/spinner_margin"
-            android:text="@string/total"
+            android:text="@string/sum_price"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_title" />
 
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/state_button_checkout"
-        android:text="Checkout"
+        android:text="@string/checkout"
         android:textColor="@android:color/white" />
 
 
