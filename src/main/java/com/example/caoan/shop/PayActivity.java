@@ -312,6 +312,18 @@ public class PayActivity extends AppCompatActivity {
                     if (huyen.equals("Hải Châu")) {
                         xa = getResources().getStringArray(R.array.xaDN2);
                     }
+                    if (huyen.equals("Cẩm Lệ")) {
+                        xa = getResources().getStringArray(R.array.xaDN4);
+                    }
+                    if (huyen.equals("Ngũ Hành Sơn")) {
+                        xa = getResources().getStringArray(R.array.xaDN5);
+                    }
+                    if (huyen.equals("Sơn Trà")) {
+                        xa = getResources().getStringArray(R.array.xaDN6);
+                    }
+                    if (huyen.equals("Hòa Vang")) {
+                        xa = getResources().getStringArray(R.array.xaDN7);
+                    }
                     if (huyen.equals("Điện Bàn")) {
                         xa = getResources().getStringArray(R.array.xaQN1);
                     }
@@ -320,6 +332,21 @@ public class PayActivity extends AppCompatActivity {
                     }
                     if (huyen.equals("Duy Xuyên")) {
                         xa = getResources().getStringArray(R.array.xaQN3);
+                    }
+                    if (huyen.equals("Tam Kỳ")) {
+                        xa = getResources().getStringArray(R.array.xaQN4);
+                    }
+                    if (huyen.equals("Hội An")) {
+                        xa = getResources().getStringArray(R.array.xaQN5);
+                    }
+                    if (huyen.equals("Tiên Phước")) {
+                        xa = getResources().getStringArray(R.array.xaQN6);
+                    }
+                    if (huyen.equals("Quế Sơn")) {
+                        xa = getResources().getStringArray(R.array.xaQN7);
+                    }
+                    if (huyen.equals("Núi Thành")) {
+                        xa = getResources().getStringArray(R.array.xaQN8);
                     }
                     spinnerhuyen.setTag(huyen);
                     spinnerxa.setAdapter(new ArrayAdapter(PayActivity.this, android.R.layout.simple_spinner_item, xa));

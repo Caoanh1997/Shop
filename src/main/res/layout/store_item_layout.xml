@@ -40,6 +40,7 @@
             android:textStyle="italic" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
