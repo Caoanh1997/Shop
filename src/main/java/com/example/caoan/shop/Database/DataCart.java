@@ -66,7 +66,7 @@ public class DataCart extends SQLiteOpenHelper {
                 + PRODUCT + " nvarchar(100), "
                 + PRICE + " float, "
                 + NUMBER + "integer)";
-        sqLiteDatabase.execSQL(table2);
+        //sqLiteDatabase.execSQL(table2);
         String sql3 = "create table " + TABLE_STORE + " ( "
                 + KEY_STORE + " nvarchar(100), "
                 + NAME_STORE + " nvarchar(100), "
@@ -77,21 +77,21 @@ public class DataCart extends SQLiteOpenHelper {
                 + USER_KEY + " nvarchar(100), "
                 + URL_STORE + " nvarchar(200), "
                 + PHONE + " nvarchar(100))";
-        sqLiteDatabase.execSQL(sql3);
+        //sqLiteDatabase.execSQL(sql3);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         String sql = "Drop table if exists " + TABLE_CART;
-        String sql2 = "Drop table if exists " + TABLE_STORE;
-        String sql3 = "Drop table if exists " + TABLE_HISTORY;
+        //String sql2 = "Drop table if exists " + TABLE_STORE;
+        //String sql3 = "Drop table if exists " + TABLE_HISTORY;
 
         sqLiteDatabase.execSQL(sql);
-        sqLiteDatabase.execSQL(sql2);
-        sqLiteDatabase.execSQL(sql3);
+        //sqLiteDatabase.execSQL(sql2);
+        //sqLiteDatabase.execSQL(sql3);
     }
 
-    public List<Store> getStoreList() {
+    /*public List<Store> getStoreList() {
         storeList = new ArrayList<Store>();
         sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = null;
@@ -149,7 +149,7 @@ public class DataCart extends SQLiteOpenHelper {
         String sql = "delete from " + TABLE_STORE;
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
-    }
+    }*/
 
     public List<Cart> getCartList(String key_store) {
         cartList = new ArrayList<Cart>();

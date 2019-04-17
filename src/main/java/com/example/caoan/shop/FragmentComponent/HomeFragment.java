@@ -1,6 +1,7 @@
 package com.example.caoan.shop.FragmentComponent;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.caoan.shop.Adapter.FragmentAdapter;
 import com.example.caoan.shop.BottomNavigationBarActivity;
+import com.example.caoan.shop.BroadcastReceiver.InternetBroadcast;
 import com.example.caoan.shop.R;
 import com.example.caoan.shop.ViewPageTransformer.CubeInScalingTransformation;
 
@@ -30,6 +32,7 @@ public class HomeFragment extends Fragment {
     private List<Fragment> fragmentList;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private InternetBroadcast internetBroadcast;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -107,6 +110,20 @@ public class HomeFragment extends Fragment {
         if (context instanceof BottomNavigationBarActivity) {
             this.bottomNavigationBarActivity = (BottomNavigationBarActivity) context;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        internetBroadcast = new InternetBroadcast(getActivity());
+        IntentFilter intentFilter = new IntentFilter("internet.Broadcast");
+        getActivity().registerReceiver(internetBroadcast, intentFilter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(internetBroadcast);
     }
 
     @Override

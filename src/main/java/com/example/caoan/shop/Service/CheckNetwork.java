@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
-import android.widget.Toast;
 
 public class CheckNetwork extends Service {
     public CheckNetwork() {
@@ -23,7 +22,10 @@ public class CheckNetwork extends Service {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null || !ni.isConnected()) {
-            Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Kiểm tra kết nối Internet", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent();
+            i.setAction("internet.Broadcast");
+            sendBroadcast(i);
         }
 
         return START_STICKY;

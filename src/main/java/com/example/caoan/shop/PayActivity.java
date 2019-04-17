@@ -3,7 +3,10 @@ package com.example.caoan.shop;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.OrderAdapter;
+import com.example.caoan.shop.BroadcastReceiver.InternetBroadcast;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Model.Account;
 import com.example.caoan.shop.Model.Bill;
@@ -39,6 +43,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -60,6 +67,7 @@ public class PayActivity extends AppCompatActivity {
     private DataCart dataCart;
     private ActionBar actionBar;
     private ProgressDialog progressDialog;
+    private InternetBroadcast internetBroadcast;
     //private String token_master;
 
     @Override
@@ -132,67 +140,71 @@ public class PayActivity extends AppCompatActivity {
                     startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class)
                             .putExtra("login", true));
                 } else {
-                    if (CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()) {
-                        //loadingButton.startAnimation();
-                        progressDialog = new ProgressDialog(PayActivity.this);
-                        progressDialog.setIndeterminate(true);
-                        progressDialog.setMessage("Đang đặt hàng...");
-                        progressDialog.show();
-                        firebaseDatabase = FirebaseDatabase.getInstance();
+                    if (CheckOnline()) {
+                        if (CheckInput(etname) && CheckInput(etaddress) && CheckInput(etphone) && checkSpinner()) {
+                            //loadingButton.startAnimation();
+                            progressDialog = new ProgressDialog(PayActivity.this);
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.setMessage("Đang đặt hàng...");
+                            progressDialog.show();
+                            firebaseDatabase = FirebaseDatabase.getInstance();
 
-                        databaseReference = firebaseDatabase.getReference("NewOrder");
-                        final DatabaseReference reference1 = firebaseDatabase.getReference("Order");
-                        //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
-                        final String key_cart = databaseReference.push().getKey();
-                        String product = null;
-                        for (Cart cart : cartList) {
-                            product += cart.getName() + " (" + cart.getPrice() + " x" + cart.getNumber() + "),";
+                            databaseReference = firebaseDatabase.getReference("NewOrder");
+                            final DatabaseReference reference1 = firebaseDatabase.getReference("Order");
+                            //Toast.makeText(getApplicationContext(),"Store key: "+key+", master key: "+key_master,Toast.LENGTH_SHORT).show();
+                            final String key_cart = databaseReference.push().getKey();
+                            String product = null;
+                            for (Cart cart : cartList) {
+                                product += cart.getName() + " (" + cart.getPrice() + " x" + cart.getNumber() + "),";
+                            }
+                            String total_price = dataCart.Total(key);
+                            calendar = Calendar.getInstance();
+                            SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
+                            SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
+
+                            String date_time = "";
+                            date_time += format_date.format(calendar.getTime());
+                            date_time += " " + format_time.format(calendar.getTime());
+
+                            String address = String.valueOf(etaddress.getText()) + ", " + String.valueOf(spinnerxa.getTag()) + "-" +
+                                    String.valueOf(spinnerhuyen.getTag()) + "-" + String.valueOf(spinnertinh.getTag());
+                            final Bill bill = new Bill(key_cart, String.valueOf(etname.getText()), address, String.valueOf(etphone.getText()),
+                                    getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
+                            databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //loadingButton.revertAnimation();
+                                    reference1.child(getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", ""))
+                                            .child("New").child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            progressDialog.dismiss();
+                                            //String token = "e0h044I-l1U:APA91bHuwr4kXYC-iSkT4iScgnYKLvtbcmG6HVvcCg3IZCsx2rrVJI3v1O3bzbYrExL8gM_vqXw8xUXC4l-ihzTojMy_2L2baMzE7bte6Sl0P_Eh6awizh_FS4r8XQM4uSiVScnjDelG";
+
+                                            Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                            startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //loadingButton.revertAnimation();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            dataCart.DeleteCart(key);
                         }
-                        String total_price = dataCart.Total(key);
-                        calendar = Calendar.getInstance();
-                        SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
-                        SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
-
-                        String date_time = "";
-                        date_time += format_date.format(calendar.getTime());
-                        date_time += " " + format_time.format(calendar.getTime());
-
-                        String address = String.valueOf(etaddress.getText()) + ", " + String.valueOf(spinnerxa.getTag()) + "-" +
-                                String.valueOf(spinnerhuyen.getTag()) + "-" + String.valueOf(spinnertinh.getTag());
-                        final Bill bill = new Bill(key_cart, String.valueOf(etname.getText()), address, String.valueOf(etphone.getText()),
-                                getUserID(), cartList, total_price, "Đang chờ xác nhận", key, date_time, "");
-                        databaseReference.child(key_master).child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                //loadingButton.revertAnimation();
-                                reference1.child(getSharedPreferences("Account", Context.MODE_PRIVATE).getString("userID", ""))
-                                        .child("New").child(key_cart).setValue(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        progressDialog.dismiss();
-                                        //String token = "e0h044I-l1U:APA91bHuwr4kXYC-iSkT4iScgnYKLvtbcmG6HVvcCg3IZCsx2rrVJI3v1O3bzbYrExL8gM_vqXw8xUXC4l-ihzTojMy_2L2baMzE7bte6Sl0P_Eh6awizh_FS4r8XQM4uSiVScnjDelG";
-
-                                        Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                        startActivity(new Intent(PayActivity.this, BottomNavigationBarActivity.class));
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                //loadingButton.revertAnimation();
-                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Đặt hàng thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        dataCart.DeleteCart(key);
+                    } else {
+                        Crouton.makeText(PayActivity.this, "Kiểm tra kết nối Internet", Style.ALERT).show();
                     }
                 }
             }
@@ -388,4 +400,29 @@ public class PayActivity extends AppCompatActivity {
                     }
                 });
     }*/
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        internetBroadcast = new InternetBroadcast(this);
+        IntentFilter intentFilter = new IntentFilter("internet.Broadcast");
+        registerReceiver(internetBroadcast, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(internetBroadcast);
+    }
+
+    public boolean CheckOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null || !ni.isConnected()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
+

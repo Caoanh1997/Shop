@@ -2,6 +2,7 @@ package com.example.caoan.shop;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.caoan.shop.Adapter.StoreRecycleViewAdapter;
 import com.example.caoan.shop.BroadcastReceiver.DataChangeBroadcast;
+import com.example.caoan.shop.BroadcastReceiver.InternetBroadcast;
 import com.example.caoan.shop.Database.DataCart;
 import com.example.caoan.shop.Interface.ItemTouchListenerStore;
 import com.example.caoan.shop.Model.Store;
@@ -61,6 +63,7 @@ public class StoreActivity extends AppCompatActivity {
     private RecyclerView rcvstore;
     private ShimmerRecyclerView shimmerRecyclerView;
     private DataChangeBroadcast dataChangeBroadcast;
+    private InternetBroadcast internetBroadcast;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean doubleClickBackPress = false;
 
@@ -81,6 +84,10 @@ public class StoreActivity extends AppCompatActivity {
         //dataChangeBroadcast = new DataChangeBroadcast();
         //IntentFilter intentFilter = new IntentFilter("dataChange.Broadcast");
         //registerReceiver(dataChangeBroadcast,intentFilter);
+
+        internetBroadcast = new InternetBroadcast(this);
+        IntentFilter intentFilter = new IntentFilter("internet.Broadcast");
+        registerReceiver(internetBroadcast, intentFilter);
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallbackStore(new ItemTouchListenerStore() {
             @Override
@@ -355,6 +362,7 @@ public class StoreActivity extends AppCompatActivity {
         super.onStop();
         //EventBus.getDefault().unregister(this);
 //        unregisterReceiver(dataChangeBroadcast);
+        unregisterReceiver(internetBroadcast);
     }
 
     /*@Subscribe
