@@ -1,6 +1,5 @@
 package com.example.caoan.shop;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.caoan.shop.Adapter.OrderManagerAdapter;
 import com.example.caoan.shop.FragmentComponent.AllOrderFragment;
@@ -17,13 +15,6 @@ import com.example.caoan.shop.FragmentComponent.ConfirmOrderFragment;
 import com.example.caoan.shop.FragmentComponent.DeleteOrderFragmnet;
 import com.example.caoan.shop.FragmentComponent.DeliveredOrderFragment;
 import com.example.caoan.shop.FragmentComponent.TransportOrderFragment;
-import com.example.caoan.shop.Model.Bill;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;

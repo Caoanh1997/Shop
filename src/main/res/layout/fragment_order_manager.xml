@@ -59,7 +59,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/spinner_margin"
                 android:text="@string/logout"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/text_state_color"
                 android:textSize="@dimen/text_size_small_title" />
         </RelativeLayout>
 
